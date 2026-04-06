@@ -53,7 +53,7 @@ src/
 │   ├── logo.png                  # Navbar logo — imported via Vite asset pipeline
 │   ├── original_logo.webp        # Legacy logo (Footer, Admin)
 │   ├── apes.png                  # Brand image — used in About "Who We Are" visual card
-│   ├── client_logo/              # 33 client logos (PNG) — used in Work.tsx client grid
+│   ├── client_logo/              # 35 client logos (PNG) — used in Work.tsx client grid
 │   ├── number_dont_lie/          # 8 result screenshots — used in Hero "Numbers Don't Lie" strip
 │   └── work/                     # 21 reels (1.mp4 … 21.mp4) — used in Work.tsx reel slider
 │
@@ -169,7 +169,7 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 
 ### Work
 - Section ID: `#work`
-- **Client grid:** 33 actual client logos from `assets/client_logo/` — grayscale → full color on hover
+- **Client grid:** 35 client logos from `assets/client_logo/` — grayscale → full color on hover (latest additions: Alvino, Clazeup)
 - **Reel slider:** 21 MP4 reels from `assets/work/`, cinematic 5-slot layout (2 left | center | 2 right)
   - Autoplay — advances on video `ended` event, progress bar tied to `vid.duration`
 - **Testimonials:** 3 cards, auto-rotate every 5s
