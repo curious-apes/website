@@ -37,6 +37,8 @@ import logoUltimats from '../assets/client_logo/ultimats.png'
 import logoUrbannaari from '../assets/client_logo/urbannaari.png'
 import logoVaraya from '../assets/client_logo/varaya.png'
 import logoWagdo from '../assets/client_logo/wagdo.png'
+import logoAlvino from '../assets/client_logo/alvino.png'
+import logoClazeup from '../assets/client_logo/clazeup.png'
 
 // Import all reels
 import reel1 from '../assets/work/1.mp4'
@@ -103,6 +105,8 @@ const clients = [
   { name: 'Tistabene',        logo: logoTistabene },
   { name: 'Urban Naari',      logo: logoUrbannaari },
   { name: 'Varaya',           logo: logoVaraya },
+  { name: 'Alvino',           logo: logoAlvino },
+  { name: 'Clazeup',          logo: logoClazeup },
 ]
 
 interface Testimonial {
