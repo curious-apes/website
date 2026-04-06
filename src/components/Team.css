@@ -1,0 +1,236 @@
+.team {
+  padding: 140px 0;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+/* Header */
+.team__header {
+  margin-bottom: 80px;
+}
+
+.team__headline {
+  margin-top: 24px;
+}
+
+.team__headline-line {
+  overflow: hidden;
+}
+
+.team__headline-line span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(44px, 5.5vw, 80px);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.team__headline-line--italic span {
+  color: var(--accent-sand);
+  font-style: italic;
+}
+
+/* Grid */
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 100px;
+}
+
+/* Card */
+.team-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 40px 32px;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+  box-shadow: var(--shadow-card);
+}
+
+.team-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-tertiary);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.1);
+}
+
+/* Avatar */
+.team-card__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  position: relative;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(var(--member-color, #8a6f4e), 0.1);
+  border: 1px solid rgba(10, 10, 10, 0.08);
+}
+
+.team-card__avatar-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 40% 40%,
+    color-mix(in srgb, var(--member-color, #8a6f4e) 25%, transparent),
+    transparent 70%
+  );
+}
+
+.team-card__initials {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--member-color, #8a6f4e);
+  letter-spacing: -0.02em;
+}
+
+.team-card__ape-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--member-color, #8a6f4e);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-card__ape-icon svg {
+  width: 80%;
+  height: 80%;
+}
+
+.team-card:hover .team-card__ape-icon {
+  opacity: 1;
+}
+
+.team-card:hover .team-card__initials {
+  opacity: 0;
+}
+
+/* Info */
+.team-card__info {
+  margin-bottom: 28px;
+}
+
+.team-card__name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.team-card__role {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.team-card__bio {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* Social */
+.team-card__social {
+  display: flex;
+  gap: 12px;
+}
+
+.team-card__social-link {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.team-card__social-link:hover {
+  border-color: var(--border-hover);
+  color: var(--accent-sand);
+  background: rgba(200, 184, 154, 0.05);
+}
+
+.team-card__social-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Quote */
+.team__quote {
+  text-align: center;
+  padding: 80px 40px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.team__quote-mark {
+  font-family: var(--font-display);
+  font-size: 120px;
+  line-height: 0.5;
+  color: var(--accent-sand);
+  opacity: 0.2;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.team__quote-text {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 36px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.4;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.team__quote-cite {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-sand);
+  font-style: normal;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .team__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .team {
+    padding: 100px 0;
+  }
+  .team__grid {
+    grid-template-columns: 1fr;
+  }
+  .team__quote {
+    padding: 60px 20px;
+  }
+}

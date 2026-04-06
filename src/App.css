@@ -1,0 +1,5 @@
+/* App-level styles */
+main {
+  position: relative;
+  z-index: 1;
+}

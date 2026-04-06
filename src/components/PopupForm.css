@@ -1,0 +1,205 @@
+/* ── Overlay ──────────────────────────────────────────────────────────────── */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(4, 4, 4, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+.popup-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 52px 48px 44px;
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(0,196,212,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.popup-card::-webkit-scrollbar { width: 4px; }
+.popup-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+/* ── Close button ─────────────────────────────────────────────────────────── */
+.popup-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popup-close:hover {
+  background: rgba(255,255,255,0.09);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.2);
+  transform: rotate(90deg);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.popup-header {
+  margin-bottom: 36px;
+}
+
+.popup-eyebrow {
+  margin-bottom: 14px;
+}
+
+.popup-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.popup-title--grad {
+  background: var(--accent-gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.popup-sub {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+.popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.popup-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.popup-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-form__label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.popup-form__input,
+.popup-form__textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+  resize: none;
+}
+
+.popup-form__input::placeholder,
+.popup-form__textarea::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+
+.popup-form__input:focus,
+.popup-form__textarea:focus {
+  border-color: rgba(0,196,212,0.4);
+  box-shadow: 0 0 0 3px rgba(0,196,212,0.07);
+}
+
+.popup-form__submit {
+  width: 100%;
+  justify-content: center;
+  padding: 16px;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.popup-form__note {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* ── Success state ────────────────────────────────────────────────────────── */
+.popup-form__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 0 8px;
+  gap: 16px;
+}
+
+.popup-form__success-icon svg {
+  width: 72px;
+  height: 72px;
+}
+
+.popup-form__success-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.popup-form__success-text {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+.popup-form__success-btn {
+  margin-top: 8px;
+  padding: 12px 32px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .popup-card { padding: 36px 24px 32px; border-radius: 20px; }
+  .popup-form__row { grid-template-columns: 1fr; }
+}
