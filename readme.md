@@ -1,7 +1,7 @@
 # Curious Apes — Marketing Website + Admin
 
 Official website for **Curious Apes**, a D2C growth marketing agency based in Jaipur, India.
-Cinematic dark-theme design with GSAP scroll animations, Three.js interactive 3D element, and a built-in admin panel for managing enquiries and blog posts.
+Cinematic dark/light theme design with GSAP scroll animations, Three.js interactive 3D element, and a built-in admin panel for managing enquiries and blog posts.
 
 **Live:** https://website-sable-beta-5eour18e4h.vercel.app/ | **Admin:** `/admin`
 
@@ -123,6 +123,24 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 
 > **Note:** `--accent-sand` is used as a **text color** across many components (badges, tags, hover states). Keep it a bright, visible teal — do not set it to a dark value or text will become invisible on dark backgrounds.
 
+### Light theme
+
+Applied via `[data-theme="light"]` on `<html>`. Overrides all background, text, border, and shadow variables. Set/removed by the theme toggle in `Navbar.tsx`, persisted in `localStorage`.
+
+```css
+[data-theme="light"] {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f5f5f5;
+  --bg-tertiary:   #eeeeee;
+  --bg-card:       #f0f0f0;
+  --text-primary:  #0a0a0a;
+  --text-secondary: rgba(20, 20, 20, 0.75);
+  --text-muted:    rgba(20, 20, 20, 0.55);
+}
+```
+
+Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly on a white background.
+
 ### Gradient text pattern (used everywhere on headings)
 ```css
 .element {
@@ -140,9 +158,10 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 ### Navbar
 - Fixed, `z-index: 1000`, height `var(--nav-height)` (72px)
 - Logo: `logo.png` — imported via `import logoImg from '../assets/logo.png'` (Vite asset pipeline, not a raw `/src/` path)
-- Adds `.navbar--scrolled` on scroll → dark glass backdrop
+- Adds `.navbar--scrolled` on scroll → glass backdrop
+- **Theme toggle button** — sun/moon icon, switches between dark and light theme; preference persisted in `localStorage` as `ca_theme`; hidden on mobile (`< 900px`)
 - Mobile hamburger at `< 900px`, fullscreen overlay menu
-- "Get Started" CTA links to `#contact` → triggers popup
+- "Let's Talk" CTA links to `#contact` → triggers popup
 
 ### Hero
 - Full-viewport, two-column grid (copy | visual)
