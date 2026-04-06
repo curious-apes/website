@@ -137,7 +137,7 @@ export default function Hero() {
               <span className="hero__line-inner hero__line-inner--grad">eCommerce</span>
             </div>
             <div className="hero__line">
-              <span className="hero__line-inner">Agency.</span>
+              <span className="hero__line-inner">Agency</span>
             </div>
           </div>
 
@@ -150,7 +150,7 @@ export default function Hero() {
             <a href="#contact" className="btn btn-primary hero__cta-primary">
               View Profile
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
             <a href="#services" className="btn btn-outline hero__cta-secondary">
