@@ -8,14 +8,14 @@
   --bg-card: #141414;
   --accent-white: #f5f5f5;
   --accent-cream: #e8e0d5;
-  --accent-sand: #00393e;
-  --accent-sand-dark: #002a2e;
+  --accent-sand: #00c4d4;
+  --accent-sand-dark: #008f9e;
   --accent-gradient: linear-gradient(135deg, #00393e 0%, #005a62 40%, #007a85 60%, #00393e 100%);
   --accent-gradient-text: linear-gradient(90deg, #00c4d4 0%, #00f0ff 50%, #00c4d4 100%);
   --accent-gradient-glow: linear-gradient(135deg, rgba(0,57,62,0.22) 0%, rgba(0,196,212,0.08) 100%);
   --text-primary: #f0fafa;
-  --text-secondary: rgba(220, 245, 245, 0.6);
-  --text-muted: rgba(220, 245, 245, 0.35);
+  --text-secondary: rgba(220, 245, 245, 0.82);
+  --text-muted: rgba(220, 245, 245, 0.6);
   --border-color: rgba(0, 196, 212, 0.1);
   --border-hover: rgba(0, 196, 212, 0.35);
   --font-body: 'Plus Jakarta Sans', sans-serif;
