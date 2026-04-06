@@ -3,7 +3,7 @@
 Official website for **Curious Apes**, a D2C growth marketing agency based in Jaipur, India.
 Cinematic dark-theme design with GSAP scroll animations, Three.js interactive 3D element, and a built-in admin panel for managing enquiries and blog posts.
 
-**Live:** https://curiousapes.in/ | **Admin:** `/admin`
+**Live:** https://website-sable-beta-5eour18e4h.vercel.app/ | **Admin:** `/admin`
 
 ---
 
@@ -39,46 +39,45 @@ Credentials: `admin` / `curiousapes2024`
 ## Project Structure
 
 ```
-d:\Cogent\Curious_Apes\
-├── index.html                        # Entry HTML — Google Fonts link here
-├── src/
-│   ├── index.css                     # Global CSS variables, reset, button styles
-│   ├── App.tsx                       # Root: Lenis + GSAP setup, global #contact intercept, PopupForm
-│   ├── main.tsx                      # React 19 createRoot, BrowserRouter, / vs /admin routes
-│   ├── vite-env.d.ts                 # Declares *.mp4, *.png module types
-│   │
-│   ├── lib/
-│   │   ├── enquiries.ts              # DATA LAYER — enquiry CRUD (localStorage → Supabase-ready)
-│   │   └── blogs.ts                  # DATA LAYER — blog post CRUD + SEO fields (localStorage → Supabase-ready)
-│   │
-│   ├── assets/
-│   │   ├── original_logo.webp        # Primary logo (Navbar, Footer, Admin)
-│   │   ├── apes.png                  # Team/brand image — used in About "Who We Are" visual card
-│   │   ├── client_logo/              # 33 client logos (PNG) — used in Work.tsx client grid
-│   │   ├── number_dont_lie/          # 8 result screenshots — used in Hero "Numbers Don't Lie" strip
-│   │   └── work/                     # 21 reels (1.mp4 … 21.mp4) — used in Work.tsx reel slider
-│   │
-│   ├── components/
-│   │   ├── Navbar.tsx / .css         # Fixed top nav, scroll-glass, mobile hamburger
-│   │   ├── Hero.tsx / .css           # Full-viewport hero — see Hero section below
-│   │   ├── About.tsx / .css          # Two-col layout, 4 pillars
-│   │   ├── Services.tsx / .css       # 2×2 service card grid with 3D tilt
-│   │   ├── Work.tsx / .css           # Client logos grid + cinematic reel slider + testimonials
-│   │   ├── Blog.tsx / .css           # Blog section — reads live from blogs.ts data layer
-│   │   ├── BlogPostPage.tsx / .css   # Individual blog post page — route /blog/:slug
-│   │   ├── Contact.tsx / .css        # Split form + info panel, saves to enquiries data layer
-│   │   ├── Footer.tsx / .css         # 4-col footer, ghost text, CTA block
-│   │   ├── PopupForm.tsx / .css      # Global popup form (opened by any href="#contact" click)
-│   │   ├── FloatingCTA.tsx / .css    # Fixed bottom-right speed-dial: Call, WhatsApp, Enquiry
-│   │   ├── OrbitalSphere.tsx         # Three.js interactive 3D element (hero right side)
-│   │   └── Cursor.tsx / .css         # Custom cursor — event-delegated, interacts with all hero elements
-│   │
-│   └── admin/
-│       ├── AdminApp.tsx              # Shell: sidebar nav, view switching (Enquiries / Blog Posts)
-│       ├── AdminLogin.tsx            # Login form (session-based)
-│       ├── AdminDashboard.tsx        # Enquiry management — exports EnquiryFilters for sidebar
-│       ├── BlogManager.tsx           # Blog post list + full editor with SEO panel
-│       └── Admin.css                 # All admin styles (dashboard + blog manager)
+src/
+├── index.css                     # Global CSS variables, reset, button styles
+├── App.tsx                       # Root: Lenis + GSAP setup, global #contact intercept, PopupForm
+├── main.tsx                      # React 19 createRoot, BrowserRouter, / vs /admin routes
+├── vite-env.d.ts                 # Declares *.mp4, *.png module types
+│
+├── lib/
+│   ├── enquiries.ts              # DATA LAYER — enquiry CRUD (localStorage → Supabase-ready)
+│   └── blogs.ts                  # DATA LAYER — blog post CRUD + SEO fields (localStorage → Supabase-ready)
+│
+├── assets/
+│   ├── logo.png                  # Navbar logo — imported via Vite asset pipeline
+│   ├── original_logo.webp        # Legacy logo (Footer, Admin)
+│   ├── apes.png                  # Brand image — used in About "Who We Are" visual card
+│   ├── client_logo/              # 33 client logos (PNG) — used in Work.tsx client grid
+│   ├── number_dont_lie/          # 8 result screenshots — used in Hero "Numbers Don't Lie" strip
+│   └── work/                     # 21 reels (1.mp4 … 21.mp4) — used in Work.tsx reel slider
+│
+├── components/
+│   ├── Navbar.tsx / .css         # Fixed top nav, scroll-glass, mobile hamburger
+│   ├── Hero.tsx / .css           # Full-viewport hero — see Hero section below
+│   ├── About.tsx / .css          # Two-col layout, 4 pillars
+│   ├── Services.tsx / .css       # 2×2 service card grid with 3D tilt
+│   ├── Work.tsx / .css           # Client logos grid + cinematic reel slider + testimonials
+│   ├── Blog.tsx / .css           # Blog section — reads live from blogs.ts data layer
+│   ├── BlogPostPage.tsx / .css   # Individual blog post page — route /blog/:slug
+│   ├── Contact.tsx / .css        # Split form + info panel, saves to enquiries data layer
+│   ├── Footer.tsx / .css         # 4-col footer, ghost text, CTA block
+│   ├── PopupForm.tsx / .css      # Global popup form (opened by any href="#contact" click)
+│   ├── FloatingCTA.tsx / .css    # Fixed bottom-right speed-dial: Call, WhatsApp, Enquiry
+│   ├── OrbitalSphere.tsx         # Three.js interactive 3D element (hero right side)
+│   └── Cursor.tsx / .css         # Custom cursor — event-delegated, interacts with all hero elements
+│
+└── admin/
+    ├── AdminApp.tsx              # Shell: sidebar nav, view switching (Enquiries / Blog Posts)
+    ├── AdminLogin.tsx            # Login form (session-based)
+    ├── AdminDashboard.tsx        # Enquiry management — exports EnquiryFilters for sidebar
+    ├── BlogManager.tsx           # Blog post list + full editor with SEO panel
+    └── Admin.css                 # All admin styles (dashboard + blog manager)
 ```
 
 ---
@@ -95,9 +94,9 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
   --bg-tertiary:   #161616;
   --bg-card:       #141414;
 
-  /* Accent — dark teal brand color */
-  --accent-sand:       #00393e;
-  --accent-sand-dark:  #002a2e;
+  /* Accent — bright teal brand color */
+  --accent-sand:       #00c4d4;
+  --accent-sand-dark:  #008f9e;
 
   /* Gradients */
   --accent-gradient:      linear-gradient(135deg, #00393e 0%, #005a62 40%, #007a85 60%, #00393e 100%);
@@ -106,8 +105,8 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 
   /* Text */
   --text-primary:   #f0fafa;
-  --text-secondary: rgba(220, 245, 245, 0.6);
-  --text-muted:     rgba(220, 245, 245, 0.35);
+  --text-secondary: rgba(220, 245, 245, 0.82);
+  --text-muted:     rgba(220, 245, 245, 0.6);
 
   /* Borders */
   --border-color: rgba(0, 196, 212, 0.1);
@@ -121,6 +120,8 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
   --nav-height: 72px;
 }
 ```
+
+> **Note:** `--accent-sand` is used as a **text color** across many components (badges, tags, hover states). Keep it a bright, visible teal — do not set it to a dark value or text will become invisible on dark backgrounds.
 
 ### Gradient text pattern (used everywhere on headings)
 ```css
@@ -138,7 +139,7 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 
 ### Navbar
 - Fixed, `z-index: 1000`, height `var(--nav-height)` (72px)
-- Logo: `original_logo.webp`, height 52px
+- Logo: `logo.png` — imported via `import logoImg from '../assets/logo.png'` (Vite asset pipeline, not a raw `/src/` path)
 - Adds `.navbar--scrolled` on scroll → dark glass backdrop
 - Mobile hamburger at `< 900px`, fullscreen overlay menu
 - "Get Started" CTA links to `#contact` → triggers popup
@@ -157,6 +158,7 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 - Section ID: `#about`
 - Two-col: headline + copy (left), image card with "Est. 2025" (right)
 - Right visual card uses `src/assets/apes.png` (imported via Vite asset pipeline)
+- Card background: `linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%)` — lightened so white logos remain visible
 - Four pillars: Paid Media | Creative & Visuals | Growth Marketing | Tech & CRO
 
 ### Services
@@ -224,20 +226,13 @@ All colors are CSS custom properties in `src/index.css`. **Never hardcode hex va
 
 ### Cursor
 - Dot (8px solid) + ring (32px outlined) — both `position: fixed`, `pointer-events: none`
-- **Event delegation** via `mouseover`/`mouseout` on `document` using `closest()` — correctly detects `a`, `button`, and `[data-cursor]` elements regardless of when they mount (fixes missed interactions on async-rendered components like Hero)
-- Interaction states:
-  - `--hover` — dot grows, ring expands to 48px + stronger border
-  - `--magnetic` — dot switches to white + `mix-blend-mode: difference`, ring gets teal tint background
-  - `--click` — both shrink on `mousedown`, restore on `mouseup`
-- Hero metric cards carry `data-cursor="hover"` to trigger the hover state
+- **Event delegation** via `mouseover`/`mouseout` on `document` using `closest()` — correctly detects `a`, `button`, and `[data-cursor]` elements regardless of when they mount
+- Interaction states: `--hover`, `--magnetic`, `--click`
 - Hidden via CSS on `≤ 1024px` (touch devices)
 
 ### OrbitalSphere
-- Three.js scene: torus-knot wireframe (red `#c0380a`) + outer sphere + 2 orbit rings (`#00E1F0`) + dot particles
-- **Performance rules:**
-  - `frameloop="demand"` — only renders when `invalidate()` is called
-  - Scroll listener pauses all `useFrame` animations for 150ms on scroll
-  - `antialias: false`, `dpr` capped at 1.5, `pointerEvents: none`
+- Three.js scene: torus-knot wireframe + outer sphere + 2 orbit rings (`#00E1F0`) + dot particles
+- `frameloop="demand"`, scroll listener pauses animations for 150ms, `antialias: false`, `dpr` capped at 1.5
 
 ---
 
@@ -285,34 +280,25 @@ slugify(text)               // "My Title" → "my-title" — used in editor
 **Blog post shape:**
 ```ts
 {
-  id: string              // crypto.randomUUID()
+  id: string
   title: string
   slug: string            // URL-safe, auto-generated from title
-  tag: string             // e.g. 'Meta Ads', 'CRO & Shopify'
-  excerpt: string         // Shown on Blog section cards
+  tag: string
+  excerpt: string
   content: string         // Full article body (markdown)
-  seoTitle: string        // <title> tag override
-  seoDescription: string  // meta description (120–160 chars)
-  seoKeywords: string     // comma-separated focus keywords
-  ogImage: string         // Open Graph image URL (1200×630px)
-  canonicalUrl: string    // optional canonical href override
+  seoTitle: string
+  seoDescription: string  // 120–160 chars
+  seoKeywords: string
+  ogImage: string         // 1200×630px
+  canonicalUrl: string
   status: 'draft' | 'published'
-  featured: boolean       // true = renders as wide top card
-  readTime: string        // e.g. '5 min'
-  date: string            // ISO date (display date)
-  createdAt: string       // ISO 8601 — set on create
-  updatedAt: string       // ISO 8601 — set on every save
+  featured: boolean
+  readTime: string
+  date: string
+  createdAt: string
+  updatedAt: string
 }
 ```
-
-**Live sync mechanism:**
-- After every write, `blogs.ts` dispatches `window.dispatchEvent(new CustomEvent('ca_blogs_updated'))`
-- Both `Blog.tsx` (card grid) and `BlogPostPage.tsx` (post detail) listen to `ca_blogs_updated` (same-tab) and native `storage` (cross-tab) events
-- Result: publishing/unpublishing/editing/deleting a post in admin reflects on **both** the blog section and any open post page **instantly** with no page refresh
-
-**Seed data:** 5 default posts are seeded into localStorage on first load (if `ca_blogs` key is absent).
-
-**To connect Supabase later:** replace the functions in `blogs.ts` with Supabase calls. No other file needs to change.
 
 ---
 
@@ -322,42 +308,18 @@ slugify(text)               // "My Title" → "my-title" — used in editor
 **Credentials:** `admin` / `curiousapes2024` *(change before production)*
 **Auth:** `sessionStorage` key `ca_admin` — clears on tab close
 
-### Architecture
-
-`AdminApp.tsx` owns the full layout (sidebar + main). It manages:
-- View state: `'enquiries'` | `'blog'`
-- Enquiry filter state (passed to both `EnquiryFilters` in sidebar and `AdminDashboard` in main)
-- Enquiries in React state (not read directly from localStorage) so sidebar counts stay live
-
 ### Enquiries view
-- Sidebar filter: All / New / Contacted / Qualified / Closed (with live counts)
-- Stats row: Total, New, Contacted, Qualified
+- Filter: All / New / Contacted / Qualified / Closed (with live counts)
 - Search by name, phone, or website
-- Table: new enquiries pulse with teal dot, click row to open detail drawer
-- Detail drawer: full contact info, one-click Call + WhatsApp, status updater, delete with confirm
+- Detail drawer: full info, Call + WhatsApp, status updater, delete with confirm
 
 ### Blog Posts view
-- Stats: Total, Published (live on site), Drafts, Featured
-- Filter tabs: All / Published / Draft
-- Search by title, tag, or slug
-- Table rows: title + slug, tag pill, status toggle button, edit + delete icons
-- **Editor panel** (right-side overlay):
-  - **Content tab:** Status, Tag, Title, Slug (auto-generated + manual override + regenerate button), Excerpt, Full content, Date, Read Time, Featured toggle
-  - **SEO & Meta tab:**
-    - Live SEO score (0–100) shown as pill in header and progress bar in tab
-    - Issues list — flags missing/too-short/too-long fields
-    - SEO Title with character bar (green 30–60, amber <30, red >60)
-    - Meta Description with character bar (green 120–160)
-    - Focus Keywords
-    - OG Image URL
-    - Canonical URL
-    - **Google SERP preview** — live preview of how the post appears in search results
-  - Save as Draft / Publish Post buttons
+- Filter tabs: All / Published / Draft, search by title/tag/slug
+- **Editor:** Content tab (status, tag, title, slug, excerpt, body, date, read time, featured) + SEO & Meta tab (live score 0–100, SERP preview, OG image, canonical URL)
 
 ### Changing Admin Password
 Edit `src/admin/AdminLogin.tsx`:
 ```ts
-const ADMIN_USER = 'admin'
 const ADMIN_PASS = 'curiousapes2024'   // ← change this
 ```
 
@@ -366,12 +328,10 @@ const ADMIN_PASS = 'curiousapes2024'   // ← change this
 ## Routing
 
 ```
-/blog/:slug   → Individual blog post page (BlogPostPage.tsx)
-/admin/*      → Admin panel (AdminApp.tsx)
-/*            → Main website (App.tsx) — catch-all, must be last
+/blog/:slug   → BlogPostPage.tsx
+/admin/*      → AdminApp.tsx
+/*            → App.tsx (catch-all — must be last)
 ```
-
-React Router v7 BrowserRouter in `main.tsx`. `/blog/:slug` and `/admin/*` are declared before `/*` so they take priority. The `/*` catch-all ensures GSAP anchor links (`#contact`, `#work`, etc.) still work on the main site.
 
 ---
 
@@ -391,70 +351,49 @@ useEffect(() => {
 }, [])
 ```
 
-> **If a section's content loads asynchronously** (e.g. Blog reads from localStorage), guard refs before animating and use the data as the dependency — otherwise the effect runs before the DOM renders and crashes on null refs:
+> If a section's content loads asynchronously, guard all refs and use the data as the dependency:
 > ```tsx
 > useEffect(() => {
->   if (posts.length === 0 || !sectionRef.current || !headRef.current) return
+>   if (posts.length === 0 || !sectionRef.current) return
 >   const ctx = gsap.context(() => { /* animations */ }, sectionRef)
 >   return () => ctx.revert()
-> }, [posts])   // ← re-run after data loads, NOT []
+> }, [posts])
 > ```
 
-### Lenis + GSAP sync (App.tsx)
+### Asset imports — always use Vite pipeline
 ```tsx
-const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
-gsap.ticker.add((time) => lenis.raf(time * 1000))
-gsap.ticker.lagSmoothing(0)
+// CORRECT — works in production builds
+import logoImg from '../assets/logo.png'
+<img src={logoImg} />
+
+// WRONG — breaks on Vercel / any non-dev server
+<img src="/src/assets/logo.png" />
 ```
 
-### Global CTA interceptor (App.tsx)
-```tsx
-// Any <a href="#contact"> anywhere on the page opens the popup
-document.addEventListener('click', (e) => {
-  if ((e.target as Element).closest('a[href="#contact"]')) {
-    e.preventDefault()
-    openPopup()
-  }
-})
-```
-
-### Admin ↔ Website live sync (blogs.ts)
+### Admin ↔ Website live sync
 ```ts
-// After every localStorage write:
+// After every localStorage write in blogs.ts:
 window.dispatchEvent(new CustomEvent('ca_blogs_updated'))
 
-// In Blog.tsx AND BlogPostPage.tsx — same pattern:
-window.addEventListener('ca_blogs_updated', refresh)  // same-tab changes
-window.addEventListener('storage', refresh)            // cross-tab changes
-```
-
-Both the blog card grid and the individual post page subscribe independently, so publishing from admin updates both surfaces simultaneously.
-
-### CSS custom prop via inline style
-```tsx
-style={{ '--delay': `${index * 0.1}s` } as React.CSSProperties}
+// In Blog.tsx and BlogPostPage.tsx:
+window.addEventListener('ca_blogs_updated', refresh)  // same-tab
+window.addEventListener('storage', refresh)            // cross-tab
 ```
 
 ---
 
 ## Important Notes
 
+- Always use CSS variables for colors — never hardcode hex values in components
+- `--accent-sand` must stay a bright visible teal (`#00c4d4`) — it is used as **text color** in many components; a dark value makes text invisible on dark backgrounds
+- All image/asset imports must go through Vite (`import x from '../assets/...'`) — raw `/src/assets/` paths do not work in production
 - `Team.tsx` / `Team.css` exist on disk but are **not imported** anywhere — kept for reference
-- Do **not** add `smoothTouch` to Lenis — invalid option in v1, causes TS errors
+- Do **not** add `smoothTouch` to Lenis — invalid option in v1
 - Do **not** remove `pointerEvents: none` from OrbitalSphere canvas — it blocks scroll
-- Do **not** re-add the headline parallax scrub to Hero — it caused scroll jank
-- Always use CSS variables for colors, not hardcoded hex
-- Some CSS files still have hardcoded `rgba(0,196,212,...)` teal — grep if doing a full rebrand
 - `@supabase/supabase-js` is installed but not yet used — wired when backend is ready
-- `vite-env.d.ts` declares `*.mp4` and image module types — required for asset imports in TSX
-- Blog section renders `null` if there are zero published posts (section disappears entirely)
-- The 5 default blog posts are seeded into `localStorage` only once (on first visit when `ca_blogs` key is absent); editing them in admin persists immediately
-- `blogs.ts` `load()` backfills any missing fields when parsing stored data — safe against schema changes between versions
-- `Blog.tsx` GSAP effect guards `posts.length === 0` and all refs before animating — prevents crash on initial mount before data loads (dependency: `[posts]`, not `[]`)
-- `BlogPostPage` mounts its own `PopupForm` and `#contact` interceptor — it renders outside `App.tsx` so it cannot share the one in `App`
-- `/blog/:slug` route must be declared **before** `/*` in `main.tsx` — otherwise React Router matches the catch-all first and renders the main site instead of the post page
-- `AdminLogin.tsx` Sign In button uses `.adm-btn adm-btn--primary` — matching the class names defined in `Admin.css` (not `.admin-btn`, which has no styles)
-- `FloatingCTA` is rendered in `App.tsx` only — it does **not** appear on `/blog/:slug` or `/admin` routes (those render outside `App`)
+- Blog section renders `null` if there are zero published posts
+- `/blog/:slug` route must be declared **before** `/*` in `main.tsx`
+- `FloatingCTA` is rendered in `App.tsx` only — does not appear on `/blog/:slug` or `/admin`
 
 ---
 
