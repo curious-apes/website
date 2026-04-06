@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './About.css'
-import apesImg from '../assets/logo.png'
+import apesImg from '../assets/apes.png'
 
 gsap.registerPlugin(ScrollTrigger)
 

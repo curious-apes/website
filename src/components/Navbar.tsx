@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import './Navbar.css'
+import logoImg from '../assets/logo.png'
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -38,7 +39,7 @@ export default function Navbar() {
       <div className="navbar__inner">
         <a href="#hero" className="navbar__logo" onClick={(e) => handleNavClick(e, '#hero')}>
           <img
-            src="/src/assets/original_logo.webp"
+            src={logoImg}
             alt="Curious Apes"
             className="navbar__logo-img"
           />
