@@ -69,6 +69,7 @@ src/
 │   ├── Footer.tsx / .css         # 4-col footer, ghost text, CTA block
 │   ├── PopupForm.tsx / .css      # Global popup form (opened by any href="#contact" click)
 │   ├── FloatingCTA.tsx / .css    # Fixed bottom-right speed-dial: Call, WhatsApp, Enquiry
+│   ├── ThemeToggle.tsx / .css    # Fixed bottom-left glowing pill — dark/light theme switcher
 │   ├── OrbitalSphere.tsx         # Three.js interactive 3D element (hero right side)
 │   └── Cursor.tsx / .css         # Custom cursor — event-delegated, interacts with all hero elements
 │
@@ -159,9 +160,18 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
 - Fixed, `z-index: 1000`, height `var(--nav-height)` (72px)
 - Logo: `logo.png` — imported via `import logoImg from '../assets/logo.png'` (Vite asset pipeline, not a raw `/src/` path)
 - Adds `.navbar--scrolled` on scroll → glass backdrop
-- **Theme toggle button** — sun/moon icon, switches between dark and light theme; preference persisted in `localStorage` as `ca_theme`; hidden on mobile (`< 900px`)
 - Mobile hamburger at `< 900px`, fullscreen overlay menu
 - "Let's Talk" CTA links to `#contact` → triggers popup
+
+### ThemeToggle
+- **Fixed bottom-left pill** (`z-index: 9000`), always visible on every page
+- Sun icon + "Light" label in dark mode; moon icon + "Dark" label in light mode
+- **Teal glow** (`box-shadow`) that intensifies on hover; **pulse ring** radiates outward via GSAP every ~4s
+- **Bounce animation** on click via GSAP `back.out`
+- In light mode pill flips to dark background + teal icon so it stays prominent
+- On mobile (`≤ 480px`) the text label hides, leaving just the icon
+- Theme preference persisted in `localStorage` as `ca_theme`; applied via `data-theme` attribute on `<html>`
+- Mounted in `App.tsx` — appears on the main site only (not on `/admin`)
 
 ### Hero
 - Full-viewport, two-column grid (copy | visual)
