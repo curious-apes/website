@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import Cursor from './components/Cursor'
 import PopupForm from './components/PopupForm'
 import FloatingCTA from './components/FloatingCTA'
+import ThemeToggle from './components/ThemeToggle'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -79,6 +80,7 @@ function App() {
       </main>
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
+      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

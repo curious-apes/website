@@ -84,28 +84,6 @@
   width: 100%;
 }
 
-/* Theme toggle */
-.navbar__theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-}
-
-.navbar__theme-toggle:hover {
-  color: var(--accent-sand);
-  border-color: var(--accent-sand);
-  background: rgba(0, 196, 212, 0.08);
-}
-
 /* CTA */
 .navbar__cta {
   flex-shrink: 0;
@@ -196,9 +174,6 @@
     display: none;
   }
   .navbar__cta {
-    display: none;
-  }
-  .navbar__theme-toggle {
     display: none;
   }
   .navbar__hamburger {
