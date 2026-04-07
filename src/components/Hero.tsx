@@ -127,7 +127,7 @@ export default function Hero() {
           </p>
 
           <div ref={ctaRef} className="hero__actions">
-            <a href="#contact" className="btn btn-primary hero__cta-primary">
+            <a href="https://www.curiousapes.in/profile/company-profile.pdf" target="_blank" rel="noreferrer" className="btn btn-primary hero__cta-primary">
               View Profile
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

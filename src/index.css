@@ -197,28 +197,55 @@ input, textarea, select {
   position: relative;
 }
 
+/* Primary — bright teal fill, white text, always readable */
 .btn-primary {
-  background: var(--accent-gradient);
-  color: #0a0a0a;
+  background: #00c4d4;
+  color: #ffffff;
   font-weight: 700;
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 0 rgba(0, 196, 212, 0);
 }
 
 .btn-primary:hover {
+  background: #00dcea;
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(0, 196, 212, 0.22);
-  filter: brightness(1.1);
+  box-shadow: 0 8px 32px rgba(0, 196, 212, 0.4);
 }
 
+/* Outline — visible border + white text, amber/gold hover for contrast */
 .btn-outline {
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid rgba(0, 196, 212, 0.5);
 }
 
 .btn-outline:hover {
-  border-color: var(--accent-sand);
-  color: var(--accent-sand);
+  background: rgba(0, 196, 212, 0.08);
+  border-color: #00c4d4;
+  color: #00c4d4;
   transform: translateY(-2px);
+}
+
+/* Light theme overrides */
+[data-theme="light"] .btn-primary {
+  background: #007a85;
+  color: #ffffff;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background: #008f9e;
+  box-shadow: 0 8px 32px rgba(0, 122, 133, 0.35);
+}
+
+[data-theme="light"] .btn-outline {
+  border-color: rgba(0, 122, 133, 0.5);
+  color: #007a85;
+}
+
+[data-theme="light"] .btn-outline:hover {
+  background: rgba(0, 122, 133, 0.08);
+  border-color: #007a85;
+  color: #007a85;
 }
 
 /* ===========================

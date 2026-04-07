@@ -118,10 +118,10 @@ export default function Clients() {
           <div ref={labelRef} className="section-label">Our Clients</div>
           <div ref={headlineRef} className="clients__headline">
             <div className="clients__line"><span className="clients__line-inner">Trusted by</span></div>
-            <div className="clients__line"><span className="clients__line-inner clients__line-inner--grad">35+ Brands.</span></div>
+            <div className="clients__line"><span className="clients__line-inner clients__line-inner--grad">50+ Brands.</span></div>
           </div>
           <p className="clients__intro">
-            From ₹0 to ₹30L/month. Built to scale, built to last.
+            From ₹0 to 7 Figures a Month. Built to scale, built to last.
           </p>
         </div>
 

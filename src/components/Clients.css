@@ -112,5 +112,7 @@
 }
 
 @media (max-width: 480px) {
-  .clients__grid { grid-template-columns: repeat(2, 1fr); }
+  .clients__grid { grid-template-columns: repeat(3, 1fr); }
+  .clients__item { padding: 24px 12px; }
+  .clients__item img { max-width: 80px; max-height: 48px; }
 }

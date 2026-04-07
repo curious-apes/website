@@ -160,7 +160,6 @@
 .hero__cta-primary {
   font-size: 14px;
   padding: 15px 36px;
-  color: #0a0a0a;
   border-radius: 6px;
 }
 
@@ -356,22 +355,7 @@
 }
 
 .hero__ndl-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 200px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.hero__ndl-fade--left {
-  left: 0;
-  background: linear-gradient(to right, var(--bg-primary) 0%, transparent 100%);
-}
-
-.hero__ndl-fade--right {
-  right: 0;
-  background: linear-gradient(to left, var(--bg-primary) 0%, transparent 100%);
+  display: none;
 }
 
 .hero__ndl-track {
