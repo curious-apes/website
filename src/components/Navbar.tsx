@@ -5,7 +5,7 @@ import './Navbar.css'
 import logoImg from '../assets/logo.png'
 
 const services = [
-  { label: 'Paid Media',         tagline: 'Meta & Google Ads',     href: '/#services' },
+  { label: 'Paid Media',         tagline: 'Meta & Google Ads',     href: '/services/paid-media' },
   { label: 'Growth Marketing',   tagline: 'Profitable Scaling',    href: '/#services' },
   { label: 'Visuals & Creative', tagline: 'Content that Converts', href: '/#services' },
   { label: 'Tech & CRO',         tagline: 'End-to-End eCommerce',  href: '/#services' },

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Footer.css'
@@ -77,6 +78,16 @@ export default function Footer() {
                   <a href={link.href} className="footer__link">{link.label}</a>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          <div className="footer__links-col">
+            <h4 className="footer__col-title">Services</h4>
+            <ul className="footer__links">
+              <li><Link to="/services/paid-media" className="footer__link">Paid Media</Link></li>
+              <li><a href="/#services" className="footer__link">Growth Marketing</a></li>
+              <li><a href="/#services" className="footer__link">Visuals &amp; Creative</a></li>
+              <li><a href="/#services" className="footer__link">Tech &amp; CRO</a></li>
             </ul>
           </div>
 

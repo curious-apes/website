@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Services.css'
@@ -12,6 +13,7 @@ interface Service {
   desc: string
   tags: string[]
   icon: React.ReactNode
+  href?: string
 }
 
 const services: Service[] = [
@@ -21,6 +23,7 @@ const services: Service[] = [
     tagline: 'Meta & Google Ads',
     desc: 'A data-led, structured, and scalable approach to Meta and Google Ads focused on sustainable performance and ROI.',
     tags: ['Meta Ads', 'Google Ads', 'Performance Max', 'ROAS Optimisation'],
+    href: '/services/paid-media',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8 36L16 26L22 32L30 20L40 28" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -93,7 +96,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
     setRotation({ x: rotateX, y: rotateY })
   }
 
-  return (
+  const cardContent = (
     <div
       ref={cardRef}
       className={`service-card ${hovered ? 'is-hovered' : ''}`}
@@ -127,6 +130,10 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       <div className="service-card__border-gradient" />
     </div>
   )
+
+  return service.href
+    ? <Link to={service.href} style={{ textDecoration: 'none' }}>{cardContent}</Link>
+    : cardContent
 }
 
 export default function Services() {

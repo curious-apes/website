@@ -8,6 +8,7 @@ import BlogPostPage from './components/BlogPostPage'
 import AboutPage from './components/AboutPage'
 import BlogPage from './components/BlogPage'
 import ContactPage from './components/ContactPage'
+import PaidMediaPage from './components/PaidMediaPage'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element not found')
@@ -20,6 +21,7 @@ createRoot(rootElement).render(
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services/paid-media" element={<PaidMediaPage />} />
         <Route path="/admin/*" element={<AdminApp />} />
         <Route path="/*" element={<App />} />
       </Routes>
