@@ -4,6 +4,7 @@ import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
 import ThemeToggle from './ThemeToggle'
+import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
 import perf1 from '../assets/performace-1.jpeg'
 import perf2 from '../assets/performace-2.jpeg'
@@ -150,6 +151,7 @@ export default function PaidMediaPage() {
       </main>
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
+      <ScrollToTop />
       <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>

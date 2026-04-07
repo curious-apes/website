@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { getBlogBySlug, type BlogPost } from '../lib/blogs'
 import PopupForm from './PopupForm'
+import ScrollToTop from './ScrollToTop'
 import './BlogPostPage.css'
 
 const tagColors: Record<string, string> = {
@@ -257,6 +258,7 @@ export default function BlogPostPage() {
         </main>
       </div>
 
+      <ScrollToTop />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

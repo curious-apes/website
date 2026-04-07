@@ -5,6 +5,7 @@ import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
 import ThemeToggle from './ThemeToggle'
+import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
 import './ContactPage.css'
 
@@ -38,6 +39,7 @@ export default function ContactPage() {
       </main>
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
+      <ScrollToTop />
       <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
