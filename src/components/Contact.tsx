@@ -165,13 +165,13 @@ export default function Contact() {
               <div className="contact__info-divider" />
 
               <div className="contact__info-socials">
-                <a href="https://instagram.com/curiousapes.in" target="_blank" rel="noreferrer" className="contact__info-social">
+                <a href="https://www.instagram.com/curious.apes/" target="_blank" rel="noreferrer" className="contact__info-social">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
                   </svg>
                   Instagram
                 </a>
-                <a href="https://linkedin.com/company/curiousapes" target="_blank" rel="noreferrer" className="contact__info-social">
+                <a href="https://www.linkedin.com/company/curious-apesin/" target="_blank" rel="noreferrer" className="contact__info-social">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
                   </svg>

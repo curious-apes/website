@@ -14,8 +14,8 @@ const navLinks = [
 ]
 
 const socialLinks = [
-  { label: 'Instagram', href: 'https://instagram.com/curiousapes.in' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/curiousapes' },
+  { label: 'Instagram', href: 'https://www.instagram.com/curious.apes/' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/curious-apesin/' },
 ]
 
 export default function Footer() {
