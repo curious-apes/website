@@ -3,7 +3,7 @@
 Official website for **Curious Apes**, a D2C growth marketing agency based in Jaipur, India.
 Cinematic dark/light theme design with GSAP scroll animations, Three.js interactive 3D element, and a built-in admin panel for managing enquiries and blog posts.
 
-**Live:** https://website-sable-beta-5eour18e4h.vercel.app/ | **Admin:** `/admin`
+**Live:** https://www.curiousapes.in | **Admin:** `/admin`
 
 ---
 
@@ -55,23 +55,31 @@ src/
 │   ├── apes.png                  # Brand image — used in About "Who We Are" visual card
 │   ├── client_logo/              # 35 client logos (PNG) — used in Clients.tsx
 │   ├── number_dont_lie/          # 8 result screenshots — used in Hero "Numbers Don't Lie" strip
+│   ├── performace-1.jpeg         # Paid Media page section image 1 (campaign optimisation)
+│   ├── performace-2.jpeg         # Paid Media page section image 2 (ad structure)
+│   ├── performace-3.jpeg         # Paid Media page section image 3 (high-converting products)
 │   └── work/                     # 21 reels (1.mp4 … 21.mp4) — used in Work.tsx reel slider
 │
 ├── components/
-│   ├── Navbar.tsx / .css         # Fixed top nav, scroll-glass, mobile hamburger
+│   ├── Navbar.tsx / .css         # Fixed top nav, scroll-glass, mobile hamburger, Services dropdown
 │   ├── Hero.tsx / .css           # Full-viewport hero — see Hero section below
 │   ├── About.tsx / .css          # Two-col layout, 4 pillars — hidden from homepage (reserved for /about page)
 │   ├── Clients.tsx / .css        # Client logo grid (35 brands) — standalone section
-│   ├── Services.tsx / .css       # 2×2 service card grid with 3D tilt
+│   ├── Services.tsx / .css       # 2×2 service card grid with 3D tilt; Paid Media card links to /services/paid-media
 │   ├── Work.tsx / .css           # Cinematic reel slider only (21 reels)
 │   ├── Testimonials.tsx / .css   # 3 testimonial cards, auto-rotate every 5s
 │   ├── Blog.tsx / .css           # Blog section — reads live from blogs.ts data layer
 │   ├── BlogPostPage.tsx / .css   # Individual blog post page — route /blog/:slug
 │   ├── Contact.tsx / .css        # Split form + info panel, saves to enquiries data layer
-│   ├── Footer.tsx / .css         # 4-col footer, ghost text, CTA block
+│   ├── Footer.tsx / .css         # 4-col footer (Brand | Nav | Services | CTA), ghost text
 │   ├── PopupForm.tsx / .css      # Global popup form (opened by any href="#contact" click)
 │   ├── FloatingCTA.tsx / .css    # Fixed bottom-right speed-dial: Call, WhatsApp, Enquiry
-│   ├── ThemeToggle.tsx / .css    # Fixed bottom-left glowing pill — dark/light theme switcher
+│   ├── ScrollToTop.tsx / .css    # Fixed bottom-left circle — scroll-to-top on click, all pages
+│   ├── ThemeToggle.tsx / .css    # Fixed bottom-left glowing pill (above ScrollToTop) — dark/light switcher
+│   ├── PaidMediaPage.tsx / .css  # Dedicated Paid Media service page — route /services/paid-media
+│   ├── AboutPage.tsx / .css      # Dedicated About page — route /about
+│   ├── BlogPage.tsx / .css       # Dedicated Blog listing page — route /blog
+│   ├── ContactPage.tsx / .css    # Dedicated Contact page — route /contact
 │   ├── OrbitalSphere.tsx         # Three.js interactive 3D element (hero right side)
 │   └── Cursor.tsx / .css         # Custom cursor — event-delegated, interacts with all hero elements
 │
@@ -196,7 +204,7 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
 ### Clients
 - Section ID: `#clients`
 - **35 client logos** from `assets/client_logo/` — grayscale → full color on hover
-- 5-col grid (4-col at 1100px, 3-col at 768px, 2-col at 480px)
+- 5-col grid (4-col at 1100px, 3-col at 768px, 3-col at 480px)
 - Latest additions: Alvino, Clazeup
 - Staggered scroll-entrance animation via GSAP ScrollTrigger
 
@@ -204,6 +212,7 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
 - Section ID: `#services`
 - 2×2 card grid, 3D tilt on `onMouseMove`
 - Services: Paid Media, Growth Marketing, Visuals & Creative, Tech & CRO
+- **Paid Media card** links to `/services/paid-media` dedicated page
 - CTA links to `#contact` → triggers popup
 
 ### Work
@@ -262,10 +271,28 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
   3. **Enquiry** — gold/sand gradient, calls `onEnquiry` prop → opens `PopupForm` in `App.tsx`
 - **Label chips** appear left of each button on desktop; hidden on mobile (≤ 600px)
 - **Outside click** auto-closes the menu
-- **Wired in `App.tsx`** — receives `onEnquiry={openPopup}` so it shares the same popup state
+- **Wired in all pages** — receives `onEnquiry={openPopup}` so it shares the same popup state
+
+### ScrollToTop
+- Fixed bottom-left circle button — hidden until user scrolls past 400px, fades + slides in
+- Teal border + icon at rest; fills solid teal on hover with glow
+- Smooth-scrolls to top on click via `window.scrollTo({ top: 0, behavior: 'smooth' })`
+- Mounted on every page: `App.tsx`, `AboutPage`, `BlogPage`, `BlogPostPage`, `ContactPage`, `PaidMediaPage`
+- In light mode: white pill with darker teal icon
+
+### ThemeToggle
+- **Fixed bottom-left pill** (`z-index: 9000`), positioned at `bottom: 90px` to sit above `ScrollToTop`
+- Sun icon + "Light" label in dark mode; moon icon + "Dark" label in light mode
+- **Teal glow** (`box-shadow`) that intensifies on hover; **pulse ring** radiates outward via GSAP every ~4s
+- **Bounce animation** on click via GSAP `back.out`
+- In light mode pill flips to dark background + teal icon so it stays prominent
+- On mobile (`≤ 480px`) the text label hides, leaving just the icon; positioned at `bottom: 76px`
+- Theme preference persisted in `localStorage` as `ca_theme`; applied via `data-theme` attribute on `<html>`
+- Mounted in `App.tsx` — appears on the main site only (not on `/admin`)
 
 ### Footer
-- 4-col grid: Brand | Pages | Services | CTA block
+- 4-col grid: Brand | Navigation | Services | CTA block
+- **Services column** lists all 4 services; Paid Media links to `/services/paid-media`
 - Ghost decorative text: "CURIOUS APES" (outline, opacity 0.04)
 - CTA block links to `#contact` → triggers popup
 
@@ -389,9 +416,13 @@ Contact       ← Enquiry form
 ## Routing
 
 ```
-/blog/:slug   → BlogPostPage.tsx
-/admin/*      → AdminApp.tsx
-/*            → App.tsx (catch-all — must be last)
+/about                  → AboutPage.tsx
+/blog                   → BlogPage.tsx
+/blog/:slug             → BlogPostPage.tsx
+/contact                → ContactPage.tsx
+/services/paid-media    → PaidMediaPage.tsx
+/admin/*                → AdminApp.tsx
+/*                      → App.tsx (catch-all — must be last)
 ```
 
 ---
@@ -447,14 +478,18 @@ window.addEventListener('storage', refresh)            // cross-tab
 
 - Always use CSS variables for colors — never hardcode hex values in components
 - `--accent-sand` must stay a bright visible teal (`#00c4d4`) — it is used as **text color** in many components; a dark value makes text invisible on dark backgrounds
+- `.btn-primary` background is `#00c4d4` with **white text** — do not add `color: #0a0a0a` overrides in component CSS as it breaks readability on dark backgrounds
 - All image/asset imports must go through Vite (`import x from '../assets/...'`) — raw `/src/assets/` paths do not work in production
 - `Team.tsx` / `Team.css` exist on disk but are **not imported** anywhere — kept for reference
 - Do **not** add `smoothTouch` to Lenis — invalid option in v1
 - Do **not** remove `pointerEvents: none` from OrbitalSphere canvas — it blocks scroll
 - `@supabase/supabase-js` is installed but not yet used — wired when backend is ready
 - Blog section renders `null` if there are zero published posts
-- `/blog/:slug` route must be declared **before** `/*` in `main.tsx`
-- `FloatingCTA` is rendered in `App.tsx` only — does not appear on `/blog/:slug` or `/admin`
+- All service page routes (`/services/*`) must be declared **before** `/*` in `main.tsx`
+- `ScrollToTop` is mounted on every page including standalone routes
+- `ThemeToggle` is positioned at `bottom: 90px` to clear `ScrollToTop` at `bottom: 32px`
+- "View Profile" CTA in Hero links to `https://www.curiousapes.in/profile/company-profile.pdf`
+- `FloatingCTA` is rendered on all public pages except `/admin`
 
 ---
 

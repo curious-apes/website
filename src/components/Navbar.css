@@ -99,7 +99,7 @@
   transition: transform 0.25s ease;
   color: var(--text-muted);
 }
-.navbar__dropdown-wrap:hover .navbar__chevron {
+.navbar__dropdown-wrap.is-open .navbar__chevron {
   transform: rotate(180deg);
 }
 /* Mobile chevron toggle */
@@ -147,7 +147,7 @@
   height: 16px;
 }
 
-.navbar__dropdown-wrap:hover .navbar__dropdown {
+.navbar__dropdown-wrap.is-open .navbar__dropdown {
   opacity: 1;
   pointer-events: all;
   transform: translateX(-50%) translateY(0);
@@ -346,12 +346,6 @@
   .navbar__links { display: none; }
   .navbar__cta   { display: none; }
   .navbar__hamburger { display: flex; }
-  /* Disable hover dropdown on touch devices */
-  .navbar__dropdown-wrap:hover .navbar__dropdown {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-50%) translateY(-8px);
-  }
 }
 
 @media (max-width: 768px) {

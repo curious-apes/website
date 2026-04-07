@@ -13,9 +13,11 @@ const services = [
 
 export default function Navbar() {
   const navRef   = useRef<HTMLElement>(null)
-  const [menuOpen,        setMenuOpen]        = useState(false)
-  const [scrolled,        setScrolled]        = useState(false)
-  const [mobileServices,  setMobileServices]  = useState(false)
+  const [menuOpen,           setMenuOpen]           = useState(false)
+  const [scrolled,           setScrolled]           = useState(false)
+  const [mobileServices,     setMobileServices]     = useState(false)
+  const [desktopServices,    setDesktopServices]    = useState(false)
+  const dropdownRef = useRef<HTMLLIElement>(null)
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -29,10 +31,23 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on route change
+  // Close menus on route change
   useEffect(() => {
     setMenuOpen(false)
+    setDesktopServices(false)
   }, [location])
+
+  // Close desktop dropdown on outside click
+  useEffect(() => {
+    if (!desktopServices) return
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDesktopServices(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [desktopServices])
 
   const scrollToSection = (id: string) => {
     const el = document.querySelector(id)
@@ -72,9 +87,13 @@ export default function Navbar() {
             </Link>
           </li>
 
-          {/* Services — hover dropdown */}
-          <li className="navbar__dropdown-wrap">
-            <span className="navbar__link navbar__dropdown-trigger">
+          {/* Services — click dropdown */}
+          <li ref={dropdownRef} className={`navbar__dropdown-wrap ${desktopServices ? 'is-open' : ''}`}>
+            <span
+              className="navbar__link navbar__dropdown-trigger"
+              style={{ cursor: 'pointer' }}
+              onClick={() => setDesktopServices(prev => !prev)}
+            >
               Services
               <svg className="navbar__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -88,7 +107,7 @@ export default function Navbar() {
                     key={s.label}
                     to={s.href}
                     className="navbar__dropdown-item"
-                    onClick={(e) => handleHashLink(e as any, s.href)}
+                    onClick={(e) => { handleHashLink(e as any, s.href); setDesktopServices(false) }}
                   >
                     <span className="navbar__dropdown-item-label">{s.label}</span>
                     <span className="navbar__dropdown-item-tagline">{s.tagline}</span>
