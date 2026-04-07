@@ -25,12 +25,6 @@ const ndlClients = [
 
 gsap.registerPlugin(ScrollTrigger)
 
-const marqueeItems = [
-  'Paid Media', 'Growth Marketing', 'UGC Creatives', 'CRO',
-  'Tech & Dev', 'Meta Ads', 'Google Ads', 'D2C Strategy',
-  'Email & SMS', 'Shopify', 'Brand Identity', 'Analytics',
-]
-
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const headlineRef = useRef<HTMLDivElement>(null)
@@ -38,7 +32,6 @@ export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null)
   const badgeRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
-  const marqueeRef = useRef<HTMLDivElement>(null)
   const ndlTrackRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const metricRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -84,17 +77,6 @@ export default function Hero() {
         '-=0.8'
       )
 
-      // Marquee
-      const marqueeTrack = marqueeRef.current!.querySelector('.hero__marquee-track') as HTMLElement
-      if (marqueeTrack) {
-        gsap.to(marqueeTrack, {
-          xPercent: -50,
-          duration: 22,
-          ease: 'none',
-          repeat: -1,
-        })
-      }
-
       // NDL cards scroll
       if (ndlTrackRef.current) {
         gsap.to(ndlTrackRef.current, {
@@ -110,8 +92,6 @@ export default function Hero() {
 
     return () => ctx.revert()
   }, [])
-
-  const allItems = [...marqueeItems, ...marqueeItems]
 
   return (
     <section id="hero" ref={sectionRef} className="hero">
@@ -236,17 +216,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Marquee */}
-      <div ref={marqueeRef} className="hero__marquee">
-        <div className="hero__marquee-track">
-          {allItems.map((item, i) => (
-            <span key={i} className="hero__marquee-item">
-              {item}
-              <span className="hero__marquee-dot" />
-            </span>
-          ))}
-        </div>
-      </div>
     </section>
   )
 }

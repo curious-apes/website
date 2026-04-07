@@ -472,7 +472,15 @@
 }
 
 @media (max-width: 480px) {
-  .hero__actions { flex-direction: column; align-items: flex-start; }
-  .hero__cta-primary, .hero__cta-secondary { width: 100%; justify-content: center; }
   .hero__badge { font-size: 11px; }
+  .hero__copy { display: flex; flex-direction: column; }
+  .hero__actions {
+    order: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0;
+    margin-top: 24px;
+  }
+  .hero__stats-inline { order: 0; }
+  .hero__cta-primary, .hero__cta-secondary { width: 100%; justify-content: center; }
 }

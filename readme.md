@@ -53,16 +53,18 @@ src/
 │   ├── logo.png                  # Navbar logo — imported via Vite asset pipeline
 │   ├── original_logo.webp        # Legacy logo (Footer, Admin)
 │   ├── apes.png                  # Brand image — used in About "Who We Are" visual card
-│   ├── client_logo/              # 35 client logos (PNG) — used in Work.tsx client grid
+│   ├── client_logo/              # 35 client logos (PNG) — used in Clients.tsx
 │   ├── number_dont_lie/          # 8 result screenshots — used in Hero "Numbers Don't Lie" strip
 │   └── work/                     # 21 reels (1.mp4 … 21.mp4) — used in Work.tsx reel slider
 │
 ├── components/
 │   ├── Navbar.tsx / .css         # Fixed top nav, scroll-glass, mobile hamburger
 │   ├── Hero.tsx / .css           # Full-viewport hero — see Hero section below
-│   ├── About.tsx / .css          # Two-col layout, 4 pillars
+│   ├── About.tsx / .css          # Two-col layout, 4 pillars — hidden from homepage (reserved for /about page)
+│   ├── Clients.tsx / .css        # Client logo grid (35 brands) — standalone section
 │   ├── Services.tsx / .css       # 2×2 service card grid with 3D tilt
-│   ├── Work.tsx / .css           # Client logos grid + cinematic reel slider + testimonials
+│   ├── Work.tsx / .css           # Cinematic reel slider only (21 reels)
+│   ├── Testimonials.tsx / .css   # 3 testimonial cards, auto-rotate every 5s
 │   ├── Blog.tsx / .css           # Blog section — reads live from blogs.ts data layer
 │   ├── BlogPostPage.tsx / .css   # Individual blog post page — route /blog/:slug
 │   ├── Contact.tsx / .css        # Split form + info panel, saves to enquiries data layer
@@ -178,17 +180,25 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
 - **Right side:** `OrbitalSphere` — Three.js torus-knot wireframe + orbit rings (`#00E1F0`) + dot particles
   - `frameloop="demand"` + scroll-pause = zero GPU cost during scroll
   - `pointerEvents: none` on canvas so scroll is never blocked
-- Badge → headline → sub → CTAs → stats inline bar
-- **"Numbers Don't Lie" strip** — 8 result screenshots from `assets/number_dont_lie/`, auto-scrolling marquee
-- Marquee ticker at bottom
+- Badge → headline → sub → stats inline bar → CTAs
+- On mobile (`≤ 480px`) stats box appears **above** CTAs (CSS `order` on flex children)
+- **"Numbers Don't Lie" strip** — 8 result screenshots from `assets/number_dont_lie/`, auto-scrolling track
 - Visual hidden on mobile `< 768px`
+- Marquee ticker removed
 
-### About
+### About *(hidden from homepage)*
 - Section ID: `#about`
+- Currently commented out in `App.tsx` — reserved for a dedicated `/about` page
 - Two-col: headline + copy (left), image card with "Est. 2025" (right)
 - Right visual card uses `src/assets/apes.png` (imported via Vite asset pipeline)
-- Card background: `linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%)` — lightened so white logos remain visible
 - Four pillars: Paid Media | Creative & Visuals | Growth Marketing | Tech & CRO
+
+### Clients
+- Section ID: `#clients`
+- **35 client logos** from `assets/client_logo/` — grayscale → full color on hover
+- 5-col grid (4-col at 1100px, 3-col at 768px, 2-col at 480px)
+- Latest additions: Alvino, Clazeup
+- Staggered scroll-entrance animation via GSAP ScrollTrigger
 
 ### Services
 - Section ID: `#services`
@@ -198,10 +208,16 @@ Logo gets `filter: invert(1)` in light mode so the white PNG renders correctly o
 
 ### Work
 - Section ID: `#work`
-- **Client grid:** 35 client logos from `assets/client_logo/` — grayscale → full color on hover (latest additions: Alvino, Clazeup)
-- **Reel slider:** 21 MP4 reels from `assets/work/`, cinematic 5-slot layout (2 left | center | 2 right)
+- **Reel slider only** — 21 MP4 reels from `assets/work/`, cinematic 5-slot layout (2 left | center | 2 right)
   - Autoplay — advances on video `ended` event, progress bar tied to `vid.duration`
-- **Testimonials:** 3 cards, auto-rotate every 5s
+- Client logos and testimonials extracted to their own sections (`Clients`, `Testimonials`)
+- Marquee ticker removed
+
+### Testimonials
+- Section ID: `#testimonials`
+- 3 testimonial cards — auto-rotate every 5s, active card lifts + glows with teal border
+- Manual dot navigation below cards
+- Background: `var(--bg-secondary)` for visual separation from Work section
 
 ### Blog
 - Section ID: `#blog`
@@ -351,6 +367,22 @@ Edit `src/admin/AdminLogin.tsx`:
 ```ts
 const ADMIN_PASS = 'curiousapes2024'   // ← change this
 ```
+
+---
+
+## Homepage Section Order
+
+```
+Hero          ← Data-Driven eCommerce Agency + Numbers Don't Lie strip
+Clients       ← 35 brand logos grid
+Services      ← Core capabilities (4 cards)
+Work          ← Cinematic reel slider (21 reels)
+Testimonials  ← 3 client testimonials
+Blog          ← Published blog posts
+Contact       ← Enquiry form
+```
+
+> `About` is commented out in `App.tsx` — will be added to a dedicated `/about` page.
 
 ---
 
