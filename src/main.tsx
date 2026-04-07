@@ -6,6 +6,8 @@ import App from './App'
 import AdminApp from './admin/AdminApp'
 import BlogPostPage from './components/BlogPostPage'
 import AboutPage from './components/AboutPage'
+import BlogPage from './components/BlogPage'
+import ContactPage from './components/ContactPage'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element not found')
@@ -15,7 +17,9 @@ createRoot(rootElement).render(
     <BrowserRouter>
       <Routes>
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin/*" element={<AdminApp />} />
         <Route path="/*" element={<App />} />
       </Routes>
