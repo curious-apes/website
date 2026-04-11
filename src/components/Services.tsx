@@ -40,6 +40,7 @@ const services: Service[] = [
     tagline: 'Profitable Scaling',
     desc: 'Driving profitable growth by reducing RTOs, improving contribution margins, increasing prepaid orders, and strengthening retention.',
     tags: ['RTO Reduction', 'Retention', 'Prepaid Orders', 'CAC Optimisation'],
+    href: '/services/growth-marketing',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M24 8L40 18V30L24 40L8 30V18L24 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
@@ -55,6 +56,7 @@ const services: Service[] = [
     tagline: 'Content that Converts',
     desc: 'UGC videos, CGI and animations, paid collaborations, static ads, branding and packaging — creative that stops the scroll.',
     tags: ['UGC Videos', 'CGI & Animation', 'Static Ads', 'Branding'],
+    href: '/services/visuals-creative',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="6" y="12" width="36" height="26" rx="3" stroke="currentColor" strokeWidth="1.5"/>
@@ -70,6 +72,7 @@ const services: Service[] = [
     tagline: 'End-to-End eCommerce',
     desc: 'End-to-end e-commerce solutions covering website and app development, CRO, and conversion-focused UI/UX design.',
     tags: ['Shopify Dev', 'CRO', 'UI/UX', 'App Development'],
+    href: '/services/tech-cro',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16 18L8 24L16 30M32 18L40 24L32 30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

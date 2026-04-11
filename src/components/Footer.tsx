@@ -85,9 +85,9 @@ export default function Footer() {
             <h4 className="footer__col-title">Services</h4>
             <ul className="footer__links">
               <li><Link to="/services/paid-media" className="footer__link">Paid Media</Link></li>
-              <li><a href="/#services" className="footer__link">Growth Marketing</a></li>
-              <li><a href="/#services" className="footer__link">Visuals &amp; Creative</a></li>
-              <li><a href="/#services" className="footer__link">Tech &amp; CRO</a></li>
+              <li><Link to="/services/growth-marketing" className="footer__link">Growth Marketing</Link></li>
+              <li><Link to="/services/visuals-creative" className="footer__link">Visuals &amp; Creative</Link></li>
+              <li><Link to="/services/tech-cro" className="footer__link">Tech &amp; CRO</Link></li>
             </ul>
           </div>
 

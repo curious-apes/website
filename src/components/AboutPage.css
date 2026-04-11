@@ -1,79 +1,343 @@
 /* ===========================
-   ABOUT PAGE — HERO BANNER
+   1. ABOUT SECTION
    =========================== */
-.about-page__hero {
+.ap-about {
   position: relative;
   padding: calc(var(--nav-height) + 100px) 0 100px;
   background: var(--bg-primary);
   overflow: hidden;
-  text-align: center;
 }
 
-.about-page__hero-orb {
+.ap-about__orb {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
   filter: blur(120px);
 }
 
-.about-page__hero-orb--1 {
-  width: 600px;
-  height: 600px;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(0,196,212,0.1) 0%, transparent 70%);
+.ap-about__orb--1 {
+  width: 700px;
+  height: 700px;
+  top: -250px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(0, 196, 212, 0.09) 0%, transparent 70%);
 }
 
-.about-page__hero-orb--2 {
-  width: 300px;
-  height: 300px;
-  bottom: -60px;
-  right: 10%;
-  background: radial-gradient(circle, rgba(0,196,212,0.06) 0%, transparent 70%);
+.ap-about__orb--2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  right: 5%;
+  background: radial-gradient(circle, rgba(0, 196, 212, 0.05) 0%, transparent 70%);
 }
 
-.about-page__hero-inner {
+.ap-about__inner {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 40px;
 }
 
-.about-page__eyebrow {
-  margin-bottom: 28px;
+.ap-about__eyebrow {
+  align-self: flex-start;
 }
 
-.about-page__title {
+.ap-about__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.ap-about__title {
   font-family: var(--font-display);
-  font-size: clamp(44px, 6vw, 92px);
+  font-size: clamp(36px, 4.5vw, 72px);
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.04em;
-  line-height: 1.06;
-  margin-bottom: 32px;
+  line-height: 1.08;
 }
 
-.about-page__title--grad {
+.ap-about__title--grad {
   background: var(--accent-gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.about-page__sub {
+.ap-about__text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.ap-about__body {
   font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.9;
   color: var(--text-secondary);
-  max-width: 600px;
+}
+
+.ap-about__body strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+
+/* Full-width image */
+.ap-about__full-img-wrap {
+  width: 100%;
+  margin-top: 48px;
+  background: var(--bg-primary);
+}
+
+.ap-about__full-img {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+  mix-blend-mode: multiply;
+}
+
+[data-theme="dark"] .ap-about__full-img {
+  mix-blend-mode: lighten;
+  filter: brightness(0.92) contrast(1.05);
 }
 
 /* ===========================
-   CTA STRIP
+   2. FOUNDER SECTION
    =========================== */
-.about-page__cta {
+.ap-founder {
+  padding: 100px 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ap-founder__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.ap-founder__eyebrow {
+  align-self: flex-start;
+}
+
+.ap-founder__card {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 48px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.ap-founder__card:hover {
+  border-color: rgba(0, 196, 212, 0.3);
+}
+
+.ap-founder__avatar {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 196, 212, 0.2), rgba(0, 196, 212, 0.05));
+  border: 2px solid rgba(0, 196, 212, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-founder__initials {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent-teal);
+  letter-spacing: -0.02em;
+}
+
+.ap-founder__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.ap-founder__name {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.ap-founder__role {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-teal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ap-founder__quote {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  font-style: italic;
+  border-left: 2px solid var(--accent-teal);
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.ap-founder__socials {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ap-founder__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.ap-founder__social-link:hover {
+  color: var(--accent-teal);
+  border-color: var(--accent-teal);
+}
+
+/* ===========================
+   3. LIFE AT CURIOUS APES
+   =========================== */
+.ap-life {
+  position: relative;
+  padding: 100px 0;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.ap-life__orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: 50%;
+  right: -150px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 196, 212, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(100px);
+}
+
+.ap-life__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.ap-life__eyebrow {
+  align-self: flex-start;
+}
+
+.ap-life__title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.5vw, 72px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.ap-life__title--grad {
+  background: var(--accent-gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ap-life__sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  max-width: 580px;
+  margin-top: -32px;
+}
+
+.ap-life__pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.ap-life__pillar {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.ap-life__pillar:hover {
+  border-color: rgba(0, 196, 212, 0.3);
+  transform: translateY(-4px);
+}
+
+.ap-life__pillar-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(0, 196, 212, 0.1);
+  color: var(--accent-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-life__pillar-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.ap-life__pillar-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* ===========================
+   4. CONTACT CTA STRIP
+   =========================== */
+.ap-cta {
   position: relative;
   padding: 120px 0;
   background: var(--bg-secondary);
@@ -82,7 +346,7 @@
   border-top: 1px solid var(--border-color);
 }
 
-.about-page__cta-orb {
+.ap-cta__orb {
   position: absolute;
   width: 700px;
   height: 700px;
@@ -90,12 +354,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,196,212,0.07) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(0, 196, 212, 0.07) 0%, transparent 65%);
   pointer-events: none;
   filter: blur(60px);
 }
 
-.about-page__cta-inner {
+.ap-cta__inner {
   position: relative;
   z-index: 2;
   display: flex;
@@ -103,11 +367,11 @@
   align-items: center;
 }
 
-.about-page__cta-eyebrow {
+.ap-cta__eyebrow {
   margin-bottom: 24px;
 }
 
-.about-page__cta-heading {
+.ap-cta__heading {
   font-family: var(--font-display);
   font-size: clamp(36px, 4.8vw, 72px);
   font-weight: 800;
@@ -117,23 +381,23 @@
   margin-bottom: 24px;
 }
 
-.about-page__cta-heading--grad {
+.ap-cta__heading--grad {
   background: var(--accent-gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.about-page__cta-sub {
+.ap-cta__sub {
   font-family: var(--font-body);
   font-size: 17px;
   line-height: 1.75;
   color: var(--text-secondary);
-  max-width: 520px;
+  max-width: 480px;
   margin-bottom: 48px;
 }
 
-.about-page__cta-actions {
+.ap-cta__actions {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,13 +405,16 @@
   flex-wrap: wrap;
 }
 
-.about-page__cta-btn {
+.ap-cta__btn {
   font-size: 14px;
   padding: 16px 40px;
   border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.about-page__cta-btn--outline {
+.ap-cta__btn--outline {
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
@@ -160,27 +427,77 @@
   letter-spacing: 0.02em;
 }
 
-.about-page__cta-btn--outline:hover {
-  border-color: var(--accent-sand);
-  color: var(--accent-sand);
+.ap-cta__btn--outline:hover {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
 }
 
 /* ===========================
    RESPONSIVE
    =========================== */
+@media (max-width: 1024px) {
+  .ap-life__pillars {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ap-about__top {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+
+  .ap-founder__card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 36px 28px;
+    gap: 28px;
+  }
+
+  .ap-founder__quote {
+    border-left: none;
+    border-top: 2px solid var(--accent-teal);
+    padding-left: 0;
+    padding-top: 16px;
+  }
+
+  .ap-founder__socials {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
-  .about-page__hero {
+  .ap-about {
     padding: calc(var(--nav-height) + 64px) 0 72px;
   }
-  .about-page__cta {
+
+
+
+  .ap-founder {
+    padding: 72px 0;
+  }
+
+  .ap-life {
+    padding: 72px 0;
+  }
+
+  .ap-life__pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-cta {
     padding: 80px 0;
   }
-  .about-page__cta-actions {
+
+  .ap-cta__actions {
     flex-direction: column;
     width: 100%;
   }
-  .about-page__cta-btn,
-  .about-page__cta-btn--outline {
+
+  .ap-cta__btn,
+  .ap-cta__btn--outline {
     width: 100%;
     text-align: center;
     justify-content: center;
