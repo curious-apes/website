@@ -207,8 +207,8 @@ export default function Contact() {
 
                 <div className="contact__field">
                   <label className="contact__label">Website URL</label>
-                  <input type="url" name="website" className="contact__input"
-                    placeholder="https://yourbrand.com" value={formData.website}
+                  <input type="text" name="website" className="contact__input"
+                    placeholder="yourbrand.com" value={formData.website}
                     onChange={handleChange} />
                 </div>
 

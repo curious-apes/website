@@ -116,9 +116,9 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
               <div className="popup-form__field">
                 <label className="popup-form__label">Website URL</label>
                 <input
-                  type="url" name="website"
+                  type="text" name="website"
                   className="popup-form__input"
-                  placeholder="https://yourbrand.com"
+                  placeholder="yourbrand.com"
                   value={formData.website}
                   onChange={handleChange}
                 />
