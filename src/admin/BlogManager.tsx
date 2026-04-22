@@ -151,6 +151,17 @@ function charColor(len: number, min: number, max: number): string {
   return '#34d399'
 }
 
+// ─── Field wrapper (module-scoped so it stays mounted across renders) ────────
+function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
+  return (
+    <div className="blg-field">
+      <label className="blg-field__label">{label}</label>
+      {children}
+      {hint && <span className="blg-field__hint">{hint}</span>}
+    </div>
+  )
+}
+
 // ─── Blog list row ────────────────────────────────────────────────────────────
 function BlogRow({ post, onEdit, onDelete, onToggleStatus }: {
   post: BlogPost
@@ -282,14 +293,6 @@ function BlogEditor({ post, onSave, onCancel }: {
     setSaving(false)
     onSave()
   }
-
-  const Field = ({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) => (
-    <div className="blg-field">
-      <label className="blg-field__label">{label}</label>
-      {children}
-      {hint && <span className="blg-field__hint">{hint}</span>}
-    </div>
-  )
 
   return (
     <div className="blg-editor-overlay">
