@@ -1,8 +1,94 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   getBlogs, saveBlog, updateBlog, deleteBlog, slugify,
   type BlogPost, type BlogStatus,
 } from '../lib/blogs'
+import { renderMarkdown } from '../lib/markdown'
+
+// ─── Markdown toolbar actions ─────────────────────────────────────────────────
+type ToolbarAction =
+  | { kind: 'wrap'; before: string; after: string; placeholder: string }
+  | { kind: 'linePrefix'; prefix: string }
+  | { kind: 'insertBlock'; template: string; selectStart: number; selectEnd: number }
+
+function applyAction(
+  el: HTMLTextAreaElement,
+  action: ToolbarAction,
+  setValue: (next: string) => void
+) {
+  const { selectionStart: s, selectionEnd: e, value } = el
+
+  if (action.kind === 'wrap') {
+    const selected = value.slice(s, e) || action.placeholder
+    const next = value.slice(0, s) + action.before + selected + action.after + value.slice(e)
+    setValue(next)
+    requestAnimationFrame(() => {
+      el.focus()
+      const cs = s + action.before.length
+      const ce = cs + selected.length
+      el.setSelectionRange(cs, ce)
+    })
+    return
+  }
+
+  if (action.kind === 'linePrefix') {
+    const lineStart = value.lastIndexOf('\n', s - 1) + 1
+    const lineEnd = value.indexOf('\n', e)
+    const end = lineEnd === -1 ? value.length : lineEnd
+    const block = value.slice(lineStart, end)
+    const prefixed = block
+      .split('\n')
+      .map(ln => (ln.startsWith(action.prefix) ? ln : action.prefix + ln))
+      .join('\n')
+    const next = value.slice(0, lineStart) + prefixed + value.slice(end)
+    setValue(next)
+    requestAnimationFrame(() => {
+      el.focus()
+      const newEnd = lineStart + prefixed.length
+      el.setSelectionRange(newEnd, newEnd)
+    })
+    return
+  }
+
+  if (action.kind === 'insertBlock') {
+    const needsNewlineBefore = s > 0 && value[s - 1] !== '\n'
+    const prefix = needsNewlineBefore ? '\n' : ''
+    const block = prefix + action.template
+    const next = value.slice(0, s) + block + value.slice(e)
+    setValue(next)
+    requestAnimationFrame(() => {
+      el.focus()
+      const cs = s + prefix.length + action.selectStart
+      const ce = s + prefix.length + action.selectEnd
+      el.setSelectionRange(cs, ce)
+    })
+  }
+}
+
+type ToolbarButton = {
+  label: string
+  title: string
+  action: ToolbarAction
+}
+
+const TOOLBAR_BUTTONS: Array<ToolbarButton | 'divider'> = [
+  { label: 'H1', title: 'Heading 1',    action: { kind: 'linePrefix', prefix: '# ' } },
+  { label: 'H2', title: 'Heading 2',    action: { kind: 'linePrefix', prefix: '## ' } },
+  { label: 'H3', title: 'Heading 3',    action: { kind: 'linePrefix', prefix: '### ' } },
+  'divider',
+  { label: 'B',  title: 'Bold (Ctrl+B)',   action: { kind: 'wrap', before: '**', after: '**', placeholder: 'bold text' } },
+  { label: 'I',  title: 'Italic (Ctrl+I)', action: { kind: 'wrap', before: '*',  after: '*',  placeholder: 'italic text' } },
+  { label: '<>', title: 'Inline code',     action: { kind: 'wrap', before: '`',  after: '`',  placeholder: 'code' } },
+  'divider',
+  { label: '• List',  title: 'Bullet list',   action: { kind: 'linePrefix', prefix: '- ' } },
+  { label: '1. List', title: 'Numbered list', action: { kind: 'linePrefix', prefix: '1. ' } },
+  { label: '" Quote', title: 'Blockquote',    action: { kind: 'linePrefix', prefix: '> ' } },
+  'divider',
+  { label: 'Link',  title: 'Link',       action: { kind: 'wrap', before: '[', after: '](https://)', placeholder: 'link text' } },
+  { label: 'Image', title: 'Image',      action: { kind: 'insertBlock', template: '![alt text](https://)\n', selectStart: 2, selectEnd: 10 } },
+  { label: '—',     title: 'Horizontal rule', action: { kind: 'insertBlock', template: '\n---\n\n', selectStart: 5, selectEnd: 5 } },
+  { label: '{ }',   title: 'Code block', action: { kind: 'insertBlock', template: '```\ncode\n```\n', selectStart: 4, selectEnd: 8 } },
+]
 
 // ─── Tag options ──────────────────────────────────────────────────────────────
 const TAG_OPTIONS = [
@@ -139,9 +225,31 @@ function BlogEditor({ post, onSave, onCancel }: {
     } : emptyForm()
   )
   const [activeTab, setActiveTab] = useState<'content' | 'seo'>('content')
+  const [contentMode, setContentMode] = useState<'write' | 'preview'>('write')
   const [slugManual, setSlugManual] = useState(!!post)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const contentRef = useRef<HTMLTextAreaElement>(null)
+
+  const runAction = (action: ToolbarAction) => {
+    if (!contentRef.current) return
+    applyAction(contentRef.current, action, (next) => set('content', next))
+  }
+
+  const onContentKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!(e.ctrlKey || e.metaKey)) return
+    const k = e.key.toLowerCase()
+    if (k === 'b') {
+      e.preventDefault()
+      runAction({ kind: 'wrap', before: '**', after: '**', placeholder: 'bold text' })
+    } else if (k === 'i') {
+      e.preventDefault()
+      runAction({ kind: 'wrap', before: '*', after: '*', placeholder: 'italic text' })
+    } else if (k === 'k') {
+      e.preventDefault()
+      runAction({ kind: 'wrap', before: '[', after: '](https://)', placeholder: 'link text' })
+    }
+  }
 
   const set = (key: keyof typeof form, val: unknown) =>
     setForm(f => ({ ...f, [key]: val }))
@@ -292,15 +400,72 @@ function BlogEditor({ post, onSave, onCancel }: {
                 />
               </Field>
 
-              <Field label="Full Article Content">
-                <textarea
-                  className="blg-input blg-textarea blg-textarea--tall"
-                  rows={14}
-                  value={form.content}
-                  onChange={e => set('content', e.target.value)}
-                  placeholder="Write your article here (markdown supported)…"
-                />
-              </Field>
+              <div className="blg-field">
+                <div className="blg-content-head">
+                  <label className="blg-field__label">Full Article Content</label>
+                  <div className="blg-content-tabs" role="tablist">
+                    <button
+                      type="button"
+                      className={`blg-content-tab ${contentMode === 'write' ? 'is-active' : ''}`}
+                      onClick={() => setContentMode('write')}
+                    >
+                      Write
+                    </button>
+                    <button
+                      type="button"
+                      className={`blg-content-tab ${contentMode === 'preview' ? 'is-active' : ''}`}
+                      onClick={() => setContentMode('preview')}
+                    >
+                      Preview
+                    </button>
+                  </div>
+                </div>
+
+                {contentMode === 'write' ? (
+                  <div className="blg-md-wrap">
+                    <div className="blg-md-toolbar">
+                      {TOOLBAR_BUTTONS.map((btn, idx) =>
+                        btn === 'divider' ? (
+                          <span key={`div-${idx}`} className="blg-md-toolbar__divider" aria-hidden="true" />
+                        ) : (
+                          <button
+                            key={btn.title}
+                            type="button"
+                            className="blg-md-btn"
+                            title={btn.title}
+                            aria-label={btn.title}
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => runAction(btn.action)}
+                            data-label={btn.label}
+                          >
+                            {btn.label}
+                          </button>
+                        )
+                      )}
+                    </div>
+                    <textarea
+                      ref={contentRef}
+                      className="blg-input blg-textarea blg-textarea--tall blg-md-textarea"
+                      rows={14}
+                      value={form.content}
+                      onChange={e => set('content', e.target.value)}
+                      onKeyDown={onContentKeyDown}
+                      placeholder="Write your article here. Use the toolbar above, or type markdown directly (e.g. **bold**, [link](url), - list)."
+                      spellCheck
+                    />
+                  </div>
+                ) : (
+                  <div className="blg-md-preview bpp__article">
+                    {form.content.trim()
+                      ? renderMarkdown(form.content)
+                      : <p className="blg-md-preview__empty">Nothing to preview yet — write something in the editor.</p>
+                    }
+                  </div>
+                )}
+                <span className="blg-field__hint">
+                  Shortcuts: <strong>Ctrl+B</strong> bold, <strong>Ctrl+I</strong> italic, <strong>Ctrl+K</strong> link
+                </span>
+              </div>
 
               <div className="blg-two-col">
                 <Field label="Publish Date">

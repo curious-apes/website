@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { getBlogBySlug, type BlogPost } from '../lib/blogs'
+import { renderMarkdown } from '../lib/markdown'
 import PopupForm from './PopupForm'
 import ScrollToTop from './ScrollToTop'
 import './BlogPostPage.css'
@@ -28,63 +29,6 @@ const tagText: Record<string, string> = {
   'Brand Identity':    '#f472b6',
   'Analytics':         '#818cf8',
   'Email & SMS':       '#fbbf24',
-}
-
-function renderContent(content: string) {
-  if (!content.trim()) return null
-
-  const lines = content.split('\n')
-  const elements: React.ReactNode[] = []
-  let i = 0
-
-  while (i < lines.length) {
-    const line = lines[i]
-
-    if (line.startsWith('# ')) {
-      elements.push(<h1 key={i} className="bpp__h1">{line.slice(2)}</h1>)
-    } else if (line.startsWith('## ')) {
-      elements.push(<h2 key={i} className="bpp__h2">{line.slice(3)}</h2>)
-    } else if (line.startsWith('### ')) {
-      elements.push(<h3 key={i} className="bpp__h3">{line.slice(4)}</h3>)
-    } else if (line.startsWith('- ') || line.startsWith('* ')) {
-      const items: string[] = []
-      while (i < lines.length && (lines[i].startsWith('- ') || lines[i].startsWith('* '))) {
-        items.push(lines[i].slice(2))
-        i++
-      }
-      elements.push(
-        <ul key={`ul-${i}`} className="bpp__ul">
-          {items.map((item, j) => <li key={j}>{item}</li>)}
-        </ul>
-      )
-      continue
-    } else if (/^\d+\. /.test(line)) {
-      const items: string[] = []
-      while (i < lines.length && /^\d+\. /.test(lines[i])) {
-        items.push(lines[i].replace(/^\d+\. /, ''))
-        i++
-      }
-      elements.push(
-        <ol key={`ol-${i}`} className="bpp__ol">
-          {items.map((item, j) => <li key={j}>{item}</li>)}
-        </ol>
-      )
-      continue
-    } else if (line.startsWith('> ')) {
-      elements.push(<blockquote key={i} className="bpp__blockquote">{line.slice(2)}</blockquote>)
-    } else if (line.trim() === '') {
-      // skip blank lines
-    } else {
-      const html = line
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/`(.+?)`/g, '<code class="bpp__inline-code">$1</code>')
-      elements.push(<p key={i} className="bpp__p" dangerouslySetInnerHTML={{ __html: html }} />)
-    }
-    i++
-  }
-
-  return elements
 }
 
 export default function BlogPostPage() {
@@ -220,7 +164,7 @@ export default function BlogPostPage() {
           <div className="container bpp__body-inner">
             {hasContent ? (
               <article className="bpp__article">
-                {renderContent(post.content)}
+                {renderMarkdown(post.content)}
               </article>
             ) : (
               <div className="bpp__coming-soon">
