@@ -60,14 +60,27 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
-    saveEnquiry({ ...formData, source: 'popup' })
-    setSubmitted(true)
-    gsap.fromTo('.popup-form__success',
-      { y: 20, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' }
-    )
+    if (submitting) return
+    setSubmitting(true)
+    setSubmitError('')
+    try {
+      await saveEnquiry({ ...formData, source: 'popup' })
+      setSubmitted(true)
+      gsap.fromTo('.popup-form__success',
+        { y: 20, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' }
+      )
+    } catch (err) {
+      console.error('Failed to submit enquiry:', err)
+      setSubmitError('Something went wrong. Please try again or WhatsApp us directly.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -135,13 +148,16 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary popup-form__submit">
-                Send Message
+              <button type="submit" className="btn btn-primary popup-form__submit" disabled={submitting}>
+                {submitting ? 'Sending…' : 'Send Message'}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
-              <p className="popup-form__note">No spam. We respond within 24 hours.</p>
+              {submitError
+                ? <p className="popup-form__note" style={{ color: '#f87171' }}>{submitError}</p>
+                : <p className="popup-form__note">No spam. We respond within 24 hours.</p>
+              }
             </form>
           </>
         ) : (

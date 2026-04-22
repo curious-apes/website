@@ -101,15 +101,14 @@ export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([])
 
   useEffect(() => {
-    const load = () => setPosts(getPublishedBlogs())
-    load()
-    // Re-fetch when admin changes data — same tab (custom event) or cross-tab (native storage event)
-    window.addEventListener('ca_blogs_updated', load)
-    window.addEventListener('storage', load)
-    return () => {
-      window.removeEventListener('ca_blogs_updated', load)
-      window.removeEventListener('storage', load)
-    }
+    let active = true
+    getPublishedBlogs()
+      .then(p => { if (active) setPosts(p) })
+      .catch(err => {
+        console.error('Failed to load blog posts:', err)
+        if (active) setPosts([])
+      })
+    return () => { active = false }
   }, [])
 
   useEffect(() => {

@@ -1,27 +1,29 @@
 import { useState } from 'react'
+import { supabase } from '../lib/supabase'
 import './Admin.css'
 
-const ADMIN_USER = 'admin'
-const ADMIN_PASS = 'curiousapes2024'
-
 export default function AdminLogin({ onLogin }: { onLogin: () => void }) {
-  const [user, setUser] = useState('')
+  const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => {
-      if (user === ADMIN_USER && pass === ADMIN_PASS) {
-        sessionStorage.setItem('ca_admin', '1')
-        onLogin()
-      } else {
-        setError('Invalid credentials')
-        setLoading(false)
-      }
-    }, 600)
+    setError('')
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password: pass,
+    })
+    setLoading(false)
+    if (signInError) {
+      setError(signInError.message === 'Invalid login credentials'
+        ? 'Invalid email or password'
+        : signInError.message)
+      return
+    }
+    onLogin()
   }
 
   return (
@@ -31,15 +33,15 @@ export default function AdminLogin({ onLogin }: { onLogin: () => void }) {
           <img src="/src/assets/original_logo.webp" alt="Curious Apes" />
         </div>
         <h1 className="admin-login__title">Admin Portal</h1>
-        <p className="admin-login__sub">Sign in to manage enquiries</p>
+        <p className="admin-login__sub">Sign in to manage the site</p>
 
         <form className="admin-login__form" onSubmit={handleSubmit}>
           <div className="admin-field">
-            <label>Username</label>
+            <label>Email</label>
             <input
-              type="text" autoComplete="username" required
-              value={user} onChange={e => { setUser(e.target.value); setError('') }}
-              placeholder="admin"
+              type="email" autoComplete="email" required
+              value={email} onChange={e => { setEmail(e.target.value); setError('') }}
+              placeholder="you@curiousapes.in"
             />
           </div>
           <div className="admin-field">

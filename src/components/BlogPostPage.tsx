@@ -40,19 +40,25 @@ export default function BlogPostPage() {
   const openPopup  = useCallback(() => setPopupOpen(true),  [])
   const closePopup = useCallback(() => setPopupOpen(false), [])
 
-  // ── Live-wired to admin: re-read from localStorage on any blog update ──────
-  const [post, setPost] = useState<BlogPost | undefined>(
-    () => slug ? getBlogBySlug(slug) : undefined
-  )
+  const [post, setPost] = useState<BlogPost | undefined>(undefined)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const refresh = () => setPost(slug ? getBlogBySlug(slug) : undefined)
-    window.addEventListener('ca_blogs_updated', refresh)  // same-tab admin changes
-    window.addEventListener('storage', refresh)            // cross-tab changes
-    return () => {
-      window.removeEventListener('ca_blogs_updated', refresh)
-      window.removeEventListener('storage', refresh)
+    let active = true
+    setLoading(true)
+    if (!slug) {
+      setPost(undefined)
+      setLoading(false)
+      return
     }
+    getBlogBySlug(slug)
+      .then(p => { if (active) setPost(p) })
+      .catch(err => {
+        console.error('Failed to load blog post:', err)
+        if (active) setPost(undefined)
+      })
+      .finally(() => { if (active) setLoading(false) })
+    return () => { active = false }
   }, [slug])
 
   // ── Scroll to top on slug change ──────────────────────────────────────────
@@ -86,6 +92,17 @@ export default function BlogPostPage() {
       )
     }
   }, [post])
+
+  // ── Loading state ─────────────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <div className="bpp-not-found">
+        <div className="container">
+          <p className="bpp-not-found__sub">Loading…</p>
+        </div>
+      </div>
+    )
+  }
 
   // ── 404 state ─────────────────────────────────────────────────────────────
   if (!post || post.status !== 'published') {

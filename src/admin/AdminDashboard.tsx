@@ -46,17 +46,27 @@ function EnquiryDrawer({ enquiry, onClose, onUpdate }: {
 }) {
   const [status, setStatus] = useState<EnquiryStatus>(enquiry.status)
 
-  const handleStatus = (s: EnquiryStatus) => {
+  const handleStatus = async (s: EnquiryStatus) => {
     setStatus(s)
-    updateEnquiryStatus(enquiry.id, s)
-    onUpdate()
+    try {
+      await updateEnquiryStatus(enquiry.id, s)
+      onUpdate()
+    } catch (err) {
+      console.error('Failed to update enquiry status:', err)
+      alert('Failed to update status. Please try again.')
+      setStatus(enquiry.status)
+    }
   }
 
-  const handleDelete = () => {
-    if (confirm('Delete this enquiry?')) {
-      deleteEnquiry(enquiry.id)
+  const handleDelete = async () => {
+    if (!confirm('Delete this enquiry?')) return
+    try {
+      await deleteEnquiry(enquiry.id)
       onUpdate()
       onClose()
+    } catch (err) {
+      console.error('Failed to delete enquiry:', err)
+      alert('Failed to delete enquiry. Please try again.')
     }
   }
 
@@ -190,8 +200,18 @@ export default function AdminDashboard({
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Enquiry | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const refresh = useCallback(() => setEnquiries(getEnquiries()), [])
+  const refresh = useCallback(async () => {
+    try {
+      setEnquiries(await getEnquiries())
+    } catch (err) {
+      console.error('Failed to load enquiries:', err)
+      setEnquiries([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
   useEffect(() => { refresh() }, [refresh])
 
   const filtered = enquiries.filter(e => {
@@ -235,7 +255,9 @@ export default function AdminDashboard({
       </div>
 
       <div className="adm-table-wrap">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="adm-empty"><p>Loading enquiries…</p></div>
+        ) : filtered.length === 0 ? (
           <div className="adm-empty">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5"/>
@@ -303,9 +325,10 @@ export default function AdminDashboard({
         <EnquiryDrawer
           enquiry={selected}
           onClose={() => setSelected(null)}
-          onUpdate={() => {
-            refresh()
-            setSelected(s => s ? { ...s, status: getEnquiries().find(e => e.id === s.id)?.status ?? s.status } : null)
+          onUpdate={async () => {
+            const fresh = await getEnquiries()
+            setEnquiries(fresh)
+            setSelected(s => s ? (fresh.find(e => e.id === s.id) ?? null) : null)
           }}
         />
       )}

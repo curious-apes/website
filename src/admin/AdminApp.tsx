@@ -3,28 +3,64 @@ import AdminLogin from './AdminLogin'
 import AdminDashboard, { EnquiryFilters } from './AdminDashboard'
 import BlogManager from './BlogManager'
 import { getEnquiries, type Enquiry, type EnquiryStatus } from '../lib/enquiries'
+import { supabase } from '../lib/supabase'
 import './Admin.css'
 
 type AdminView = 'enquiries' | 'blog'
+type AuthState = 'loading' | 'signed-out' | 'signed-in'
 
 export default function AdminApp() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('ca_admin') === '1')
+  const [authState, setAuthState] = useState<AuthState>('loading')
   const [view, setView] = useState<AdminView>('enquiries')
   const [filter, setFilter] = useState<EnquiryStatus | 'all'>('all')
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
 
-  const refreshEnquiries = useCallback(() => setEnquiries(getEnquiries()), [])
+  const refreshEnquiries = useCallback(async () => {
+    try {
+      setEnquiries(await getEnquiries())
+    } catch (err) {
+      console.error('Failed to load enquiries:', err)
+      setEnquiries([])
+    }
+  }, [])
+
+  // Watch Supabase session
+  useEffect(() => {
+    let active = true
+    supabase.auth.getSession().then(({ data }) => {
+      if (!active) return
+      setAuthState(data.session ? 'signed-in' : 'signed-out')
+    })
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthState(session ? 'signed-in' : 'signed-out')
+    })
+    return () => {
+      active = false
+      sub.subscription.unsubscribe()
+    }
+  }, [])
 
   useEffect(() => {
-    if (authed) refreshEnquiries()
-  }, [authed, refreshEnquiries])
+    if (authState === 'signed-in') refreshEnquiries()
+  }, [authState, refreshEnquiries])
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('ca_admin')
-    setAuthed(false)
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
   }
 
-  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} />
+  if (authState === 'loading') {
+    return (
+      <div className="admin-login">
+        <div className="admin-login__card" style={{ alignItems: 'center' }}>
+          <p className="admin-login__sub">Loading…</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (authState === 'signed-out') {
+    return <AdminLogin onLogin={() => { /* onAuthStateChange will flip to signed-in */ }} />
+  }
 
   return (
     <div className="adm-layout">
@@ -35,7 +71,6 @@ export default function AdminApp() {
         </div>
 
         <nav className="adm-sidebar__nav">
-          {/* Top-level navigation */}
           <span className="adm-sidebar__nav-label">Navigation</span>
           <button
             className={`adm-sidebar__nav-item ${view === 'enquiries' ? 'is-active' : ''}`}
@@ -57,7 +92,6 @@ export default function AdminApp() {
             Blog Posts
           </button>
 
-          {/* Enquiry status filters — only shown on enquiries view */}
           {view === 'enquiries' && (
             <div style={{ marginTop: 16 }}>
               <EnquiryFilters

@@ -3,6 +3,7 @@ import {
   getBlogs, saveBlog, updateBlog, deleteBlog, slugify,
   type BlogPost, type BlogStatus,
 } from '../lib/blogs'
+import { uploadBlogImage } from '../lib/storage'
 import { renderMarkdown } from '../lib/markdown'
 
 // ─── Markdown toolbar actions ─────────────────────────────────────────────────
@@ -280,18 +281,70 @@ function BlogEditor({ post, onSave, onCancel }: {
   const scoreColor = score >= 80 ? '#34d399' : score >= 50 ? '#f59e0b' : '#f87171'
   const scoreLabel = score >= 80 ? 'Good' : score >= 50 ? 'Needs work' : 'Poor'
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!form.title.trim()) { setError('Title is required'); return }
     if (!form.slug.trim())  { setError('Slug is required'); return }
+    if (saving) return
     setSaving(true)
-    if (post) {
-      updateBlog(post.id, form)
-    } else {
-      saveBlog(form)
+    setError('')
+    try {
+      if (post) {
+        await updateBlog(post.id, form)
+      } else {
+        await saveBlog(form)
+      }
+      onSave()
+    } catch (err) {
+      console.error('Failed to save blog post:', err)
+      const msg = err instanceof Error ? err.message : 'Unknown error'
+      setError(`Could not save: ${msg}`)
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
-    onSave()
+  }
+
+  // ── Image upload — OG image field ──────────────────────────────────────────
+  const ogFileRef = useRef<HTMLInputElement>(null)
+  const [ogUploading, setOgUploading] = useState(false)
+  const [ogUploadError, setOgUploadError] = useState('')
+
+  const handleOgUpload = async (file: File) => {
+    setOgUploading(true)
+    setOgUploadError('')
+    try {
+      const url = await uploadBlogImage(file)
+      set('ogImage', url)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Upload failed'
+      setOgUploadError(msg)
+    } finally {
+      setOgUploading(false)
+    }
+  }
+
+  // ── Image upload — inline (from toolbar) ───────────────────────────────────
+  const inlineFileRef = useRef<HTMLInputElement>(null)
+  const [inlineUploading, setInlineUploading] = useState(false)
+
+  const handleInlineUpload = async (file: File) => {
+    if (!contentRef.current) return
+    setInlineUploading(true)
+    try {
+      const url = await uploadBlogImage(file)
+      const alt = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ')
+      const template = `![${alt}](${url})\n`
+      applyAction(
+        contentRef.current,
+        { kind: 'insertBlock', template, selectStart: template.length, selectEnd: template.length },
+        (next) => set('content', next)
+      )
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Upload failed'
+      alert(`Image upload failed: ${msg}`)
+    } finally {
+      setInlineUploading(false)
+    }
   }
 
   return (
@@ -445,6 +498,29 @@ function BlogEditor({ post, onSave, onCancel }: {
                           </button>
                         )
                       )}
+                      <span className="blg-md-toolbar__divider" aria-hidden="true" />
+                      <input
+                        ref={inlineFileRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+                        style={{ display: 'none' }}
+                        onChange={e => {
+                          const f = e.target.files?.[0]
+                          if (f) handleInlineUpload(f)
+                          e.target.value = ''
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="blg-md-btn"
+                        title="Upload an image into the post"
+                        aria-label="Upload image"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => inlineFileRef.current?.click()}
+                        disabled={inlineUploading}
+                      >
+                        {inlineUploading ? 'Uploading…' : '📤 Upload'}
+                      </button>
                     </div>
                     <textarea
                       ref={contentRef}
@@ -586,13 +662,40 @@ function BlogEditor({ post, onSave, onCancel }: {
                 />
               </Field>
 
-              <Field label="OG Image URL" hint="Recommended: 1200×630px. Used in social media link previews.">
-                <input
-                  className="blg-input"
-                  value={form.ogImage}
-                  onChange={e => set('ogImage', e.target.value)}
-                  placeholder="https://curiousapes.in/og/post-name.jpg"
-                />
+              <Field label="OG / Cover Image" hint="Recommended: 1200×630px. Used as cover and in social link previews. Upload or paste a URL.">
+                <div className="blg-image-row">
+                  <input
+                    className="blg-input"
+                    value={form.ogImage}
+                    onChange={e => set('ogImage', e.target.value)}
+                    placeholder="https://… or click Upload"
+                  />
+                  <input
+                    ref={ogFileRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      const f = e.target.files?.[0]
+                      if (f) handleOgUpload(f)
+                      e.target.value = ''
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="adm-btn adm-btn--outline blg-image-upload-btn"
+                    onClick={() => ogFileRef.current?.click()}
+                    disabled={ogUploading}
+                  >
+                    {ogUploading ? 'Uploading…' : 'Upload'}
+                  </button>
+                </div>
+                {ogUploadError && <span className="blg-image-error">{ogUploadError}</span>}
+                {form.ogImage && !ogUploading && (
+                  <div className="blg-image-preview">
+                    <img src={form.ogImage} alt="" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  </div>
+                )}
               </Field>
 
               <Field label="Canonical URL" hint="Leave blank to use default page URL. Set only if this content exists elsewhere.">
@@ -661,7 +764,18 @@ export default function BlogManager() {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState<BlogStatus | 'all'>('all')
 
-  const refresh = useCallback(() => setPosts(getBlogs()), [])
+  const [loading, setLoading] = useState(true)
+
+  const refresh = useCallback(async () => {
+    try {
+      setPosts(await getBlogs())
+    } catch (err) {
+      console.error('Failed to load blog posts:', err)
+      setPosts([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
   useEffect(() => { refresh() }, [refresh])
 
   const filtered = posts.filter(p => {
@@ -678,16 +792,25 @@ export default function BlogManager() {
     featured: posts.filter(p => p.featured).length,
   }
 
-  const handleDelete = (id: string) => {
-    if (confirm('Delete this blog post? This cannot be undone.')) {
-      deleteBlog(id)
-      refresh()
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this blog post? This cannot be undone.')) return
+    try {
+      await deleteBlog(id)
+      await refresh()
+    } catch (err) {
+      console.error('Failed to delete blog post:', err)
+      alert('Could not delete post. Please try again.')
     }
   }
 
-  const handleToggleStatus = (post: BlogPost) => {
-    updateBlog(post.id, { status: post.status === 'published' ? 'draft' : 'published' })
-    refresh()
+  const handleToggleStatus = async (post: BlogPost) => {
+    try {
+      await updateBlog(post.id, { status: post.status === 'published' ? 'draft' : 'published' })
+      await refresh()
+    } catch (err) {
+      console.error('Failed to toggle status:', err)
+      alert('Could not update status. Please try again.')
+    }
   }
 
   return (
@@ -750,7 +873,9 @@ export default function BlogManager() {
 
       {/* Table */}
       <div className="adm-table-wrap">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="adm-empty"><p>Loading blog posts…</p></div>
+        ) : filtered.length === 0 ? (
           <div className="adm-empty">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5"/>
