@@ -5,6 +5,7 @@ import {
 } from '../lib/blogs'
 import { uploadBlogImage } from '../lib/storage'
 import { renderMarkdown } from '../lib/markdown'
+import { convertHtmlToMarkdown } from '../lib/htmlToMarkdown'
 
 // ─── Markdown toolbar actions ─────────────────────────────────────────────────
 type ToolbarAction =
@@ -260,6 +261,54 @@ function BlogEditor({ post, onSave, onCancel }: {
     } else if (k === 'k') {
       e.preventDefault()
       runAction({ kind: 'wrap', before: '[', after: '](https://)', placeholder: 'link text' })
+    }
+  }
+
+  // ── Paste handler: convert Google Docs / rich HTML to markdown ──────────────
+  const [pasteStatus, setPasteStatus] = useState<string>('')
+
+  const onContentPaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const html = e.clipboardData.getData('text/html')
+    if (!html || !html.trim()) return // plain-text paste — let textarea handle it
+
+    e.preventDefault()
+    const el = e.currentTarget
+    const start = el.selectionStart
+    const end = el.selectionEnd
+    const beforeValue = el.value
+
+    setPasteStatus('Converting pasted content…')
+    try {
+      const result = await convertHtmlToMarkdown(html)
+
+      const inserted = result.markdown
+      const next = beforeValue.slice(0, start) + inserted + beforeValue.slice(end)
+      set('content', next)
+
+      requestAnimationFrame(() => {
+        if (!contentRef.current) return
+        contentRef.current.focus()
+        const pos = start + inserted.length
+        contentRef.current.setSelectionRange(pos, pos)
+      })
+
+      if (result.imagesFound > 0) {
+        const parts: string[] = []
+        if (result.imagesUploaded > 0) parts.push(`${result.imagesUploaded} image${result.imagesUploaded !== 1 ? 's' : ''} uploaded`)
+        if (result.imagesFailed > 0)   parts.push(`${result.imagesFailed} skipped (not accessible)`)
+        setPasteStatus(`Pasted · ${parts.join(', ')}`)
+      } else {
+        setPasteStatus('Pasted and formatted.')
+      }
+      setTimeout(() => setPasteStatus(''), 4000)
+    } catch (err) {
+      console.error('Paste conversion failed:', err)
+      setPasteStatus('Could not convert pasted content — fell back to plain text.')
+      // Fallback: insert plain text manually
+      const plain = e.clipboardData.getData('text/plain')
+      const next = beforeValue.slice(0, start) + plain + beforeValue.slice(end)
+      set('content', next)
+      setTimeout(() => setPasteStatus(''), 4000)
     }
   }
 
@@ -529,9 +578,13 @@ function BlogEditor({ post, onSave, onCancel }: {
                       value={form.content}
                       onChange={e => set('content', e.target.value)}
                       onKeyDown={onContentKeyDown}
-                      placeholder="Write your article here. Use the toolbar above, or type markdown directly (e.g. **bold**, [link](url), - list)."
+                      onPaste={onContentPaste}
+                      placeholder="Write your article here — or paste from Google Docs and formatting will be preserved."
                       spellCheck
                     />
+                    {pasteStatus && (
+                      <div className="blg-paste-status">{pasteStatus}</div>
+                    )}
                   </div>
                 ) : (
                   <div className="blg-md-preview bpp__article">
