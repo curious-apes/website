@@ -1270,3 +1270,19 @@ select.blg-input option { background: #1a1a1a; color: #f0fafa; }
   background: rgba(0,196,212,0.08);
   border-top: 1px solid rgba(0,196,212,0.15);
 }
+
+.blg-publish-warning {
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fde68a;
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.blg-publish-warning strong {
+  color: #fde68a;
+  font-weight: 700;
+}

@@ -52,6 +52,11 @@ function BlogCard({ post, index }: { post: BlogPost; index: number }) {
 
   return (
     <article ref={cardRef} className={`blog-card ${post.featured ? 'blog-card--featured' : ''}`}>
+      {post.ogImage && (
+        <Link to={`/blog/${post.slug}`} className="blog-card__image-link" aria-label={post.title}>
+          <img className="blog-card__image" src={post.ogImage} alt={post.title} loading="lazy" />
+        </Link>
+      )}
       <div className="blog-card__inner">
         <div className="blog-card__top">
           <span

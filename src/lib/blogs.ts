@@ -67,10 +67,13 @@ export async function getBlogs(): Promise<BlogPost[]> {
 }
 
 export async function getPublishedBlogs(): Promise<BlogPost[]> {
+  // Public listing requires both: status='published' AND a cover image.
+  // A published post without a featured image is treated as not-yet-ready.
   const { data, error } = await supabase
     .from('blogs')
     .select(SELECT_COLS)
     .eq('status', 'published')
+    .neq('og_image', '')
     .order('date', { ascending: false })
   if (error) throw error
   return (data ?? []) as BlogPost[]

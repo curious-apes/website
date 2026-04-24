@@ -163,6 +163,22 @@
   max-width: 760px;
 }
 
+.bpp__cover {
+  margin: -20px 0 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-color);
+}
+
+.bpp__cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: cover;
+}
+
 .bpp__article {
   margin-bottom: 80px;
 }

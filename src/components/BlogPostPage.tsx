@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { getBlogBySlug, type BlogPost } from '../lib/blogs'
 import { renderMarkdown } from '../lib/markdown'
+import { useDocumentHead } from '../lib/useDocumentHead'
 import PopupForm from './PopupForm'
 import ScrollToTop from './ScrollToTop'
 import './BlogPostPage.css'
@@ -93,6 +94,22 @@ export default function BlogPostPage() {
     }
   }, [post])
 
+  // ── SEO meta tags (per-post) ──────────────────────────────────────────────
+  const canonical = post?.canonicalUrl
+    || (post && typeof window !== 'undefined' ? `${window.location.origin}/blog/${post.slug}` : undefined)
+
+  useDocumentHead({
+    title: post ? (post.seoTitle || `${post.title} | Curious Apes`) : undefined,
+    description: post ? (post.seoDescription || post.excerpt) : undefined,
+    keywords: post?.seoKeywords || undefined,
+    canonical,
+    ogTitle: post?.seoTitle || post?.title,
+    ogDescription: post?.seoDescription || post?.excerpt,
+    ogImage: post?.ogImage || undefined,
+    ogUrl: canonical,
+    ogType: 'article',
+  })
+
   // ── Loading state ─────────────────────────────────────────────────────────
   if (loading) {
     return (
@@ -179,6 +196,11 @@ export default function BlogPostPage() {
         {/* Article body */}
         <main className="bpp__body" ref={contentRef}>
           <div className="container bpp__body-inner">
+            {post.ogImage && (
+              <div className="bpp__cover">
+                <img src={post.ogImage} alt={post.title} loading="eager" />
+              </div>
+            )}
             {hasContent ? (
               <article className="bpp__article">
                 {renderMarkdown(post.content)}

@@ -627,6 +627,12 @@ function BlogEditor({ post, onSave, onCancel }: {
                 <span>Feature this post (shown as the wide card at top of Blog section)</span>
               </label>
 
+              {form.status === 'published' && !form.ogImage && (
+                <div className="blg-publish-warning">
+                  ⚠️ This post is set to <strong>Published</strong> but has no cover image. It won't appear on the public blog page until you add one in the <strong>SEO &amp; Meta</strong> tab → <strong>OG / Cover Image</strong>.
+                </div>
+              )}
+
             </div>
           )}
 
