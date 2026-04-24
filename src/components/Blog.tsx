@@ -153,6 +153,7 @@ export default function Blog() {
 
   const featured = posts.find(p => p.featured) ?? posts[0]
   const rest = posts.filter(p => p.id !== featured.id).slice(0, 4)
+  const isSingle = posts.length === 1
 
   return (
     <section id="blog" ref={sectionRef} className="blog">
@@ -169,8 +170,10 @@ export default function Blog() {
           </p>
         </div>
 
-        {/* Featured post — full width */}
-        <BlogCard post={featured} index={0} />
+        {/* Featured post — full width when there's a grid below, capped/centered when alone */}
+        <div className={isSingle ? 'blog__single' : ''}>
+          <BlogCard post={featured} index={0} />
+        </div>
 
         {/* Secondary grid */}
         {rest.length > 0 && (
