@@ -14,7 +14,7 @@
 
 .growth-dash__panel {
   width: 100%;
-  max-width: 460px;
+  max-width: 540px;
   background:
     linear-gradient(135deg, rgba(20,28,36,0.78), rgba(12,18,28,0.88)),
     radial-gradient(circle at 80% 0%, rgba(0,196,212,0.15), transparent 60%);
