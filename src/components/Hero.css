@@ -235,17 +235,6 @@
   height: 540px;
 }
 
-.orbital-canvas {
-  width: clamp(340px, 42vw, 560px);
-  height: clamp(340px, 42vw, 560px);
-  position: relative;
-  z-index: 2;
-  will-change: transform;
-  contain: strict;
-  transform: translateZ(0);
-  filter: drop-shadow(0 0 60px rgba(0,196,212,0.12)) drop-shadow(0 0 120px rgba(200,56,10,0.1));
-}
-
 /* Floating metric cards */
 .hero__metric {
   position: absolute;

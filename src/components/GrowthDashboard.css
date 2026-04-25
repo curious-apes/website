@@ -1,0 +1,263 @@
+/* ───────────────────────────────────────────────────────────
+   GROWTH DASHBOARD — animated SaaS-style hero visual
+─────────────────────────────────────────────────────────── */
+
+.growth-dash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 2;
+}
+
+.growth-dash__panel {
+  width: 100%;
+  max-width: 460px;
+  background:
+    linear-gradient(135deg, rgba(20,28,36,0.78), rgba(12,18,28,0.88)),
+    radial-gradient(circle at 80% 0%, rgba(0,196,212,0.15), transparent 60%);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 22px 22px 18px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(0,196,212,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  animation: dashEnter 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@keyframes dashEnter {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.growth-dash__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.growth-dash__title {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0fafa;
+  letter-spacing: -0.01em;
+}
+
+.growth-dash__sub {
+  display: block;
+  font-size: 11px;
+  color: rgba(220,245,245,0.45);
+  margin-top: 3px;
+  letter-spacing: 0.01em;
+}
+
+.growth-dash__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(16,185,129,0.12);
+  border: 1px solid rgba(16,185,129,0.18);
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.growth-dash__live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px rgba(52,211,153,0.7);
+  animation: livePulse 1.6s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* KPI tiles */
+.growth-dash__kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.growth-dash__kpi {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.growth-dash__kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(220,245,245,0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.growth-dash__kpi-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.growth-dash__kpi-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #00c4d4;
+  letter-spacing: -0.02em;
+}
+
+.growth-dash__kpi-delta {
+  font-size: 11px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+/* Chart */
+.growth-dash__chart {
+  position: relative;
+  height: 130px;
+  margin-bottom: 14px;
+  padding: 4px 2px 0;
+}
+
+/* Subtle horizontal grid lines */
+.growth-dash__grid {
+  position: absolute;
+  inset: 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.growth-dash__grid span {
+  display: block;
+  height: 1px;
+  background: rgba(255,255,255,0.04);
+}
+
+/* Bar chart (DOM-based for smooth scaleY animation) */
+.growth-dash__bars {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4px;
+  height: 100%;
+  padding: 4px 0 0;
+  z-index: 1;
+}
+
+.growth-dash__bar {
+  flex: 1;
+  min-width: 4px;
+  background: linear-gradient(180deg, rgba(0,240,255,0.85), rgba(0,196,212,0.4));
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom;
+  animation: barGrow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  box-shadow: 0 0 8px rgba(0,196,212,0.2);
+}
+
+@keyframes barGrow {
+  from { transform: scaleY(0); opacity: 0.4; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* Trend line overlay (SVG) */
+.growth-dash__line-svg {
+  position: absolute;
+  inset: 4px 0 0;
+  width: 100%;
+  height: calc(100% - 4px);
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.growth-dash__line {
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(0,240,255,0.5));
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  vector-effect: non-scaling-stroke;
+  animation: lineDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards;
+}
+
+@keyframes lineDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Footer */
+.growth-dash__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 12px;
+}
+
+.growth-dash__footer-label {
+  color: rgba(220,245,245,0.45);
+  font-weight: 600;
+}
+
+.growth-dash__footer-value {
+  color: #34d399;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .growth-dash {
+    padding: 10px;
+  }
+  .growth-dash__panel {
+    max-width: 100%;
+    padding: 18px 16px 14px;
+  }
+  .growth-dash__kpi-value {
+    font-size: 19px;
+  }
+  .growth-dash__chart {
+    height: 110px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .growth-dash__panel,
+  .growth-dash__bar,
+  .growth-dash__line,
+  .growth-dash__live-dot {
+    animation: none !important;
+  }
+  .growth-dash__line {
+    stroke-dashoffset: 0;
+  }
+}

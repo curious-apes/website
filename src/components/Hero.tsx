@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Hero.css'
-import OrbitalSphere from './OrbitalSphere'
+import GrowthDashboard from './GrowthDashboard'
 import ndlClient1 from '../assets/number_dont_lie/client-1.png'
 import ndlClient2 from '../assets/number_dont_lie/client-2.png'
 import ndlClient3 from '../assets/number_dont_lie/client-3.png'
@@ -158,7 +158,7 @@ export default function Hero() {
 
         {/* RIGHT — Visual */}
         <div className="hero__visual">
-          <OrbitalSphere />
+          <GrowthDashboard />
 
           <div
             className="hero__metric hero__metric--1"
