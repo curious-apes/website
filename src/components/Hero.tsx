@@ -186,8 +186,8 @@ export default function Hero() {
             data-cursor="hover"
           >
             <span className="hero__metric-arrow">↑</span>
-            <span className="hero__metric-value">120+</span>
-            <span className="hero__metric-label">D2C Brands</span>
+            <span className="hero__metric-value">50+</span>
+            <span className="hero__metric-label">Brands</span>
           </div>
         </div>
       </div>
