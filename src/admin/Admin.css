@@ -1105,6 +1105,7 @@ select.blg-input option { background: #1a1a1a; color: #f0fafa; }
 
 .blg-md-btn[data-label="B"]  { font-weight: 800; }
 .blg-md-btn[data-label="I"]  { font-style: italic; }
+.blg-md-btn[data-label="S"]  { text-decoration: line-through; }
 .blg-md-btn[data-label="<>"] { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; }
 .blg-md-btn[data-label="{ }"]{ font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; }
 

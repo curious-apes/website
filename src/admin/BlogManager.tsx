@@ -80,6 +80,7 @@ const TOOLBAR_BUTTONS: Array<ToolbarButton | 'divider'> = [
   'divider',
   { label: 'B',  title: 'Bold (Ctrl+B)',   action: { kind: 'wrap', before: '**', after: '**', placeholder: 'bold text' } },
   { label: 'I',  title: 'Italic (Ctrl+I)', action: { kind: 'wrap', before: '*',  after: '*',  placeholder: 'italic text' } },
+  { label: 'S',  title: 'Strikethrough',   action: { kind: 'wrap', before: '~~', after: '~~', placeholder: 'strikethrough' } },
   { label: '<>', title: 'Inline code',     action: { kind: 'wrap', before: '`',  after: '`',  placeholder: 'code' } },
   'divider',
   { label: '• List',  title: 'Bullet list',   action: { kind: 'linePrefix', prefix: '- ' } },

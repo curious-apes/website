@@ -56,6 +56,20 @@ function createTurndown(): TurndownService {
     replacement: (content) => content,
   })
 
+  // Strikethrough — both semantic tags and Google Docs' span styling
+  td.addRule('strikethrough-tag', {
+    filter: ['s', 'del'],
+    replacement: (content) => (content.trim() ? `~~${content}~~` : content),
+  })
+
+  td.addRule('strikethrough-span', {
+    filter: (node) => {
+      if (node.nodeName !== 'SPAN') return false
+      return (node as HTMLElement).style.textDecoration?.includes('line-through') ?? false
+    },
+    replacement: (content) => (content.trim() ? `~~${content}~~` : content),
+  })
+
   return td
 }
 

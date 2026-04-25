@@ -160,7 +160,19 @@
 }
 
 .bpp__body-inner {
-  max-width: 760px;
+  max-width: 880px;
+}
+
+/* Keep text columns at comfortable reading width; let images and code blocks
+   use the full body-inner width for better visibility. */
+.bpp__article > .bpp__p,
+.bpp__article > .bpp__h1,
+.bpp__article > .bpp__h2,
+.bpp__article > .bpp__h3,
+.bpp__article > .bpp__ul,
+.bpp__article > .bpp__ol,
+.bpp__article > .bpp__blockquote {
+  max-width: 720px;
 }
 
 .bpp__cover {
@@ -267,6 +279,13 @@
   font-style: normal;
 }
 
+.bpp__del {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
 .bpp__link {
   color: #00c4d4;
   text-decoration: underline;
@@ -281,10 +300,10 @@
 
 .bpp__image {
   max-width: 100%;
-  width: 100%;
+  width: auto;
   height: auto;
   border-radius: 16px;
-  margin: 28px 0;
+  margin: 32px auto;
   display: block;
   border: 1px solid var(--border-color);
 }

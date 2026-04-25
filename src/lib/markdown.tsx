@@ -13,6 +13,7 @@ function inline(raw: string): string {
   let s = escapeHtml(raw)
   s = s.replace(/`([^`]+?)`/g, '<code class="bpp__inline-code">$1</code>')
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  s = s.replace(/~~(.+?)~~/g, '<del class="bpp__del">$1</del>')
   s = s.replace(/(^|[^*])\*(?!\s)([^*\n]+?)\*(?!\*)/g, '$1<em>$2</em>')
   s = s.replace(
     /\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*|#[^\s)]*)\)/g,
