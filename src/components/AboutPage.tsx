@@ -63,7 +63,7 @@ export default function AboutPage() {
                 <span className="ap-founder__initials">CA</span>
               </div>
               <div className="ap-founder__info">
-                <h2 className="ap-founder__name">Anup Jain</h2>
+                <h2 className="ap-founder__name">Aunip Jain</h2>
                 <p className="ap-founder__role">Founder &amp; CEO, Curious Apes</p>
                 <blockquote className="ap-founder__quote">
                   &ldquo;We started Curious Apes because we saw D2C brands burning money on ads
