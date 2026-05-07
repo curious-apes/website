@@ -19,6 +19,27 @@ export interface ZohoLead {
   phone: string
   website?: string
   message?: string
+  source?: 'contact_section' | 'popup'
+}
+
+const LEAD_SOURCE_LABELS: Record<NonNullable<ZohoLead['source']>, string> = {
+  contact_section: 'Website - Contact Form',
+  popup:           'Website - Popup',
+}
+
+// Best-effort company name from a website URL.
+// "https://www.yourbrand.com/contact" → "Yourbrand.com"
+function deriveCompany(website: string | undefined): string {
+  const w = (website ?? '').trim()
+  if (!w) return ''
+  const domain = w
+    .replace(/^https?:\/\//i, '')
+    .replace(/^www\./i, '')
+    .split('/')[0]
+    .split('?')[0]
+    .trim()
+  if (!domain) return w
+  return domain.charAt(0).toUpperCase() + domain.slice(1)
 }
 
 export function submitToZoho(lead: ZohoLead): void {
@@ -59,6 +80,12 @@ export function submitToZoho(lead: ZohoLead): void {
   addField('Phone',     lead.phone.trim())
   addField('Website',   (lead.website ?? '').trim())
   addField('Description', (lead.message ?? '').trim())
+
+  // Company (Zoho often requires this for B2B leads). Derived from website.
+  addField('Company', deriveCompany(lead.website))
+
+  // Lead Source — distinguishes Contact form vs Popup so sales sees attribution
+  addField('Lead Source', lead.source ? LEAD_SOURCE_LABELS[lead.source] : 'Website')
 
   // Honeypot — must stay empty (bots fill it; Zoho rejects those leads)
   addField('aG9uZXlwb3Q', '')

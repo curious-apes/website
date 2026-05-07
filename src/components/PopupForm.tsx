@@ -77,6 +77,7 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
         phone: formData.phone,
         website: formData.website,
         message: formData.message,
+        source: 'popup',
       })
       onClose()
       navigate('/thankyou')

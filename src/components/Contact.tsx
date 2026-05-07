@@ -78,6 +78,7 @@ export default function Contact() {
         phone: formData.phone,
         website: formData.website,
         message: formData.message,
+        source: 'contact_section',
       })
       navigate('/thankyou')
     } catch (err) {
