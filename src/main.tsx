@@ -12,6 +12,7 @@ import PaidMediaPage from './components/PaidMediaPage'
 import TechCROPage from './components/TechCROPage'
 import VisualsPage from './components/VisualsPage'
 import GrowthPage from './components/GrowthPage'
+import ThankYouPage from './components/ThankYouPage'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element not found')
@@ -28,6 +29,7 @@ createRoot(rootElement).render(
         <Route path="/services/tech-cro" element={<TechCROPage />} />
         <Route path="/services/visuals-creative" element={<VisualsPage />} />
         <Route path="/services/growth-marketing" element={<GrowthPage />} />
+        <Route path="/thankyou" element={<ThankYouPage />} />
         <Route path="/admin/*" element={<AdminApp />} />
         <Route path="/*" element={<App />} />
       </Routes>

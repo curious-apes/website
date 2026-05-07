@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { saveEnquiry } from '../lib/enquiries'
@@ -14,6 +15,7 @@ interface FormData {
 }
 
 export default function Contact() {
+  const navigate = useNavigate()
   const sectionRef = useRef<HTMLElement>(null)
   const labelRef   = useRef<HTMLDivElement>(null)
   const headlineRef = useRef<HTMLDivElement>(null)
@@ -21,7 +23,6 @@ export default function Contact() {
   const infoRef    = useRef<HTMLDivElement>(null)
 
   const [formData, setFormData] = useState<FormData>({ name: '', phone: '', website: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -70,15 +71,10 @@ export default function Contact() {
     setSubmitError('')
     try {
       await saveEnquiry({ ...formData, source: 'contact_section' })
-      setSubmitted(true)
-      gsap.fromTo('.contact__success',
-        { y: 20, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(1.7)' }
-      )
+      navigate('/thankyou')
     } catch (err) {
       console.error('Failed to submit enquiry:', err)
       setSubmitError('Something went wrong. Please try again or WhatsApp us directly.')
-    } finally {
       setSubmitting(false)
     }
   }
@@ -201,69 +197,49 @@ export default function Contact() {
               <p>We'll review your details and get back to you within 24 hours.</p>
             </div>
 
-            {!submitted ? (
-              <form ref={formRef} className="contact__form" onSubmit={handleSubmit}>
-                <div className="contact__form-row">
-                  <div className="contact__field">
-                    <label className="contact__label">Your Name *</label>
-                    <input type="text" name="name" className="contact__input"
-                      placeholder="Full name" value={formData.name}
-                      onChange={handleChange} required />
-                  </div>
-                  <div className="contact__field">
-                    <label className="contact__label">Phone Number *</label>
-                    <input type="tel" name="phone" className="contact__input"
-                      placeholder="+91 99999 99999" value={formData.phone}
-                      onChange={handleChange} required />
-                  </div>
-                </div>
-
+            <form ref={formRef} className="contact__form" onSubmit={handleSubmit}>
+              <div className="contact__form-row">
                 <div className="contact__field">
-                  <label className="contact__label">Website URL</label>
-                  <input type="text" name="website" className="contact__input"
-                    placeholder="yourbrand.com" value={formData.website}
-                    onChange={handleChange} />
+                  <label className="contact__label">Your Name *</label>
+                  <input type="text" name="name" className="contact__input"
+                    placeholder="Full name" value={formData.name}
+                    onChange={handleChange} required />
                 </div>
-
                 <div className="contact__field">
-                  <label className="contact__label">Message</label>
-                  <textarea name="message" className="contact__textarea" rows={5}
-                    placeholder="Tell us about your brand and goals..."
-                    value={formData.message} onChange={handleChange} />
+                  <label className="contact__label">Phone Number *</label>
+                  <input type="tel" name="phone" className="contact__input"
+                    placeholder="+91 99999 99999" value={formData.phone}
+                    onChange={handleChange} required />
                 </div>
-
-                <div className="contact__submit">
-                  <button type="submit" className="btn btn-primary contact__submit-btn" disabled={submitting}>
-                    {submitting ? 'Sending…' : 'Submit Details'}
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                  {submitError
-                    ? <p className="contact__note" style={{ color: '#f87171' }}>{submitError}</p>
-                    : <p className="contact__note">No spam. We respond within 24 hours.</p>
-                  }
-                </div>
-              </form>
-            ) : (
-              <div className="contact__success">
-                <div className="contact__success-icon">
-                  <svg viewBox="0 0 56 56" fill="none">
-                    <circle cx="28" cy="28" r="24" stroke="url(#cg)" strokeWidth="1.5"/>
-                    <path d="M18 28L24 34L38 20" stroke="url(#cg)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <defs>
-                      <linearGradient id="cg" x1="0" y1="0" x2="56" y2="56">
-                        <stop stopColor="#00c4d4"/><stop offset="1" stopColor="#00f0ff"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-                <h3 className="contact__success-title">Details Received!</h3>
-                <p className="contact__success-text">
-                  Thanks for reaching out. Our team will get back to you within 24 hours.
-                </p>
               </div>
-            )}
+
+              <div className="contact__field">
+                <label className="contact__label">Website URL</label>
+                <input type="text" name="website" className="contact__input"
+                  placeholder="yourbrand.com" value={formData.website}
+                  onChange={handleChange} />
+              </div>
+
+              <div className="contact__field">
+                <label className="contact__label">Message</label>
+                <textarea name="message" className="contact__textarea" rows={5}
+                  placeholder="Tell us about your brand and goals..."
+                  value={formData.message} onChange={handleChange} />
+              </div>
+
+              <div className="contact__submit">
+                <button type="submit" className="btn btn-primary contact__submit-btn" disabled={submitting}>
+                  {submitting ? 'Sending…' : 'Submit Details'}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                {submitError
+                  ? <p className="contact__note" style={{ color: '#f87171' }}>{submitError}</p>
+                  : <p className="contact__note">No spam. We respond within 24 hours.</p>
+                }
+              </div>
+            </form>
           </div>
 
         </div>
