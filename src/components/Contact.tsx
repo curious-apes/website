@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { saveEnquiry } from '../lib/enquiries'
+import { submitToZoho } from '../lib/zoho'
 import './Contact.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -71,6 +72,13 @@ export default function Contact() {
     setSubmitError('')
     try {
       await saveEnquiry({ ...formData, source: 'contact_section' })
+      // Mirror to Zoho CRM — fire-and-forget; never blocks the user
+      submitToZoho({
+        name: formData.name,
+        phone: formData.phone,
+        website: formData.website,
+        message: formData.message,
+      })
       navigate('/thankyou')
     } catch (err) {
       console.error('Failed to submit enquiry:', err)

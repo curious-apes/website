@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { saveEnquiry } from '../lib/enquiries'
+import { submitToZoho } from '../lib/zoho'
 import './PopupForm.css'
 
 interface FormData {
@@ -70,6 +71,13 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
     setSubmitError('')
     try {
       await saveEnquiry({ ...formData, source: 'popup' })
+      // Mirror to Zoho CRM — fire-and-forget; never blocks the user
+      submitToZoho({
+        name: formData.name,
+        phone: formData.phone,
+        website: formData.website,
+        message: formData.message,
+      })
       onClose()
       navigate('/thankyou')
     } catch (err) {
