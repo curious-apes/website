@@ -7,6 +7,7 @@ export interface Enquiry {
   id: string
   name: string
   phone: string
+  email: string
   website: string
   message: string
   status: EnquiryStatus
@@ -14,7 +15,7 @@ export interface Enquiry {
   createdAt: string
 }
 
-const SELECT_COLS = 'id, name, phone, website, message, status, source, createdAt:created_at'
+const SELECT_COLS = 'id, name, phone, email, website, message, status, source, createdAt:created_at'
 
 export async function saveEnquiry(
   data: Omit<Enquiry, 'id' | 'status' | 'createdAt'>
@@ -22,6 +23,7 @@ export async function saveEnquiry(
   const payload = {
     name: data.name,
     phone: data.phone,
+    email: data.email ?? '',
     website: data.website ?? '',
     message: data.message ?? '',
     source: data.source,

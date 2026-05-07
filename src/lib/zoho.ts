@@ -8,9 +8,9 @@ const ZOHO_CONFIG = {
   endpoint: 'https://crm.zoho.in/crm/WebToLeadForm',
   // These are public form identifiers from Zoho's embed code — designed
   // to live in client-side HTML. Not credentials.
-  // Updated 2026-05-01 after Aniket added Company + Lead Source fields.
-  xnQsjsdp: 'adf6ef1e7fc46f1b2cfed453e1c9ab7ff2f11a6429c3a14f03f9cdad522ee6ae',
-  xmIwtLD:  'a7098f63e22ac19f0adab4c3ad8ef24632c7e5857e3f34004e8bbb7a7f5bc661f5a1c550acaa5d9fd0634c92e35b06b4',
+  // Updated 2026-05-01 after Aniket added Email + Company + Lead Source fields.
+  xnQsjsdp: '78b386e402c68b5f97aa410d573364c005212e2762b22fbc966850256f670d8b',
+  xmIwtLD:  'ad2caa0dd8466f37c8e934a2b4a43ad86fefbe94d7bfe83da971820ec062b8794d855e9f54cb7021354c0902a71cd152',
   actionType: 'TGVhZHM=',
   returnURL: 'https://www.curiousapes.in/thankyou',
 } as const
@@ -18,6 +18,7 @@ const ZOHO_CONFIG = {
 export interface ZohoLead {
   name: string
   phone: string
+  email?: string
   website?: string
   message?: string
   source?: 'contact_section' | 'popup'
@@ -85,6 +86,7 @@ export function submitToZoho(lead: ZohoLead): void {
   // Map Curious Apes fields → Zoho field names
   addField('Last Name', lead.name.trim())
   addField('Phone',     lead.phone.trim())
+  addField('Email',     (lead.email ?? '').trim())
   addField('Website',   (lead.website ?? '').trim())
   addField('Description', (lead.message ?? '').trim())
 

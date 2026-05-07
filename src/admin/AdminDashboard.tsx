@@ -93,6 +93,12 @@ function EnquiryDrawer({ enquiry, onClose, onUpdate }: {
                 <span className="adm-drawer__field-label">Phone</span>
                 <a href={`tel:${enquiry.phone}`} className="adm-drawer__field-value adm-link">{enquiry.phone}</a>
               </div>
+              {enquiry.email && (
+                <div className="adm-drawer__field">
+                  <span className="adm-drawer__field-label">Email</span>
+                  <a href={`mailto:${enquiry.email}`} className="adm-drawer__field-value adm-link">{enquiry.email}</a>
+                </div>
+              )}
               {enquiry.website && (
                 <div className="adm-drawer__field">
                   <span className="adm-drawer__field-label">Website</span>

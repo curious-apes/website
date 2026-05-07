@@ -8,6 +8,7 @@ import './PopupForm.css'
 interface FormData {
   name: string
   phone: string
+  email: string
   website: string
   message: string
 }
@@ -21,7 +22,7 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
   const navigate = useNavigate()
   const overlayRef = useRef<HTMLDivElement>(null)
   const cardRef    = useRef<HTMLDivElement>(null)
-  const [formData, setFormData] = useState<FormData>({ name: '', phone: '', website: '', message: '' })
+  const [formData, setFormData] = useState<FormData>({ name: '', phone: '', email: '', website: '', message: '' })
 
   // Animate in / out
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
         opacity: 0, duration: 0.3, ease: 'power2.in',
         onComplete: () => {
           if (overlayRef.current) gsap.set(overlayRef.current, { display: 'none' })
-          setFormData({ name: '', phone: '', website: '', message: '' })
+          setFormData({ name: '', phone: '', email: '', website: '', message: '' })
         }
       })
     }
@@ -75,6 +76,7 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
       submitToZoho({
         name: formData.name,
         phone: formData.phone,
+        email: formData.email,
         website: formData.website,
         message: formData.message,
         source: 'popup',
@@ -127,6 +129,17 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
                 onChange={handleChange}
               />
             </div>
+          </div>
+
+          <div className="popup-form__field">
+            <label className="popup-form__label">Email Address</label>
+            <input
+              type="email" name="email"
+              className="popup-form__input"
+              placeholder="you@yourbrand.com"
+              value={formData.email}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="popup-form__field">

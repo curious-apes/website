@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger)
 interface FormData {
   name: string
   phone: string
+  email: string
   website: string
   message: string
 }
@@ -23,7 +24,7 @@ export default function Contact() {
   const formRef    = useRef<HTMLFormElement>(null)
   const infoRef    = useRef<HTMLDivElement>(null)
 
-  const [formData, setFormData] = useState<FormData>({ name: '', phone: '', website: '', message: '' })
+  const [formData, setFormData] = useState<FormData>({ name: '', phone: '', email: '', website: '', message: '' })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -76,6 +77,7 @@ export default function Contact() {
       submitToZoho({
         name: formData.name,
         phone: formData.phone,
+        email: formData.email,
         website: formData.website,
         message: formData.message,
         source: 'contact_section',
@@ -222,11 +224,19 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="contact__field">
-                <label className="contact__label">Website URL</label>
-                <input type="text" name="website" className="contact__input"
-                  placeholder="yourbrand.com" value={formData.website}
-                  onChange={handleChange} />
+              <div className="contact__form-row">
+                <div className="contact__field">
+                  <label className="contact__label">Email Address</label>
+                  <input type="email" name="email" className="contact__input"
+                    placeholder="you@yourbrand.com" value={formData.email}
+                    onChange={handleChange} />
+                </div>
+                <div className="contact__field">
+                  <label className="contact__label">Website URL</label>
+                  <input type="text" name="website" className="contact__input"
+                    placeholder="yourbrand.com" value={formData.website}
+                    onChange={handleChange} />
+                </div>
               </div>
 
               <div className="contact__field">
