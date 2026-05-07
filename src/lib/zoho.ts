@@ -8,8 +8,9 @@ const ZOHO_CONFIG = {
   endpoint: 'https://crm.zoho.in/crm/WebToLeadForm',
   // These are public form identifiers from Zoho's embed code — designed
   // to live in client-side HTML. Not credentials.
-  xnQsjsdp: '639f96cd098202bf672e8eb0d8e6365da69c65b2e5119e2997b7e0917a7e90c2',
-  xmIwtLD:  '4d35a7a29d3a67aae67b48f9fa46d9b0a888602a9789f5d4c3d64ff27024dbfd0be67d0a6edaff933ee68968623a17e8',
+  // Updated 2026-05-01 after Aniket added Company + Lead Source fields.
+  xnQsjsdp: 'adf6ef1e7fc46f1b2cfed453e1c9ab7ff2f11a6429c3a14f03f9cdad522ee6ae',
+  xmIwtLD:  'a7098f63e22ac19f0adab4c3ad8ef24632c7e5857e3f34004e8bbb7a7f5bc661f5a1c550acaa5d9fd0634c92e35b06b4',
   actionType: 'TGVhZHM=',
   returnURL: 'https://www.curiousapes.in/thankyou',
 } as const
@@ -22,9 +23,15 @@ export interface ZohoLead {
   source?: 'contact_section' | 'popup'
 }
 
+// Lead Source must match one of Zoho's picklist values exactly, otherwise
+// the field is silently dropped. Map our internal source IDs to existing
+// picklist options so we keep some distinction between the two forms.
+// To get cleaner labels (e.g. "Website - Contact Form"), add custom
+// picklist values in Zoho: Setup → Customization → Modules and Fields →
+// Leads → Lead Source → Add new options.
 const LEAD_SOURCE_LABELS: Record<NonNullable<ZohoLead['source']>, string> = {
-  contact_section: 'Website - Contact Form',
-  popup:           'Website - Popup',
+  contact_section: 'Web Research',
+  popup:           'Chat',
 }
 
 // Best-effort company name from a website URL.
@@ -84,8 +91,8 @@ export function submitToZoho(lead: ZohoLead): void {
   // Company (Zoho often requires this for B2B leads). Derived from website.
   addField('Company', deriveCompany(lead.website))
 
-  // Lead Source — distinguishes Contact form vs Popup so sales sees attribution
-  addField('Lead Source', lead.source ? LEAD_SOURCE_LABELS[lead.source] : 'Website')
+  // Lead Source — must be a valid Zoho picklist value (see LEAD_SOURCE_LABELS)
+  addField('Lead Source', lead.source ? LEAD_SOURCE_LABELS[lead.source] : 'Web Research')
 
   // Honeypot — must stay empty (bots fill it; Zoho rejects those leads)
   addField('aG9uZXlwb3Q', '')
