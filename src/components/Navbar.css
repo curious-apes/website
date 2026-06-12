@@ -344,7 +344,10 @@
    =========================== */
 @media (max-width: 900px) {
   .navbar__links { display: none; }
-  .navbar__cta   { display: none; }
+  /* Higher specificity than the global `.btn { display: inline-flex }` so the
+     CTA is actually hidden — otherwise it stays visible and pushes the
+     hamburger off-screen, leaving mobile with no nav toggle. */
+  .navbar .navbar__cta { display: none; }
   .navbar__hamburger { display: flex; }
 }
 
