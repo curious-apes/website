@@ -1,4 +1,12 @@
-import { supabase } from './supabase'
+import type { SupabaseClient } from '@supabase/supabase-js'
+
+// Lazy client load: keeps supabase-js out of the homepage's initial bundle and
+// in its own async chunk, fetched on first blog query rather than on page load.
+let _client: SupabaseClient | null = null
+async function db(): Promise<SupabaseClient> {
+  if (!_client) _client = (await import('./supabase')).supabase
+  return _client
+}
 
 export type BlogStatus = 'draft' | 'published'
 
@@ -58,6 +66,7 @@ function toDbPayload(post: Partial<BlogWriteable>) {
 }
 
 export async function getBlogs(): Promise<BlogPost[]> {
+  const supabase = await db()
   const { data, error } = await supabase
     .from('blogs')
     .select(SELECT_COLS)
@@ -69,6 +78,7 @@ export async function getBlogs(): Promise<BlogPost[]> {
 export async function getPublishedBlogs(): Promise<BlogPost[]> {
   // Public listing requires both: status='published' AND a cover image.
   // A published post without a featured image is treated as not-yet-ready.
+  const supabase = await db()
   const { data, error } = await supabase
     .from('blogs')
     .select(SELECT_COLS)
@@ -80,6 +90,7 @@ export async function getPublishedBlogs(): Promise<BlogPost[]> {
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined> {
+  const supabase = await db()
   const { data, error } = await supabase
     .from('blogs')
     .select(SELECT_COLS)
@@ -90,6 +101,7 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined>
 }
 
 export async function saveBlog(data: BlogWriteable): Promise<BlogPost> {
+  const supabase = await db()
   const { data: row, error } = await supabase
     .from('blogs')
     .insert(toDbPayload(data))
@@ -103,6 +115,7 @@ export async function updateBlog(
   id: string,
   patch: Partial<BlogWriteable>
 ): Promise<BlogPost | null> {
+  const supabase = await db()
   const { data: row, error } = await supabase
     .from('blogs')
     .update(toDbPayload(patch))
@@ -114,6 +127,7 @@ export async function updateBlog(
 }
 
 export async function deleteBlog(id: string): Promise<void> {
+  const supabase = await db()
   const { error } = await supabase
     .from('blogs')
     .delete()

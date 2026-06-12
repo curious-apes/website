@@ -1,4 +1,13 @@
-import { supabase } from './supabase'
+import type { SupabaseClient } from '@supabase/supabase-js'
+
+// Load the Supabase client lazily so the ~50 KB (gzip) supabase-js library is
+// split into its own async chunk instead of blocking the homepage's initial JS.
+// It's fetched on first data access (blog fetch / enquiry submit), not on load.
+let _client: SupabaseClient | null = null
+async function db(): Promise<SupabaseClient> {
+  if (!_client) _client = (await import('./supabase')).supabase
+  return _client
+}
 
 export type EnquiryStatus = 'new' | 'contacted' | 'qualified' | 'closed'
 export type EnquirySource = 'contact_section' | 'popup'
@@ -28,6 +37,7 @@ export async function saveEnquiry(
     message: data.message ?? '',
     source: data.source,
   }
+  const supabase = await db()
   const { data: row, error } = await supabase
     .from('enquiries')
     .insert(payload)
@@ -38,6 +48,7 @@ export async function saveEnquiry(
 }
 
 export async function getEnquiries(): Promise<Enquiry[]> {
+  const supabase = await db()
   const { data, error } = await supabase
     .from('enquiries')
     .select(SELECT_COLS)
@@ -47,6 +58,7 @@ export async function getEnquiries(): Promise<Enquiry[]> {
 }
 
 export async function updateEnquiryStatus(id: string, status: EnquiryStatus): Promise<void> {
+  const supabase = await db()
   const { error } = await supabase
     .from('enquiries')
     .update({ status })
@@ -55,6 +67,7 @@ export async function updateEnquiryStatus(id: string, status: EnquiryStatus): Pr
 }
 
 export async function deleteEnquiry(id: string): Promise<void> {
+  const supabase = await db()
   const { error } = await supabase
     .from('enquiries')
     .delete()

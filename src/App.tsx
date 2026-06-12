@@ -32,6 +32,12 @@ function App() {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      // Extend the smooth scroll to touch devices. Off by default in Lenis, which
+      // is why mobile previously fell back to plain native scrolling.
+      syncTouch: true,
+      syncTouchLerp: 0.08,
+      touchMultiplier: 1.2,
     })
 
     lenisRef.current = lenis
