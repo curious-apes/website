@@ -32,7 +32,7 @@ const tagText: Record<string, string> = {
   'Email & SMS':       '#fbbf24',
 }
 
-export default function BlogPostPage() {
+export default function BlogPostPage({ post: initialPost }: { post?: BlogPost } = {}) {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const heroRef = useRef<HTMLDivElement>(null)
@@ -41,10 +41,13 @@ export default function BlogPostPage() {
   const openPopup  = useCallback(() => setPopupOpen(true),  [])
   const closePopup = useCallback(() => setPopupOpen(false), [])
 
-  const [post, setPost] = useState<BlogPost | undefined>(undefined)
-  const [loading, setLoading] = useState(true)
+  // When server-rendered via the route loader, the post is provided up front so
+  // it renders in the initial HTML (real SSR content). Otherwise fetch client-side.
+  const [post, setPost] = useState<BlogPost | undefined>(initialPost)
+  const [loading, setLoading] = useState(!initialPost)
 
   useEffect(() => {
+    if (initialPost) return // already have the post from the server
     let active = true
     setLoading(true)
     if (!slug) {
@@ -60,7 +63,7 @@ export default function BlogPostPage() {
       })
       .finally(() => { if (active) setLoading(false) })
     return () => { active = false }
-  }, [slug])
+  }, [slug, initialPost])
 
   // ── Scroll to top on slug change ──────────────────────────────────────────
   useEffect(() => {

@@ -7,9 +7,10 @@ import FloatingCTA from './FloatingCTA'
 import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
+import type { BlogPost } from '../lib/blogs'
 import './BlogPage.css'
 
-export default function BlogPage() {
+export default function BlogPage({ posts }: { posts?: BlogPost[] } = {}) {
   const [popupOpen, setPopupOpen] = useState(false)
   const openPopup  = useCallback(() => setPopupOpen(true),  [])
   const closePopup = useCallback(() => setPopupOpen(false), [])
@@ -34,7 +35,7 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <Blog />
+        <Blog posts={posts} />
       </main>
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />

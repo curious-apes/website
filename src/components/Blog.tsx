@@ -98,14 +98,17 @@ function BlogCard({ post, index }: { post: BlogPost; index: number }) {
   )
 }
 
-export default function Blog() {
+export default function Blog({ posts: initialPosts }: { posts?: BlogPost[] } = {}) {
   const sectionRef = useRef<HTMLElement>(null)
   const labelRef   = useRef<HTMLDivElement>(null)
   const headRef    = useRef<HTMLDivElement>(null)
   const ctaRef     = useRef<HTMLDivElement>(null)
-  const [posts, setPosts] = useState<BlogPost[]>([])
+  // When provided by a route loader, render the posts server-side; otherwise
+  // (e.g. the homepage section) fetch them on the client.
+  const [posts, setPosts] = useState<BlogPost[]>(initialPosts ?? [])
 
   useEffect(() => {
+    if (initialPosts) return
     let active = true
     getPublishedBlogs()
       .then(p => { if (active) setPosts(p) })
@@ -114,7 +117,7 @@ export default function Blog() {
         if (active) setPosts([])
       })
     return () => { active = false }
-  }, [])
+  }, [initialPosts])
 
   useEffect(() => {
     if (posts.length === 0 || !sectionRef.current || !headRef.current) return

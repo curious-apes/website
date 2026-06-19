@@ -3,13 +3,22 @@ import { gsap } from 'gsap'
 import './ThemeToggle.css'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    return (localStorage.getItem('ca_theme') as 'dark' | 'light') || 'dark'
-  })
+  // SSR-safe: start as 'dark' (matches the server HTML), then adopt whatever the
+  // no-flash inline script in root.tsx already applied to <html>.
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const btnRef = useRef<HTMLButtonElement>(null)
   const pulseRef = useRef<HTMLSpanElement>(null)
+  const mounted = useRef(false)
 
   useEffect(() => {
+    const current = document.documentElement.getAttribute('data-theme')
+    if (current === 'light' || current === 'dark') setTheme(current)
+  }, [])
+
+  // Apply + persist only on a real user toggle — skip the first mount so we
+  // don't clobber the value the inline script set before React hydrated.
+  useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return }
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('ca_theme', theme)
   }, [theme])
