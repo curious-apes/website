@@ -17,11 +17,12 @@ import PopupForm from './components/PopupForm'
 import FloatingCTA from './components/FloatingCTA'
 import ThemeToggle from './components/ThemeToggle'
 import ScrollToTop from './components/ScrollToTop'
+import type { BlogPost } from './lib/blogs'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-function App() {
+function App({ blogPosts }: { blogPosts?: BlogPost[] } = {}) {
   const lenisRef = useRef<Lenis | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
 
@@ -83,7 +84,7 @@ function App() {
         <Services />
         <Work />
         <Testimonials />
-        <Blog />
+        <Blog posts={blogPosts} />
         <Contact />
       </main>
       <Footer />
