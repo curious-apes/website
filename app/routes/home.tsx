@@ -7,8 +7,13 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 // Server-render the homepage's blog teaser too, so the entire page is in the
 // initial HTML (View Source) and fully crawlable.
 export async function loader() {
-  const posts = await getPublishedBlogs()
-  return { posts }
+  // Never let a data hiccup crash the whole page render — degrade to no teaser.
+  try {
+    return { posts: await getPublishedBlogs() }
+  } catch (err) {
+    console.error('home loader: failed to load blogs', err)
+    return { posts: [] }
+  }
 }
 
 export const meta: MetaFunction = ({ matches }) =>

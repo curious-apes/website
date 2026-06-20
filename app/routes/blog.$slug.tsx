@@ -8,7 +8,13 @@ import { buildMeta } from '../lib/meta'
 // initial HTML, which is what makes social link previews work.
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const slug = params.slug as string
-  const post = await getBlogBySlug(slug)
+  let post
+  try {
+    post = await getBlogBySlug(slug)
+  } catch (err) {
+    console.error('blog post loader: fetch failed', err)
+    throw new Response('Unable to load post', { status: 500 })
+  }
   if (!post || post.status !== 'published') {
     throw new Response('Post not found', { status: 404 })
   }

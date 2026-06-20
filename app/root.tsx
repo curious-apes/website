@@ -1,9 +1,11 @@
 import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from 'react-router'
 import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from 'react-router'
 import '../src/index.css'
@@ -69,4 +71,44 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />
+}
+
+// Renders inside <Layout> for any thrown error / 404 so visitors never see a
+// raw serverless crash page.
+export function ErrorBoundary() {
+  const error = useRouteError()
+  let title = 'Something went wrong'
+  let message = 'An unexpected error occurred. Please try again.'
+
+  if (isRouteErrorResponse(error)) {
+    title = String(error.status)
+    message =
+      error.status === 404
+        ? 'The page you’re looking for doesn’t exist or may have moved.'
+        : error.statusText || (typeof error.data === 'string' ? error.data : message)
+  }
+
+  return (
+    <main
+      style={{
+        minHeight: '70vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        gap: 16,
+        padding: '120px 24px',
+        fontFamily: 'var(--font-body, sans-serif)',
+        color: 'var(--text-primary, #f0fafa)',
+        background: 'var(--bg-primary, #0a0a0a)',
+      }}
+    >
+      <h1 style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: 'clamp(32px, 6vw, 56px)' }}>{title}</h1>
+      <p style={{ color: 'var(--text-muted, rgba(220,245,245,0.6))', maxWidth: 440 }}>{message}</p>
+      <a href="/" className="btn btn-primary" style={{ marginTop: 8 }}>
+        Back home
+      </a>
+    </main>
+  )
 }
