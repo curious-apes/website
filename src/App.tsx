@@ -15,7 +15,6 @@ import Footer from './components/Footer'
 import Cursor from './components/Cursor'
 import PopupForm from './components/PopupForm'
 import FloatingCTA from './components/FloatingCTA'
-import ThemeToggle from './components/ThemeToggle'
 import ScrollToTop from './components/ScrollToTop'
 import type { BlogPost } from './lib/blogs'
 import './App.css'
@@ -90,7 +89,6 @@ function App({ blogPosts }: { blogPosts?: BlogPost[] } = {}) {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

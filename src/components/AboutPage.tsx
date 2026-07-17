@@ -3,10 +3,9 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
-import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
-import aboutImg from '../assets/about.png'
+import aboutImg from '../assets/about.webp'
 import './AboutPage.css'
 
 export default function AboutPage() {
@@ -196,7 +195,6 @@ export default function AboutPage() {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

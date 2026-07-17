@@ -3,12 +3,11 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
-import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
-import perf1 from '../assets/performace-1.jpeg'
-import perf2 from '../assets/performace-2.jpeg'
-import perf3 from '../assets/performace-3.jpeg'
+import perf1 from '../assets/performace-1.webp'
+import perf2 from '../assets/performace-2.webp'
+import perf3 from '../assets/performace-3.webp'
 import './PaidMediaPage.css'
 
 const services = [
@@ -114,7 +113,7 @@ export default function PaidMediaPage() {
                 </div>
                 <div className="pm-services__media">
                   <div className="pm-services__img-wrap">
-                    <img src={svc.image} alt={svc.imageAlt} className="pm-services__img" />
+                    <img src={svc.image} alt={svc.imageAlt} className="pm-services__img" loading="lazy" decoding="async" />
                     <div className="pm-services__img-glow" />
                   </div>
                 </div>
@@ -152,7 +151,6 @@ export default function PaidMediaPage() {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

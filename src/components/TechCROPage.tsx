@@ -3,12 +3,11 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
-import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
-import tech1 from '../assets/tech_1.jpg'
-import tech2 from '../assets/tech_2.jpeg'
-import tech3 from '../assets/tech_3.jpeg'
+import tech1 from '../assets/tech_1.webp'
+import tech2 from '../assets/tech_2.webp'
+import tech3 from '../assets/tech_3.webp'
 import './TechCROPage.css'
 
 const services = [
@@ -107,7 +106,7 @@ export default function TechCROPage() {
                 </div>
                 <div className="tc-services__media">
                   <div className="tc-services__img-wrap">
-                    <img src={svc.image} alt={svc.imageAlt} className="tc-services__img" />
+                    <img src={svc.image} alt={svc.imageAlt} className="tc-services__img" loading="lazy" decoding="async" />
                     <div className="tc-services__img-glow" />
                   </div>
                 </div>
@@ -149,7 +148,6 @@ export default function TechCROPage() {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

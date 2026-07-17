@@ -38,10 +38,7 @@ export const meta: MetaFunction = () => [
   },
 ]
 
-// Set the saved theme on <html> before first paint to avoid a flash and to keep
-// the SSR markup consistent with what ThemeToggle reads on hydration.
-const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('ca_theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`
-
+// Site is dark-only — data-theme is hardcoded on <html> below; no runtime toggle.
 const GA_ID = 'G-9FRHBYW2FG'
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -52,7 +49,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Meta />
         <Links />
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
         <script
           dangerouslySetInnerHTML={{

@@ -3,12 +3,11 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
-import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
-import growth1 from '../assets/growth_1.jpeg'
-import growth2 from '../assets/growth_2.jpeg'
-import growth3 from '../assets/growth_3.jpeg'
+import growth1 from '../assets/growth_1.webp'
+import growth2 from '../assets/growth_2.webp'
+import growth3 from '../assets/growth_3.webp'
 import './GrowthPage.css'
 
 const services = [
@@ -107,7 +106,7 @@ export default function GrowthPage() {
                 </div>
                 <div className="gm-services__media">
                   <div className="gm-services__img-wrap">
-                    <img src={svc.image} alt={svc.imageAlt} className="gm-services__img" />
+                    <img src={svc.image} alt={svc.imageAlt} className="gm-services__img" loading="lazy" decoding="async" />
                     <div className="gm-services__img-glow" />
                   </div>
                 </div>
@@ -149,7 +148,6 @@ export default function GrowthPage() {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )

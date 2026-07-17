@@ -128,7 +128,7 @@ export default function Clients() {
         <div ref={gridRef} className="clients__grid">
           {clients.map((client) => (
             <div key={client.name} className="clients__item">
-              <img src={client.logo} alt={client.name} />
+              <img src={client.logo} alt={client.name} loading="lazy" decoding="async" />
             </div>
           ))}
         </div>

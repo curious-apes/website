@@ -3,12 +3,11 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import PopupForm from './PopupForm'
 import FloatingCTA from './FloatingCTA'
-import ThemeToggle from './ThemeToggle'
 import ScrollToTop from './ScrollToTop'
 import Cursor from './Cursor'
-import visual1 from '../assets/visual_1.jpeg'
-import visual2 from '../assets/visual_2.png'
-import visual3 from '../assets/visual_3.jpeg'
+import visual1 from '../assets/visual_1.webp'
+import visual2 from '../assets/visual_2.webp'
+import visual3 from '../assets/visual_3.webp'
 import './VisualsPage.css'
 
 const services = [
@@ -107,7 +106,7 @@ export default function VisualsPage() {
                 </div>
                 <div className="vis-services__media">
                   <div className="vis-services__img-wrap">
-                    <img src={svc.image} alt={svc.imageAlt} className="vis-services__img" />
+                    <img src={svc.image} alt={svc.imageAlt} className="vis-services__img" loading="lazy" decoding="async" />
                     <div className="vis-services__img-glow" />
                   </div>
                 </div>
@@ -149,7 +148,6 @@ export default function VisualsPage() {
       <Footer />
       <FloatingCTA onEnquiry={openPopup} />
       <ScrollToTop />
-      <ThemeToggle />
       <PopupForm open={popupOpen} onClose={closePopup} />
     </>
   )
