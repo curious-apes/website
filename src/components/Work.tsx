@@ -26,12 +26,42 @@ import reel19 from '../assets/work/19.mp4'
 import reel20 from '../assets/work/20.mp4'
 import reel21 from '../assets/work/21.mp4'
 
+// Poster thumbnails (first frame) — shown instantly so the slider isn't blank
+// while a reel loads, and so side reels don't have to decode video.
+import p1 from '../assets/work/posters/1.webp'
+import p2 from '../assets/work/posters/2.webp'
+import p3 from '../assets/work/posters/3.webp'
+import p4 from '../assets/work/posters/4.webp'
+import p5 from '../assets/work/posters/5.webp'
+import p6 from '../assets/work/posters/6.webp'
+import p7 from '../assets/work/posters/7.webp'
+import p8 from '../assets/work/posters/8.webp'
+import p9 from '../assets/work/posters/9.webp'
+import p10 from '../assets/work/posters/10.webp'
+import p11 from '../assets/work/posters/11.webp'
+import p12 from '../assets/work/posters/12.webp'
+import p13 from '../assets/work/posters/13.webp'
+import p14 from '../assets/work/posters/14.webp'
+import p15 from '../assets/work/posters/15.webp'
+import p16 from '../assets/work/posters/16.webp'
+import p17 from '../assets/work/posters/17.webp'
+import p18 from '../assets/work/posters/18.webp'
+import p19 from '../assets/work/posters/19.webp'
+import p20 from '../assets/work/posters/20.webp'
+import p21 from '../assets/work/posters/21.webp'
+
 gsap.registerPlugin(ScrollTrigger)
 
 const reels = [
   reel1, reel2, reel3, reel4, reel5, reel6, reel7,
   reel8, reel9, reel10, reel11, reel12, reel13, reel14,
   reel15, reel16, reel17, reel18, reel19, reel20, reel21,
+]
+
+const posters = [
+  p1, p2, p3, p4, p5, p6, p7,
+  p8, p9, p10, p11, p12, p13, p14,
+  p15, p16, p17, p18, p19, p20, p21,
 ]
 
 interface ReelSliderProps {
@@ -143,7 +173,8 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
             <video
               ref={(el) => { videoRefs.current[getSlotIndex(offset)] = el }}
               src={reels[getSlotIndex(offset)]}
-              muted playsInline loop preload="metadata"
+              poster={posters[getSlotIndex(offset)]}
+              muted playsInline loop preload="none"
             />
             <div className="reel-slot__overlay" />
           </div>
@@ -153,6 +184,7 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
           <video
             ref={(el) => { videoRefs.current[active] = el }}
             src={reels[active]}
+            poster={posters[active]}
             muted playsInline preload="auto"
           />
           <div className="reel-slot__counter">
@@ -174,7 +206,8 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
             <video
               ref={(el) => { videoRefs.current[getSlotIndex(offset)] = el }}
               src={reels[getSlotIndex(offset)]}
-              muted playsInline loop preload="metadata"
+              poster={posters[getSlotIndex(offset)]}
+              muted playsInline loop preload="none"
             />
             <div className="reel-slot__overlay" />
           </div>

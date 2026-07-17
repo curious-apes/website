@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
-import Lenis from '@studio-freight/lenis'
+import { useEffect, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar'
@@ -22,43 +21,14 @@ import './App.css'
 gsap.registerPlugin(ScrollTrigger)
 
 function App({ blogPosts }: { blogPosts?: BlogPost[] } = {}) {
-  const lenisRef = useRef<Lenis | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
 
   const openPopup  = useCallback(() => setPopupOpen(true),  [])
   const closePopup = useCallback(() => setPopupOpen(false), [])
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      // Touch devices use native scrolling — Lenis-synced touch felt too stiff.
-      syncTouch: false,
-    })
-
-    lenisRef.current = lenis
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
-
-    lenis.on('scroll', ScrollTrigger.update)
-
-    const ticker = (time: number) => {
-      lenis.raf(time * 1000)
-    }
-
-    gsap.ticker.add(ticker)
-    gsap.ticker.lagSmoothing(0)
-
-    return () => {
-      lenis.destroy()
-      gsap.ticker.remove(ticker)
-    }
-  }, [])
+  // Native scrolling (no Lenis) — GSAP ScrollTrigger updates itself on the
+  // browser's native scroll, and dropping the smooth-scroll RAF loop removes the
+  // per-frame overhead that was amplifying scroll jank.
 
   // Global click interceptor — catches every href="#contact" link
   useEffect(() => {
