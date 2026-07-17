@@ -112,7 +112,7 @@ export default function PaidMediaPage() {
                   </ul>
                 </div>
                 <div className="pm-services__media">
-                  <div className="pm-services__img-wrap">
+                  <div className="pm-services__img-wrap browser-frame">
                     <img src={svc.image} alt={svc.imageAlt} className="pm-services__img" loading="lazy" decoding="async" />
                     <div className="pm-services__img-glow" />
                   </div>

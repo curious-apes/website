@@ -125,7 +125,7 @@
 .blog-card:hover {
   border-color: var(--border-hover);
   transform: translateY(-5px);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 196, 212, 0.1);
+  box-shadow: 0 34px 84px rgba(2, 6, 14, 0.5), 0 0 0 1px rgba(124, 92, 255, 0.16), 0 0 56px rgba(124, 92, 255, 0.08);
 }
 
 .blog-card__inner {

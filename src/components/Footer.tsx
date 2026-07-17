@@ -32,15 +32,8 @@ export default function Footer() {
         }
       )
 
-      gsap.to(bigTextRef.current, {
-        y: -40,
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      })
+      // (Removed the scrub parallax on the big wordmark — a scroll-linked tween
+      // that recomputed every frame near the footer, for a purely decorative move.)
     }, footerRef)
 
     return () => ctx.revert()

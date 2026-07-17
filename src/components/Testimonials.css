@@ -27,14 +27,15 @@
 .testimonial-card.is-active {
   border-color: rgba(0,196,212,0.3);
   transform: translateY(-4px);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,196,212,0.15);
+  box-shadow: 0 28px 70px rgba(2,6,14,0.55), 0 0 0 1px rgba(124,92,255,0.18), 0 0 60px rgba(124,92,255,0.10);
 }
 
 .testimonial-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(0,196,212,0.06) 0%, transparent 60%);
+  background: radial-gradient(circle at 18% 12%, rgba(0,196,212,0.08) 0%, transparent 55%),
+              radial-gradient(circle at 92% 96%, rgba(124,92,255,0.07) 0%, transparent 55%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }

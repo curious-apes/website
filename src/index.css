@@ -8,27 +8,37 @@
   --bg-card: #141414;
   --accent-white: #f5f5f5;
   --accent-cream: #e8e0d5;
+  /* Primary brand teal (kept as --accent-sand for backward-compat with components) */
   --accent-sand: #00c4d4;
   --accent-sand-dark: #008f9e;
-  --accent-gradient: linear-gradient(135deg, #00393e 0%, #005a62 40%, #007a85 60%, #00393e 100%);
-  --accent-gradient-text: linear-gradient(90deg, #00c4d4 0%, #00f0ff 50%, #00c4d4 100%);
-  --accent-gradient-glow: linear-gradient(135deg, rgba(0,57,62,0.22) 0%, rgba(0,196,212,0.08) 100%);
+  --accent-teal: #00c4d4;
+  --accent-teal-bright: #22e2f0;
+  /* Supporting accent: electric indigo/violet */
+  --accent-violet: #7c5cff;
+  --accent-violet-bright: #9d7bff;
+  /* Teal -> violet gradients (the bolder dual-tone language) */
+  --accent-gradient: linear-gradient(135deg, #00c4d4 0%, #3f8dff 52%, #7c5cff 100%);
+  --accent-gradient-text: linear-gradient(90deg, #00e2f0 0%, #6ea8ff 46%, #a882ff 100%);
+  --accent-gradient-glow: linear-gradient(135deg, rgba(0,196,212,0.18) 0%, rgba(124,92,255,0.12) 100%);
   --text-primary: #f0fafa;
-  --text-secondary: rgba(220, 245, 245, 0.82);
-  --text-muted: rgba(220, 245, 245, 0.6);
-  --border-color: rgba(0, 196, 212, 0.1);
-  --border-hover: rgba(0, 196, 212, 0.35);
+  --text-secondary: rgba(224, 244, 248, 0.86);
+  --text-muted: rgba(214, 234, 240, 0.62);
+  --border-color: rgba(120, 170, 210, 0.12);
+  --border-hover: rgba(124, 92, 255, 0.42);
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-display: 'Outfit', sans-serif;
   --transition-fast: 0.2s ease;
-  --transition-base: 0.4s ease;
+  --transition-base: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  --shadow-glow: 0 0 80px rgba(0, 196, 212, 0.12);
-  --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
+  /* Depth: tinted (not pure-black) shadows + dual-tone glow */
+  --shadow-glow: 0 0 90px rgba(0, 196, 212, 0.14);
+  --shadow-glow-violet: 0 0 90px rgba(124, 92, 255, 0.16);
+  --shadow-card: 0 10px 44px rgba(4, 8, 16, 0.55);
+  --shadow-elevated: 0 24px 70px rgba(2, 6, 14, 0.62), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
   --nav-height: 72px;
 }
 
@@ -85,6 +95,12 @@ html {
 
 body {
   background-color: var(--bg-primary);
+  /* Subtle dual-tone depth: teal glow top-left, violet glow upper-right.
+     Non-fixed so it paints once and adds no per-scroll cost. */
+  background-image:
+    radial-gradient(1100px 760px at 8% -6%, rgba(0, 196, 212, 0.10), transparent 58%),
+    radial-gradient(1000px 720px at 100% 4%, rgba(124, 92, 255, 0.10), transparent 55%);
+  background-repeat: no-repeat;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   font-family: var(--font-body);
@@ -199,17 +215,43 @@ input, textarea, select {
 
 /* Primary — bright teal fill, white text, always readable */
 .btn-primary {
-  background: #00c4d4;
-  color: #ffffff;
+  background: linear-gradient(120deg, #00c4d4 0%, #00dcea 100%);
+  color: #04181c;
   font-weight: 700;
   border: 1px solid transparent;
   box-shadow: 0 0 0 0 rgba(0, 196, 212, 0);
+  overflow: hidden;
+}
+
+/* Sheen sweep on hover — tactile delight, hover-only (no continuous cost) */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  left: 140%;
 }
 
 .btn-primary:hover {
-  background: #00dcea;
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 196, 212, 0.4);
+  box-shadow: 0 10px 34px rgba(0, 196, 212, 0.35), 0 0 44px rgba(124, 92, 255, 0.22);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Outline — visible border + white text, amber/gold hover for contrast */
@@ -263,6 +305,68 @@ input, textarea, select {
 
 .fade-up {
   will-change: transform, opacity;
+}
+
+/* ===========================
+   GRADIENT BORDER (opt-in premium card edge)
+   =========================== */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 196, 212, 0.5), rgba(124, 92, 255, 0.28) 55%, rgba(0, 196, 212, 0));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.55;
+  transition: opacity var(--transition-base);
+}
+.gradient-border:hover::after {
+  opacity: 1;
+}
+
+/* ===========================
+   BROWSER FRAME (wraps service-page screenshots as product views)
+   =========================== */
+.browser-frame {
+  padding-top: 36px;
+  background: #0b0d13;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+}
+.browser-frame::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  width: 42px;
+  height: 10px;
+  z-index: 2;
+  background:
+    radial-gradient(circle 5px at 5px 5px, rgba(255,255,255,0.22) 96%, transparent) left / 16px 10px no-repeat,
+    radial-gradient(circle 5px at 5px 5px, rgba(255,255,255,0.14) 96%, transparent) center / 16px 10px no-repeat,
+    radial-gradient(circle 5px at 5px 5px, rgba(0,196,212,0.5) 96%, transparent) right / 16px 10px no-repeat;
+}
+.browser-frame img {
+  border-radius: 0 0 12px 12px;
+}
+
+/* ===========================
+   REDUCED MOTION (accessibility quality floor)
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ===========================

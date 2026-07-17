@@ -105,7 +105,7 @@ export default function VisualsPage() {
                   </a>
                 </div>
                 <div className="vis-services__media">
-                  <div className="vis-services__img-wrap">
+                  <div className="vis-services__img-wrap browser-frame">
                     <img src={svc.image} alt={svc.imageAlt} className="vis-services__img" loading="lazy" decoding="async" />
                     <div className="vis-services__img-glow" />
                   </div>

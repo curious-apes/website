@@ -6,13 +6,16 @@
   z-index: 1000;
   padding: 0 40px;
   height: var(--nav-height);
-  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease;
+  /* Do not transition backdrop-filter — animating a blur is very expensive. */
+  transition: background 0.4s ease, border-bottom 0.4s ease;
 }
 
 .navbar--scrolled {
-  background: rgba(10, 10, 10, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* More opaque background + smaller blur radius keeps the frosted look but
+     cuts the per-scroll-frame repaint cost that was causing scroll jank. */
+  background: rgba(9, 10, 14, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 32px rgba(0,0,0,0.4);
 }

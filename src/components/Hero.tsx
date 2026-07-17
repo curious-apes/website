@@ -77,13 +77,22 @@ export default function Hero() {
         '-=0.8'
       )
 
-      // NDL cards scroll
-      if (ndlTrackRef.current) {
-        gsap.to(ndlTrackRef.current, {
+      // NDL infinite marquee — only run while on screen, and never under
+      // reduced-motion, so it doesn't burn frames scrolling past.
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (ndlTrackRef.current && !prefersReduced) {
+        const marquee = gsap.to(ndlTrackRef.current, {
           xPercent: -50,
           duration: 30,
           ease: 'none',
           repeat: -1,
+          paused: true,
+        })
+        ScrollTrigger.create({
+          trigger: ndlTrackRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          onToggle: (self) => (self.isActive ? marquee.play() : marquee.pause()),
         })
       }
 

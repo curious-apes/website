@@ -83,19 +83,21 @@
   padding: 44px 40px 40px;
   position: relative;
   cursor: default;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   overflow: hidden;
   transform-style: preserve-3d;
 }
 
 .service-card:hover {
   background: var(--bg-tertiary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-elevated);
 }
 
 .service-card__glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,196,212,0.07) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,196,212,0.10) 0%, rgba(124,92,255,0.05) 35%, transparent 62%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;

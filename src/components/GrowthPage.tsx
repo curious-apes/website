@@ -105,7 +105,7 @@ export default function GrowthPage() {
                   </a>
                 </div>
                 <div className="gm-services__media">
-                  <div className="gm-services__img-wrap">
+                  <div className="gm-services__img-wrap browser-frame">
                     <img src={svc.image} alt={svc.imageAlt} className="gm-services__img" loading="lazy" decoding="async" />
                     <div className="gm-services__img-glow" />
                   </div>

@@ -105,7 +105,7 @@ export default function TechCROPage() {
                   </a>
                 </div>
                 <div className="tc-services__media">
-                  <div className="tc-services__img-wrap">
+                  <div className="tc-services__img-wrap browser-frame">
                     <img src={svc.image} alt={svc.imageAlt} className="tc-services__img" loading="lazy" decoding="async" />
                     <div className="tc-services__img-glow" />
                   </div>
