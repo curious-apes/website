@@ -10,6 +10,7 @@ import logoAruwa from '../assets/client_logo/aruwa.webp'
 import logoAuthentics from '../assets/client_logo/authentics.webp'
 import logoBabyMonk from '../assets/client_logo/babymonk.webp'
 import logoBlba from '../assets/client_logo/blba.webp'
+import logoDhun from '../assets/client_logo/dhun.webp'
 import logoEcofit from '../assets/client_logo/ecofit.webp'
 import logoGhumar from '../assets/client_logo/ghumar.webp'
 import logoGulabi from '../assets/client_logo/gulabi.webp'
@@ -21,7 +22,6 @@ import logoPawblaze from '../assets/client_logo/pawblaze.webp'
 import logoPlusBeauty from '../assets/client_logo/plus beauty.webp'
 import logoRareblings from '../assets/client_logo/rareblings.webp'
 import logoReetrang from '../assets/client_logo/reetrang.webp'
-import logoSanjay from '../assets/client_logo/sanjay.webp'
 import logoScintaillre from '../assets/client_logo/scintaillre.webp'
 import logoShashak from '../assets/client_logo/shashak.webp'
 import logoSpiritual from '../assets/client_logo/spritual senses.webp'
@@ -94,6 +94,7 @@ const clients = [
   { name: 'Baby Monk',        logo: logoBabyMonk },
   { name: 'Amodini',          logo: logoAmodini },
   { name: 'Blba',             logo: logoBlba },
+  { name: 'Dhun',             logo: logoDhun },
   { name: 'Ecofit',           logo: logoEcofit },
   { name: 'Kaashi',           logo: logoKaashi },
   { name: 'Livvasa',          logo: logoLivvasa },
@@ -101,7 +102,6 @@ const clients = [
   { name: 'Plus Beauty',      logo: logoPlusBeauty },
   { name: 'Rareblings',       logo: logoRareblings },
   { name: 'Reetrang',         logo: logoReetrang },
-  { name: 'Sanjay',           logo: logoSanjay },
   { name: 'Scintaillre',      logo: logoScintaillre },
   { name: 'That Girl',        logo: logoThatGirl },
   { name: 'Tistabene',        logo: logoTistabene },
