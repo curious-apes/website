@@ -109,13 +109,92 @@
   .clients__grid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/* ===========================
+   MOBILE MARQUEE (auto-scrolling rows) — hidden on desktop
+   =========================== */
+.clients__marquee { display: none; }
+
 @media (max-width: 768px) {
-  .clients__grid { grid-template-columns: repeat(3, 1fr); }
   .clients__line-inner { font-size: clamp(44px, 11vw, 64px); }
+
+  /* Swap the tall grid for compact auto-scrolling rows */
+  .clients__grid { display: none; }
+
+  .clients__marquee {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .clients__marquee-row {
+    position: relative;
+    overflow: hidden;
+    /* Soft fade at both edges so logos slide in/out gracefully */
+    -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .clients__marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    width: max-content;
+    padding: 6px 0;
+    /* Pure CSS compositor loop — smooth, seamless (content is duplicated so
+       translating exactly -50% lands on an identical frame). */
+    will-change: transform;
+    backface-visibility: hidden;
+    animation: clientsMarqueeL var(--dur, 40s) linear infinite;
+  }
+
+  /* Alternate rows scroll the other way */
+  .clients__marquee-row:nth-child(even) .clients__marquee-track {
+    animation-name: clientsMarqueeR;
+  }
+
+  /* Paused when the section is off-screen (toggled by IntersectionObserver) */
+  .clients__marquee--paused .clients__marquee-track {
+    animation-play-state: paused;
+  }
+
+  .clients__marquee-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+  }
+
+  .clients__marquee-item img {
+    max-height: 38px;
+    max-width: 108px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0) invert(0.82);
+    opacity: 0.8;
+  }
+
+  /* Reduced motion: don't auto-scroll — let the user swipe the rows instead */
+  @media (prefers-reduced-motion: reduce) {
+    .clients__marquee-track {
+      animation: none;
+      transform: none;
+    }
+    .clients__marquee-row {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .clients__marquee-row::-webkit-scrollbar { display: none; }
+  }
 }
 
-@media (max-width: 480px) {
-  .clients__grid { grid-template-columns: repeat(3, 1fr); }
-  .clients__item { padding: 24px 12px; }
-  .clients__item img { max-width: 80px; max-height: 48px; }
+/* Marquee keyframes (global — content is duplicated 2x, so -50% = one full set) */
+@keyframes clientsMarqueeL {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes clientsMarqueeR {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
