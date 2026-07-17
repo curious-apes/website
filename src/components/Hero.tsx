@@ -218,7 +218,7 @@ export default function Hero() {
           <div ref={ndlTrackRef} className="hero__ndl-track">
             {[...ndlClients, ...ndlClients].map((client, i) => (
               <div key={i} className="hero__ndl-card">
-                <img src={client.src} alt={client.alt} />
+                <img src={client.src} alt={client.alt} loading="lazy" decoding="async" />
               </div>
             ))}
           </div>

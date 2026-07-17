@@ -72,6 +72,9 @@ interface ReelSliderProps {
 
 function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderProps) {
   const [active, setActive] = useState(startIndex % reels.length)
+  // Only load/play reels once the slider is on screen — keeps the ~4.7MB center
+  // reel off the initial page load (it's below the fold).
+  const [inView, setInView] = useState(false)
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
   const sliderRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -83,25 +86,27 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
   const prev = () => goTo((active - 1 + total) % total)
   const next = () => goTo((active + 1) % total)
 
-  // Play active video, pause others
+  // Play active video (only when on screen), pause others
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return
-      if (i === active) {
+      if (inView && i === active) {
         v.currentTime = 0
         v.play().catch(() => {})
       } else {
         v.pause()
       }
     })
-  }, [active])
+  }, [active, inView])
 
-  // Progress bar + autoplay advance on video end
+  // Progress bar + autoplay advance on video end (paused while off screen)
   useEffect(() => {
-    const vid = videoRefs.current[active]
     progressAnim.current?.kill()
     if (fallbackTimer.current) clearTimeout(fallbackTimer.current)
     if (progressRef.current) gsap.set(progressRef.current, { scaleX: 0 })
+    if (!inView) return
+
+    const vid = videoRefs.current[active]
 
     const advance = () => goTo((active + 1) % total)
 
@@ -142,7 +147,19 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
       if (fallbackTimer.current) clearTimeout(fallbackTimer.current)
       vid.removeEventListener('ended', onEnd)
     }
-  }, [active]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [active, inView]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Defer reel loading: mark in-view when the slider is near the viewport.
+  useEffect(() => {
+    const el = sliderRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '250px 0px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   // Scroll-trigger entrance
   useEffect(() => {
@@ -185,7 +202,7 @@ function ReelSlider({ startIndex = 0, label = 'Our Work', heading }: ReelSliderP
             ref={(el) => { videoRefs.current[active] = el }}
             src={reels[active]}
             poster={posters[active]}
-            muted playsInline preload="auto"
+            muted playsInline preload="none"
           />
           <div className="reel-slot__counter">
             <span className="reel-slot__counter-curr">{String(active + 1).padStart(2, '0')}</span>
