@@ -10,12 +10,10 @@ import logoAruwa from '../assets/client_logo/aruwa.webp'
 import logoAuthentics from '../assets/client_logo/authentics.webp'
 import logoBabyMonk from '../assets/client_logo/babymonk.webp'
 import logoBlba from '../assets/client_logo/blba.webp'
-import logoDhun from '../assets/client_logo/dhun.webp'
 import logoEcofit from '../assets/client_logo/ecofit.webp'
 import logoGhumar from '../assets/client_logo/ghumar.webp'
 import logoGulabi from '../assets/client_logo/gulabi.webp'
 import logoJaipurStudio from '../assets/client_logo/jaipur studio.webp'
-import logoJkj from '../assets/client_logo/jkj.webp'
 import logoKaashi from '../assets/client_logo/kaashi.webp'
 import logoKatha from '../assets/client_logo/katha.webp'
 import logoLivvasa from '../assets/client_logo/livvasa.webp'
@@ -96,9 +94,7 @@ const clients = [
   { name: 'Baby Monk',        logo: logoBabyMonk },
   { name: 'Amodini',          logo: logoAmodini },
   { name: 'Blba',             logo: logoBlba },
-  { name: 'Dhun',             logo: logoDhun },
   { name: 'Ecofit',           logo: logoEcofit },
-  { name: 'JKJ',              logo: logoJkj },
   { name: 'Kaashi',           logo: logoKaashi },
   { name: 'Livvasa',          logo: logoLivvasa },
   { name: 'Pawblaze',         logo: logoPawblaze },
