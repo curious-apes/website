@@ -26,9 +26,18 @@ export interface Enquiry {
 
 const SELECT_COLS = 'id, name, phone, email, website, message, status, source, createdAt:created_at'
 
+/**
+ * Save a public enquiry.
+ *
+ * Deliberately does NOT `.select()` the inserted row back: `INSERT ... RETURNING`
+ * makes Postgres evaluate the SELECT policy too, and anonymous visitors must not
+ * be able to read the enquiries table (leads are private). Asking for the row
+ * back is what made every submission fail with a misleading
+ * "new row violates row-level security policy" error.
+ */
 export async function saveEnquiry(
   data: Omit<Enquiry, 'id' | 'status' | 'createdAt'>
-): Promise<Enquiry> {
+): Promise<void> {
   const payload = {
     name: data.name,
     phone: data.phone,
@@ -38,13 +47,8 @@ export async function saveEnquiry(
     source: data.source,
   }
   const supabase = await db()
-  const { data: row, error } = await supabase
-    .from('enquiries')
-    .insert(payload)
-    .select(SELECT_COLS)
-    .single()
+  const { error } = await supabase.from('enquiries').insert(payload)
   if (error) throw error
-  return row as Enquiry
 }
 
 export async function getEnquiries(): Promise<Enquiry[]> {
