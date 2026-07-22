@@ -18,6 +18,21 @@
   z-index: 0;
 }
 
+/* Faint blueprint grid — reads as "dashboard/data" without any per-frame cost.
+   Single static background-image, masked so it fades out toward the edges. */
+.hero__grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(120, 170, 210, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 170, 210, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(120% 85% at 50% 15%, #000 20%, transparent 72%);
+  mask-image: radial-gradient(120% 85% at 50% 15%, #000 20%, transparent 72%);
+}
+
 .hero__orb {
   position: absolute;
   border-radius: 50%;
@@ -39,15 +54,6 @@
   width: 360px; height: 360px;
   top: 44%; left: 46%;
   background: radial-gradient(circle, rgba(90,120,255,0.09) 0%, transparent 70%);
-}
-
-.hero__scroll-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 55%, var(--bg-primary) 100%);
-  pointer-events: none;
-  opacity: 0;
-  z-index: 2;
 }
 
 /* ===========================
@@ -78,16 +84,16 @@
   align-items: center;
   gap: 10px;
   padding: 9px 18px;
-  background: rgba(201, 169, 110, 0.08);
-  border: 1px solid rgba(201, 169, 110, 0.22);
+  background: rgba(0, 196, 212, 0.08);
+  border: 1px solid rgba(0, 196, 212, 0.22);
   border-radius: 100px;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--accent-sand);
+  letter-spacing: 0.04em;
+  color: var(--accent-teal);
   width: fit-content;
-  margin-bottom: 32px;
+  margin-bottom: 26px;
 }
 
 .hero__badge-dot {
@@ -105,7 +111,47 @@
 }
 
 .hero__headline {
-  margin-bottom: 28px;
+  margin-bottom: 22px;
+}
+
+/* ---------------------------
+   ROTATING FOUNDER-PAIN LINE
+   --------------------------- */
+.hero__pain {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 30px;
+  padding-left: 16px;
+  border-left: 2px solid rgba(0, 196, 212, 0.45);
+  margin-bottom: 26px;
+}
+
+.hero__pain-quote {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 0.9;
+  color: var(--accent-teal);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* Keyed on index in the JSX, so React remounts the span and the entry
+   animation replays on every rotation. Transform + opacity only. */
+.hero__pain-text {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  animation: painIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes painIn {
+  from { opacity: 0; transform: translateY(9px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero__line {
@@ -175,53 +221,42 @@
   color: var(--accent-sand);
 }
 
-/* Stats inline */
-.hero__stats-inline {
+/* Proof row — no card, no backdrop-filter. Numbers should feel like facts,
+   not like another widget. */
+.hero__proof {
   display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 28px 32px;
-  background: rgba(20, 20, 20, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
+  align-items: flex-start;
+  gap: 40px;
+  padding-top: 26px;
+  border-top: 1px solid var(--border-color);
 }
 
-.hero__stat {
+.hero__proof-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
+  gap: 5px;
 }
 
-.hero__stat-number {
+.hero__proof-number {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   background: var(--accent-gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1;
 }
 
-.hero__stat-label {
+.hero__proof-label {
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--text-muted);
   text-transform: uppercase;
-  text-align: center;
-}
-
-.hero__stat-divider {
-  width: 1px;
-  height: 36px;
-  background: var(--border-color);
-  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ===========================
@@ -232,59 +267,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 540px;
-}
-
-/* Floating metric cards — no backdrop-filter: these animate continuously, and a
-   moving blurred backdrop re-composites every frame (jank). The near-opaque
-   background gives the same look without the cost. */
-.hero__metric {
-  position: absolute;
-  background: rgba(13, 15, 21, 0.95);
-  border: 1px solid rgba(0, 196, 212, 0.18);
-  border-radius: 14px;
-  padding: 16px 22px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0,196,212,0.08);
-  z-index: 4;
-}
-
-.hero__metric--1 { top: 6%; right: -4%; animation: mFloat1 3.8s ease-in-out infinite; }
-.hero__metric--2 { bottom: 22%; left: -8%; animation: mFloat2 4.4s ease-in-out infinite; }
-.hero__metric--3 { bottom: 5%; right: 4%; animation: mFloat3 3.4s ease-in-out infinite; }
-
-@keyframes mFloat1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-@keyframes mFloat2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-@keyframes mFloat3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-
-.hero__metric-value {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 800;
-  background: var(--accent-gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.hero__metric-label {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.hero__metric-arrow {
-  font-size: 13px;
-  color: #4ade80;
-  font-weight: 700;
-  line-height: 1;
 }
 
 /* ===========================
@@ -434,31 +416,31 @@
 @media (max-width: 1100px) {
   .hero__main {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 44px;
     padding-top: calc(var(--nav-height) + 40px);
   }
-  .hero__visual { height: 380px; }
-  .hero__metric--2 { left: 0; }
-  .hero__metric--1 { right: 0; }
+  .hero__visual { justify-content: flex-start; }
 }
 
 @media (max-width: 768px) {
-  .hero__visual { display: none; }
-  .hero__line-inner { font-size: clamp(40px, 10vw, 64px); }
-  .hero__stats-inline { flex-direction: column; gap: 16px; padding: 20px 24px; }
-  .hero__stat-divider { width: 40px; height: 1px; }
+  .hero__line-inner { font-size: clamp(38px, 10vw, 60px); }
+  .hero__proof { gap: 26px; }
+  .hero__proof-number { font-size: 25px; }
+  .hero__proof-label { font-size: 10px; }
 }
 
 @media (max-width: 480px) {
-  .hero__badge { font-size: 11px; }
-  .hero__copy { display: flex; flex-direction: column; }
+  .hero__badge { font-size: 11px; padding: 8px 14px; }
+  .hero__pain-text { font-size: 14px; }
   .hero__actions {
-    order: 1;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 0;
-    margin-top: 24px;
+    align-items: stretch;
+    margin-bottom: 40px;
   }
-  .hero__stats-inline { order: 0; }
   .hero__cta-primary, .hero__cta-secondary { width: 100%; justify-content: center; }
+  .hero__proof {
+    gap: 18px;
+    justify-content: space-between;
+  }
+  .hero__proof-label { white-space: normal; }
 }

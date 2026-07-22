@@ -1,0 +1,305 @@
+/* ============================================================
+   SCALING CONSOLE — before/after D2C account view
+   All state changes are transform/opacity/height only.
+   ============================================================ */
+.scon {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  perspective: 1200px;
+}
+
+.scon__panel {
+  position: relative;
+  border-radius: 20px;
+  padding: 22px 24px 20px;
+  background:
+    linear-gradient(180deg, rgba(22, 26, 36, 0.96) 0%, rgba(13, 15, 21, 0.98) 100%);
+  border: 1px solid rgba(120, 170, 210, 0.16);
+  box-shadow: var(--shadow-elevated);
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* Ambient wash that shifts red -> teal with the state */
+.scon__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(255, 77, 96, 0.14), transparent 62%);
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+.scon__panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(0, 196, 212, 0.16), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+.scon--scaled .scon__panel::before { opacity: 0; }
+.scon--scaled .scon__panel::after  { opacity: 1; }
+
+.scon__panel > * { position: relative; z-index: 1; }
+
+/* ---------------- Header ---------------- */
+.scon__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.scon__head-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+.scon__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.scon__brand-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #ff4d60;
+  box-shadow: 0 0 10px rgba(255, 77, 96, 0.7);
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+  flex-shrink: 0;
+}
+.scon--scaled .scon__brand-dot {
+  background: #22e2a0;
+  box-shadow: 0 0 10px rgba(34, 226, 160, 0.7);
+}
+
+.scon__sub {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Bleeding / Scaling pills — one fades out as the other fades in */
+.scon__state { position: relative; flex-shrink: 0; }
+
+.scon__state-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scon__state-pill--bad {
+  color: #ff8a95;
+  background: rgba(255, 77, 96, 0.12);
+  border: 1px solid rgba(255, 77, 96, 0.3);
+}
+
+.scon__state-pill--good {
+  position: absolute;
+  top: 0; right: 0;
+  color: #4dedb4;
+  background: rgba(34, 226, 160, 0.12);
+  border: 1px solid rgba(34, 226, 160, 0.32);
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.scon--scaled .scon__state-pill--bad  { opacity: 0; transform: translateY(-6px); }
+.scon--scaled .scon__state-pill--good { opacity: 1; transform: translateY(0); }
+
+/* ---------------- Metric grid ---------------- */
+.scon__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 18px 0 16px;
+}
+
+.scon__metric { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+
+.scon__metric-label {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The flip: two values stacked, one visible at a time */
+.scon__metric-flip {
+  position: relative;
+  height: 24px;
+}
+.scon__metric-flip--delta { height: 14px; }
+
+.scon__metric-val,
+.scon__delta {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scon__metric-val {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.scon__metric-val--before { color: #ff8a95; }
+.scon__metric-val--after  {
+  opacity: 0;
+  transform: translateY(8px);
+  background: var(--accent-gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.scon__delta {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.scon__delta--before { color: rgba(255, 138, 149, 0.75); }
+.scon__delta--after  { color: #4dedb4; opacity: 0; transform: translateY(8px); }
+
+.scon--scaled .scon__metric-val--before,
+.scon--scaled .scon__delta--before { opacity: 0; transform: translateY(-8px); }
+.scon--scaled .scon__metric-val--after,
+.scon--scaled .scon__delta--after  { opacity: 1; transform: translateY(0); }
+
+/* ---------------- Chart ---------------- */
+.scon__chart {
+  position: relative;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.scon__chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.scon__chart-title {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.scon__chart-value {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ff8a95;
+  transition: color 0.6s ease;
+}
+.scon--scaled .scon__chart-value { color: #4dedb4; }
+
+.scon__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 104px;
+}
+
+.scon__bar {
+  flex: 1;
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(180deg, rgba(255, 77, 96, 0.85) 0%, rgba(255, 77, 96, 0.22) 100%);
+  transition: height 0.75s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s ease;
+  min-height: 4px;
+}
+
+.scon--scaled .scon__bar {
+  background: linear-gradient(180deg, #22e2f0 0%, rgba(124, 92, 255, 0.35) 100%);
+}
+
+.scon__baseline {
+  height: 1px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, transparent, rgba(120, 170, 210, 0.28), transparent);
+}
+
+/* ---------------- Footer ---------------- */
+.scon__foot {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.scon__foot-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #ff4d60;
+  transition: background 0.6s ease;
+  flex-shrink: 0;
+}
+.scon--scaled .scon__foot-dot { background: #22e2a0; }
+
+.scon__foot-text {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1100px) {
+  .scon { max-width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .scon__panel { padding: 18px 16px 16px; border-radius: 16px; }
+  .scon__metrics { grid-template-columns: repeat(2, 1fr); gap: 14px 12px; }
+  .scon__metric-val { font-size: 18px; }
+  .scon__bars { height: 84px; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scon__panel::before,
+  .scon__panel::after,
+  .scon__metric-val,
+  .scon__delta,
+  .scon__state-pill,
+  .scon__bar {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
