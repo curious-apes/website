@@ -71,9 +71,13 @@ export default function Contact() {
     if (submitting) return
     setSubmitting(true)
     setSubmitError('')
+
+    // The two destinations are independent on purpose: a database problem must
+    // never stop the lead reaching the CRM (previously Zoho only fired after a
+    // successful DB write, so a DB failure lost the lead entirely).
+    let delivered = false
+
     try {
-      await saveEnquiry({ ...formData, source: 'contact_section' })
-      // Mirror to Zoho CRM — fire-and-forget; never blocks the user
       submitToZoho({
         name: formData.name,
         phone: formData.phone,
@@ -82,9 +86,21 @@ export default function Contact() {
         message: formData.message,
         source: 'contact_section',
       })
-      navigate('/thankyou')
+      delivered = true
     } catch (err) {
-      console.error('Failed to submit enquiry:', err)
+      console.error('Zoho submit failed:', err)
+    }
+
+    try {
+      await saveEnquiry({ ...formData, source: 'contact_section' })
+      delivered = true
+    } catch (err) {
+      console.error('Enquiry DB save failed (lead still sent to CRM):', err)
+    }
+
+    if (delivered) {
+      navigate('/thankyou')
+    } else {
       setSubmitError('Something went wrong. Please try again or WhatsApp us directly.')
       setSubmitting(false)
     }

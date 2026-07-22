@@ -70,9 +70,12 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
     if (submitting) return
     setSubmitting(true)
     setSubmitError('')
+
+    // Independent destinations — a database problem must never stop the lead
+    // reaching the CRM.
+    let delivered = false
+
     try {
-      await saveEnquiry({ ...formData, source: 'popup' })
-      // Mirror to Zoho CRM — fire-and-forget; never blocks the user
       submitToZoho({
         name: formData.name,
         phone: formData.phone,
@@ -81,10 +84,22 @@ export default function PopupForm({ open, onClose }: PopupFormProps) {
         message: formData.message,
         source: 'popup',
       })
+      delivered = true
+    } catch (err) {
+      console.error('Zoho submit failed:', err)
+    }
+
+    try {
+      await saveEnquiry({ ...formData, source: 'popup' })
+      delivered = true
+    } catch (err) {
+      console.error('Enquiry DB save failed (lead still sent to CRM):', err)
+    }
+
+    if (delivered) {
       onClose()
       navigate('/thankyou')
-    } catch (err) {
-      console.error('Failed to submit enquiry:', err)
+    } else {
       setSubmitError('Something went wrong. Please try again or WhatsApp us directly.')
       setSubmitting(false)
     }
