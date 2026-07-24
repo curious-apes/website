@@ -5,9 +5,9 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Growth Marketing — Profitable Scaling | Curious Apes',
+      title: 'Growth Marketing Agency for D2C Brands | Curious Apes',
       description:
-        'Full-funnel growth marketing that scales Indian D2C brands profitably — strategy, retention, and performance.',
+        'Accelerate customer acquisition, retention, and revenue with growth marketing strategies designed for scaling D2C and eCommerce brands.',
       path: '/services/growth-marketing',
     },
     originFromMatches(matches),

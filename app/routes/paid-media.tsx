@@ -5,9 +5,9 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Paid Media — Meta & Google Ads | Curious Apes',
+      title: 'Paid Media Agency for D2C Brands | Meta & Google Ads Experts',
       description:
-        'Performance-driven Meta and Google Ads management that turns ad spend into profitable, scalable growth.',
+        'Scale faster with data-driven paid media services. We manage Meta Ads, Google Ads, audience targeting, creative testing, and ROAS-focused campaigns.',
       path: '/services/paid-media',
     },
     originFromMatches(matches),

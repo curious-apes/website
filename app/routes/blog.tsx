@@ -17,9 +17,9 @@ export async function loader() {
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Blog — Strategies & Playbooks | Curious Apes',
+      title: 'Ecommerce Marketing, CRO & Growth Blog | Curious Apes',
       description:
-        'Real growth strategies and playbooks for Indian D2C brands — Meta & Google Ads, CRO, retention, and creative.',
+        'Explore insights on eCommerce marketing, CRO, paid media, growth strategies, customer acquisition, and scaling D2C brands successfully.',
       path: '/blog',
     },
     originFromMatches(matches),

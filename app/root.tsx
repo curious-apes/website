@@ -32,11 +32,11 @@ export const links: LinksFunction = () => [
 ]
 
 export const meta: MetaFunction = () => [
-  { title: 'Curious Apes — Creative & Tech Agency' },
+  { title: 'E-Commerce Marketing & Growth Agency in Jaipur | Curious Apes' },
   {
     name: 'description',
     content:
-      'Curious Apes — A creative and technology agency crafting bold digital experiences.',
+      'Curious Apes helps D2C brands scale with paid media, growth marketing, CRO, creative production, and eCommerce solutions.',
   },
 ]
 

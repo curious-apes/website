@@ -5,9 +5,9 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Tech & CRO — End-to-End eCommerce | Curious Apes',
+      title: 'CRO & Ecommerce Development Agency | Tech Solutions for Growth',
       description:
-        'Shopify development and conversion rate optimization that turn more of your traffic into revenue.',
+        'Improve conversions with CRO, landing page optimization, analytics, tracking, and eCommerce technology solutions designed to maximize revenue.',
       path: '/services/tech-cro',
     },
     originFromMatches(matches),

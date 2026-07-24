@@ -5,9 +5,9 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Visuals & Creative — Content That Converts | Curious Apes',
+      title: 'Creative Agency for Ecommerce Brands | Visuals That Convert',
       description:
-        'Scroll-stopping creative and content built to convert — from performance ads to brand storytelling.',
+        'Create scroll-stopping visuals and high-converting creatives for ads, social media, websites, and eCommerce campaigns that drive user engagement and sales.',
       path: '/services/visuals-creative',
     },
     originFromMatches(matches),

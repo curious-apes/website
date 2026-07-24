@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block admin app + the post-submit thank-you page from indexing
+Disallow: /admin
+Disallow: /thankyou
+
+# Sitemap
+Sitemap: https://www.curiousapes.in/sitemap.xml

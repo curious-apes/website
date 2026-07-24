@@ -19,9 +19,9 @@ export async function loader() {
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'Curious Apes — Creative & Tech Agency',
+      title: 'E-Commerce Marketing & Growth Agency in Jaipur | Curious Apes',
       description:
-        'Curious Apes — A creative and technology agency crafting bold digital experiences for ambitious D2C brands.',
+        'Curious Apes helps D2C brands scale with paid media, growth marketing, CRO, creative production, and eCommerce solutions. Drive revenue with data-backed strategies.',
       path: '/',
     },
     originFromMatches(matches),

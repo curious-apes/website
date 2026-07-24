@@ -127,6 +127,10 @@ export default function Hero() {
       <div className="hero__orb hero__orb--3" />
 
       <div className="hero__main container">
+        {/* SEO H1 — the visible headline is animated <div>s, so the page's real
+            <h1> is carried here (visually hidden, still in the DOM for crawlers). */}
+        <h1 className="sr-only">E-Commerce Growth Agency That Helps D2C Brands Scale Faster</h1>
+
         {/* LEFT — Copy */}
         <div className="hero__copy">
           <div ref={badgeRef} className="hero__badge">

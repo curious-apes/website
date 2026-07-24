@@ -5,9 +5,9 @@ import { buildMeta, originFromMatches } from '../lib/meta'
 export const meta: MetaFunction = ({ matches }) =>
   buildMeta(
     {
-      title: 'About — Curious Apes',
+      title: 'About Curious Apes | D2C Growth & Ecommerce Marketing Experts',
       description:
-        'Meet Curious Apes — the creative and technology team building bold digital experiences and profitable growth for D2C brands.',
+        'Learn how Curious Apes helps D2C brands grow through performance marketing, creative strategy, CRO, and technology solutions focused on measurable results.',
       path: '/about',
     },
     originFromMatches(matches),

@@ -102,7 +102,6 @@ export default function Blog({ posts: initialPosts }: { posts?: BlogPost[] } = {
   const sectionRef = useRef<HTMLElement>(null)
   const labelRef   = useRef<HTMLDivElement>(null)
   const headRef    = useRef<HTMLDivElement>(null)
-  const ctaRef     = useRef<HTMLDivElement>(null)
   // When provided by a route loader, render the posts server-side; otherwise
   // (e.g. the homepage section) fetch them on the client.
   const [posts, setPosts] = useState<BlogPost[]>(initialPosts ?? [])
@@ -137,14 +136,6 @@ export default function Blog({ posts: initialPosts }: { posts?: BlogPost[] } = {
           { y: 80, opacity: 0, skewY: 2 },
           { y: 0, opacity: 1, skewY: 0, duration: 1, stagger: 0.1, ease: 'power4.out',
             scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' } }
-        )
-      }
-
-      if (ctaRef.current) {
-        gsap.fromTo(ctaRef.current,
-          { y: 24, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out',
-            scrollTrigger: { trigger: ctaRef.current, start: 'top 88%' } }
         )
       }
     }, sectionRef)
@@ -186,17 +177,6 @@ export default function Blog({ posts: initialPosts }: { posts?: BlogPost[] } = {
             ))}
           </div>
         )}
-
-        {/* Bottom CTA */}
-        <div ref={ctaRef} className="blog__bottom-cta">
-          <p className="blog__bottom-text">Want strategies like these for your brand?</p>
-          <a href="#contact" className="btn btn--primary">
-            Let's Talk Growth
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-        </div>
 
       </div>
     </section>
