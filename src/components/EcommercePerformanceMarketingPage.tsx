@@ -188,10 +188,41 @@ export default function EcommercePerformanceMarketingPage() {
   const openPopup = useCallback(() => setPopupOpen(true), [])
   const closePopup = useCallback(() => setPopupOpen(false), [])
   const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const [activePillar, setActivePillar] = useState(0)
 
   const rootRef = useRef<HTMLElement>(null)
+  const pillarRefs = useRef<Array<HTMLElement | null>>([])
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  // Full-Funnel sticky scroll-stack: reveal each pillar card as it enters and
+  // track the active one to light up the progress dots beside the pinned heading.
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      pillarRefs.current.forEach((el, i) => {
+        if (!el) return
+        gsap.fromTo(
+          el,
+          { y: 60, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' },
+          },
+        )
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 55%',
+          end: 'bottom 55%',
+          onToggle: (self) => { if (self.isActive) setActivePillar(i) },
+        })
+      })
+    }, rootRef)
+    return () => ctx.revert()
+  }, [])
 
   // Scroll-reveal: every [data-reveal] fades/slides up as it enters the viewport.
   useEffect(() => {
@@ -309,35 +340,54 @@ export default function EcommercePerformanceMarketingPage() {
         </section>
 
         {/* ============ SECTION 5 — WHY YOU NEED IT (funnel pillars) ============ */}
+        {/* Vertical sticky scroll-stack: heading pins on the left while the five
+            pillar cards scroll through one-by-one on the right. */}
         <section className="epm-why">
-          <div className="container">
-            <div className="epm-why__head" data-reveal>
-              <div className="section-label">The Full-Funnel Advantage</div>
-              <h2 className="epm-section-title">
-                Why Your Ecommerce Business Needs<br />
-                <span className="epm-grad">Performance Marketing Services</span>
-              </h2>
-              <p className="epm-section-sub">
-                Our integrated marketing approach ensures every stage of your customer journey is optimized for
-                better performance.
-              </p>
+          <div className="container epm-why__inner">
+            <div className="epm-why__aside">
+              <div className="epm-why__head" data-reveal>
+                <div className="section-label">The Full-Funnel Advantage</div>
+                <h2 className="epm-section-title">
+                  Why Your Ecommerce Business Needs<br />
+                  <span className="epm-grad">Performance Marketing Services</span>
+                </h2>
+                <p className="epm-section-sub">
+                  Our integrated marketing approach ensures every stage of your customer journey is optimized for
+                  better performance.
+                </p>
+                <div className="epm-why__progress" aria-hidden="true">
+                  {whyPillars.map((p, i) => (
+                    <span
+                      key={p.title}
+                      className={`epm-why__dot ${i === activePillar ? 'is-active' : ''}`}
+                    />
+                  ))}
+                </div>
+                <p className="epm-why__foot">
+                  At Curious Apes, we combine strategy, creativity, and technology to help eCommerce brands grow faster,
+                  spend smarter, and achieve long-term success.
+                </p>
+              </div>
             </div>
-            <div className="epm-why__grid">
+
+            <div className="epm-why__stack">
               {whyPillars.map((p, i) => (
-                <article className="epm-why__card" key={p.title} data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
+                <article
+                  className="epm-why__card"
+                  key={p.title}
+                  ref={(el) => { pillarRefs.current[i] = el }}
+                >
                   <div className="epm-why__media">
                     <img src={p.image} alt={p.title} loading="lazy" decoding="async" />
                     <span className="epm-why__badge">{String(i + 1).padStart(2, '0')}</span>
                   </div>
-                  <h3 className="epm-why__title">{p.title}</h3>
-                  <p className="epm-why__desc">{p.desc}</p>
+                  <div className="epm-why__body">
+                    <h3 className="epm-why__title">{p.title}</h3>
+                    <p className="epm-why__desc">{p.desc}</p>
+                  </div>
                 </article>
               ))}
             </div>
-            <p className="epm-why__foot" data-reveal>
-              At Curious Apes, we combine strategy, creativity, and technology to help eCommerce brands grow faster,
-              spend smarter, and achieve long-term success.
-            </p>
           </div>
         </section>
 
@@ -572,13 +622,26 @@ export default function EcommercePerformanceMarketingPage() {
 
         {/* ============ SECTION 16 — FAQ ============ */}
         <section className="epm-faq">
-          <div className="container">
-            <div className="epm-faq__head" data-reveal>
-              <div className="section-label">Frequently Asked Questions</div>
-              <h2 className="epm-section-title">
-                Questions About <span className="epm-grad">Ecommerce Performance Marketing</span>
-              </h2>
-            </div>
+          <div className="container epm-faq__inner">
+            <aside className="epm-faq__aside">
+              <div className="epm-faq__head" data-reveal>
+                <div className="section-label">Frequently Asked Questions</div>
+                <h2 className="epm-section-title">
+                  Questions About <span className="epm-grad">Ecommerce Performance Marketing</span>
+                </h2>
+                <p className="epm-section-sub">
+                  Still deciding if performance marketing is right for your brand? Here are the answers
+                  brands ask us most — and if yours isn't here, let's talk.
+                </p>
+                <div className="epm-faq__cta" data-reveal>
+                  <h3 className="epm-faq__cta-title">Still have questions?</h3>
+                  <p className="epm-faq__cta-text">Book a free strategy call and we'll answer everything specific to your store.</p>
+                  <a href="#contact" className="btn btn-primary epm-btn" onClick={(e) => { e.preventDefault(); openPopup() }}>
+                    Book Free Strategy Call {arrowIcon}
+                  </a>
+                </div>
+              </div>
+            </aside>
             <div className="epm-faq__list">
               {faqs.map((f, i) => {
                 const isOpen = openFaq === i

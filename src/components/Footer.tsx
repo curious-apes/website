@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import logoImg from '../assets/original_logo.webp'
 import './Footer.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -50,7 +51,7 @@ export default function Footer() {
           <div className="footer__brand">
             <a href="#hero" className="footer__logo">
               <img
-                src="/src/assets/original_logo.webp"
+                src={logoImg}
                 alt="Curious Apes"
                 className="footer__logo-img"
               />

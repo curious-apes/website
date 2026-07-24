@@ -331,24 +331,67 @@
 }
 
 /* =====================================================================
-   SECTION 5 — WHY (funnel pillars)
+   SECTION 5 — WHY (funnel pillars) — vertical sticky scroll-stack
    ===================================================================== */
 .epm-why { padding: 100px 0; }
-.epm-why__head { max-width: 760px; margin-bottom: 52px; }
+
+.epm-why__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: 72px;
+  align-items: start;
+}
+
+/* Left column pins while the card stack scrolls past on the right. */
+.epm-why__aside {
+  position: sticky;
+  top: calc(var(--nav-height) + 60px);
+  align-self: start;
+}
+
 .epm-why__head .section-label { margin-bottom: 20px; }
 
-.epm-why__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+.epm-why__progress {
+  display: flex;
+  gap: 10px;
+  margin: 32px 0;
+}
+
+.epm-why__dot {
+  width: 28px;
+  height: 4px;
+  border-radius: 100px;
+  background: var(--border-color);
+  transition: background 0.4s ease, width 0.4s ease;
+}
+
+.epm-why__dot.is-active {
+  width: 44px;
+  background: var(--accent-gradient);
+}
+
+.epm-why__foot {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 460px;
+}
+
+/* Right column: the vertical card stack */
+.epm-why__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .epm-why__card {
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--bg-card);
   overflow: hidden;
   transition: transform 0.4s ease, border-color 0.4s ease;
+  will-change: transform, opacity;
 }
 
 .epm-why__card:hover {
@@ -358,7 +401,7 @@
 
 .epm-why__media {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
@@ -375,49 +418,41 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 10, 0.75));
+  background: linear-gradient(180deg, transparent 45%, rgba(10, 10, 10, 0.72));
 }
 
 .epm-why__badge {
   position: absolute;
-  top: 14px; left: 14px;
+  top: 16px; left: 16px;
   z-index: 2;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: #fff;
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(6px);
 }
 
+.epm-why__body { padding: 26px 30px 30px; }
+
 .epm-why__title {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
-  padding: 22px 24px 0;
+  margin-bottom: 12px;
 }
 
 .epm-why__desc {
   font-family: var(--font-body);
-  font-size: 14.5px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  padding: 12px 24px 26px;
-}
-
-.epm-why__foot {
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: var(--text-secondary);
+  font-size: 15.5px;
   line-height: 1.75;
-  max-width: 720px;
-  margin-top: 40px;
+  color: var(--text-secondary);
 }
 
 /* =====================================================================
@@ -925,13 +960,51 @@
    SECTION 16 — FAQ
    ===================================================================== */
 .epm-faq { padding: 100px 0; }
-.epm-faq__head { max-width: 720px; margin-bottom: 44px; }
+
+.epm-faq__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 72px;
+  align-items: start;
+}
+
+.epm-faq__aside {
+  position: sticky;
+  top: calc(var(--nav-height) + 60px);
+  align-self: start;
+}
+
 .epm-faq__head .section-label { margin-bottom: 20px; }
+
+.epm-faq__cta {
+  margin-top: 32px;
+  padding: 28px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(0, 196, 212, 0.06), var(--bg-card));
+}
+
+.epm-faq__cta-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.epm-faq__cta-text {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 22px;
+}
 
 .epm-faq__list {
   display: grid;
   gap: 14px;
-  max-width: 860px;
+  align-content: start;
 }
 
 .epm-faq__item {
@@ -1087,7 +1160,6 @@
 @media (max-width: 1024px) {
   .epm-proof__grid,
   .epm-services__grid,
-  .epm-why__grid,
   .epm-process__grid,
   .epm-tools__grid,
   .epm-success__grid,
@@ -1097,6 +1169,21 @@
   }
 
   .epm-choose__inner { grid-template-columns: 1fr; gap: 40px; }
+
+  /* Collapse the sticky two-column layouts to a single stacked flow. */
+  .epm-why__inner,
+  .epm-faq__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .epm-why__aside,
+  .epm-faq__aside {
+    position: static;
+    top: auto;
+  }
+
+  .epm-why__progress { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -1110,7 +1197,6 @@
 
   .epm-proof__grid,
   .epm-services__grid,
-  .epm-why__grid,
   .epm-process__grid,
   .epm-tools__grid,
   .epm-success__grid,
