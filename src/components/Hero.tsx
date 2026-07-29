@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Hero.css'
@@ -23,16 +23,6 @@ const ndlClients = [
   { src: ndlClient9, alt: 'Client 9' },
 ]
 
-/* The exact sentences D2C founders say out loud. Rotating these is the hook:
-   whichever one is on screen, some visitor is nodding at it. */
-const PAINS = [
-  'Meta CAC keeps climbing.',
-  'ROAS looked great at ₹2L/day. Not at ₹8L.',
-  'Great product. Nobody scrolls past it.',
-  'Agencies send reports, not revenue.',
-  'Traffic is up. Orders aren’t.',
-]
-
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
@@ -44,16 +34,6 @@ export default function Hero() {
   const statsRef = useRef<HTMLDivElement>(null)
   const visualRef = useRef<HTMLDivElement>(null)
   const ndlTrackRef = useRef<HTMLDivElement>(null)
-
-  const [painIndex, setPainIndex] = useState(0)
-
-  // Rotate the pain line. Pure state swap + CSS transition — no layout thrash.
-  useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
-    const t = setInterval(() => setPainIndex((i) => (i + 1) % PAINS.length), 3200)
-    return () => clearInterval(t)
-  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -131,49 +111,35 @@ export default function Hero() {
         <div className="hero__copy">
           <div ref={badgeRef} className="hero__badge">
             <span className="hero__badge-dot" />
-            D2C Growth Partner · 50+ Indian brands scaled
+            Growth Partner for India&apos;s Leading D2C Brands
           </div>
 
           <div ref={headlineRef} className="hero__headline">
             <div className="hero__line">
-              <span className="hero__line-inner">Your product</span>
+              <span className="hero__line-inner">Data-Driven</span>
             </div>
             <div className="hero__line">
-              <span className="hero__line-inner">deserves better</span>
+              <span className="hero__line-inner hero__line-inner--grad">eCommerce</span>
             </div>
             <div className="hero__line">
-              <span className="hero__line-inner hero__line-inner--grad">numbers.</span>
+              <span className="hero__line-inner">Agency</span>
             </div>
-          </div>
-
-          {/* The rotating founder-pain line — the "we get it" moment */}
-          <div className="hero__pain" aria-live="off">
-            <span className="hero__pain-quote">&ldquo;</span>
-            <span key={painIndex} className="hero__pain-text">
-              {PAINS[painIndex]}
-            </span>
           </div>
 
           <p ref={subRef} className="hero__sub">
-            We&apos;re the D2C team brands call when growth stalls. Paid media,
-            creative and analytics run as one system — so every rupee of ad
-            spend is traceable to revenue, not to a slide deck.
+            We help brands scale their online presence with proven strategies
+            and cutting-edge technology — combining Tech, Analytics, Visuals &amp; Paid Media.
           </p>
 
           <div ref={ctaRef} className="hero__actions">
-            <a href="#contact" className="btn btn-primary hero__cta-primary">
-              Get a free growth audit
+            <a href="https://www.curiousapes.in/profile/company-profile.pdf" target="_blank" rel="noreferrer" className="btn btn-primary hero__cta-primary">
+              View Profile
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
-            <a
-              href="https://www.curiousapes.in/profile/company-profile.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline hero__cta-secondary"
-            >
-              See our work
+            <a href="#services" className="btn btn-outline hero__cta-secondary">
+              Our Services
             </a>
           </div>
 
