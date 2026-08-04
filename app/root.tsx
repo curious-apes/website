@@ -49,6 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google-site-verification" content="vdawBZwTAndTHU4fiiR6TxExklVafRER2A0dWf0WS1I" />
         <Meta />
         <Links />
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
