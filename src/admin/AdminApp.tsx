@@ -2,11 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import AdminLogin from './AdminLogin'
 import AdminDashboard, { EnquiryFilters } from './AdminDashboard'
 import BlogManager from './BlogManager'
+import ScaleLeadsManager, { ScaleLeadFilters } from './ScaleLeadsManager'
 import { getEnquiries, type Enquiry, type EnquiryStatus } from '../lib/enquiries'
+import { getScaleLeads, type ScaleLead, type ScaleLeadStatus } from '../lib/scaleLeads'
 import { supabase } from '../lib/supabase'
 import './Admin.css'
 
-type AdminView = 'enquiries' | 'blog'
+type AdminView = 'enquiries' | 'scale-leads' | 'blog'
 type AuthState = 'loading' | 'signed-out' | 'signed-in'
 
 export default function AdminApp() {
@@ -14,6 +16,8 @@ export default function AdminApp() {
   const [view, setView] = useState<AdminView>('enquiries')
   const [filter, setFilter] = useState<EnquiryStatus | 'all'>('all')
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
+  const [scaleFilter, setScaleFilter] = useState<ScaleLeadStatus | 'all'>('all')
+  const [scaleLeads, setScaleLeads] = useState<ScaleLead[]>([])
 
   const refreshEnquiries = useCallback(async () => {
     try {
@@ -21,6 +25,15 @@ export default function AdminApp() {
     } catch (err) {
       console.error('Failed to load enquiries:', err)
       setEnquiries([])
+    }
+  }, [])
+
+  const refreshScaleLeads = useCallback(async () => {
+    try {
+      setScaleLeads(await getScaleLeads())
+    } catch (err) {
+      console.error('Failed to load scale leads:', err)
+      setScaleLeads([])
     }
   }, [])
 
@@ -41,8 +54,11 @@ export default function AdminApp() {
   }, [])
 
   useEffect(() => {
-    if (authState === 'signed-in') refreshEnquiries()
-  }, [authState, refreshEnquiries])
+    if (authState === 'signed-in') {
+      refreshEnquiries()
+      refreshScaleLeads()
+    }
+  }, [authState, refreshEnquiries, refreshScaleLeads])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -83,6 +99,15 @@ export default function AdminApp() {
             Enquiries
           </button>
           <button
+            className={`adm-sidebar__nav-item ${view === 'scale-leads' ? 'is-active' : ''}`}
+            onClick={() => setView('scale-leads')}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 12L5.5 7L8 9.5L12 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Scale Leads
+          </button>
+          <button
             className={`adm-sidebar__nav-item ${view === 'blog' ? 'is-active' : ''}`}
             onClick={() => setView('blog')}
           >
@@ -98,6 +123,16 @@ export default function AdminApp() {
                 filter={filter}
                 setFilter={setFilter}
                 enquiries={enquiries}
+              />
+            </div>
+          )}
+
+          {view === 'scale-leads' && (
+            <div style={{ marginTop: 16 }}>
+              <ScaleLeadFilters
+                filter={scaleFilter}
+                setFilter={setScaleFilter}
+                leads={scaleLeads}
               />
             </div>
           )}
@@ -117,6 +152,12 @@ export default function AdminApp() {
             onLogout={handleLogout}
             filter={filter}
             setFilter={setFilter}
+          />
+        )}
+        {view === 'scale-leads' && (
+          <ScaleLeadsManager
+            filter={scaleFilter}
+            setFilter={setScaleFilter}
           />
         )}
         {view === 'blog' && <BlogManager />}

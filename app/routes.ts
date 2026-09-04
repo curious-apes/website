@@ -11,6 +11,7 @@ export default [
   route('services/visuals-creative', 'routes/visuals.tsx'),
   route('services/growth-marketing', 'routes/growth.tsx'),
   route('services/ecommerce-performance-marketing', 'routes/ecommerce-performance-marketing.tsx'),
+  route('scale', 'routes/scale.tsx'),
   route('thankyou', 'routes/thankyou.tsx'),
   route('sitemap.xml', 'routes/sitemap[.]xml.tsx'),
   route('admin/*', 'routes/admin.tsx'),
