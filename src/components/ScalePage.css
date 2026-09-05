@@ -20,7 +20,10 @@
 .scale-lp .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 @media (max-width:640px){.scale-lp .wrap{padding:0 20px}}
 .scale-lp section{padding:80px 0;border-top:1px solid var(--line)}
-.scale-lp .clients{background:#ffffff}
+.scale-lp .clients{background:var(--deep);color:#fff}
+.scale-lp .clients .eyebrow{color:#4fd8e2}
+.scale-lp .clients h2{color:#fff}
+.scale-lp .clients h2 .grad{background:var(--grad-lite);-webkit-background-clip:text;background-clip:text;color:transparent}
 .scale-lp .cta{background:var(--deep);color:#fff;border-top:none}
 .scale-lp .cta .eyebrow{color:#4fd8e2}
 .scale-lp .cta .p2,.scale-lp .cta li{color:#c2ccd6}
@@ -104,14 +107,14 @@
 .scale-lp .dots i.on{background:var(--grad)}
 .scale-lp .note{margin-top:22px;font-size:13px;color:var(--mute);max-width:70ch}
 
-.scale-lp .logos{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.scale-lp .logos{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden}
 @media (max-width:900px){.scale-lp .logos{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:560px){.scale-lp .logos{grid-template-columns:repeat(3,1fr)}}
-.scale-lp .logo{background:#fff;height:78px;display:flex;align-items:center;justify-content:center;padding:14px}
+.scale-lp .logo{background:var(--deep);height:78px;display:flex;align-items:center;justify-content:center;padding:14px}
 .scale-lp .logo img{max-height:38px;width:auto;max-width:100%;object-fit:contain;
-  filter:grayscale(1);opacity:.6;transition:opacity .15s}
+  filter:grayscale(1) brightness(0) invert(1);opacity:.6;transition:opacity .15s}
 .scale-lp .logo:hover img{opacity:1}
-.scale-lp .logo .alt{display:none;font-size:13px;font-weight:500;color:var(--ink2);text-align:center}
+.scale-lp .logo .alt{display:none;font-size:13px;font-weight:500;color:#c2ccd6;text-align:center}
 .scale-lp .logo.txt img{display:none}.scale-lp .logo.txt .alt{display:block}
 
 .scale-lp .svcsec{padding:68px 0}
