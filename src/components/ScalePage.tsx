@@ -9,6 +9,8 @@ const RESULTS = [
   { amt: '₹1.4 Cr', cat: "Women's apparel", img: 'result-1-4cr.png', alt: 'Shopify dashboard: ₹1.44 Cr gross sales, up 54%' },
   { amt: '₹1.3 Cr', cat: "Women's apparel", img: 'result-1-3cr-a.png', alt: 'Shopify dashboard: ₹1.37 Cr gross sales, up 49%' },
   { amt: '₹1.3 Cr', cat: "Women's brand", img: 'result-1-3cr-b.png', alt: 'Shopify dashboard: ₹1.30 Cr gross sales, up 5%' },
+  { amt: '₹32 L', cat: "Women's apparel", img: 'result-32l.png', alt: 'Shopify dashboard: ₹32.34 L gross sales, up 4%' },
+  { amt: '₹15 L', cat: 'Jewellery', img: 'result-15l.png', alt: 'Shopify dashboard: ₹15.42 L gross sales, up 46%' },
 ]
 
 const CLIENT_LOGOS: { name: string; src: string; large?: boolean }[] = [
@@ -168,9 +170,9 @@ function Lightbox({ src, alt, onClose }: { src: string | null; alt: string; onCl
 }
 
 interface LeadFormState {
-  phone: string; brand: string; site: string; sales: string; spend: string; company: string
+  phone: string; brand: string; site: string; spend: string; company: string
 }
-const EMPTY_FORM: LeadFormState = { phone: '', brand: '', site: '', sales: 'Under ₹5 L', spend: 'Under ₹1 L', company: '' }
+const EMPTY_FORM: LeadFormState = { phone: '', brand: '', site: '', spend: 'Under ₹1 L', company: '' }
 
 function LeadForm() {
   const [form, setForm] = useState<LeadFormState>(EMPTY_FORM)
@@ -195,7 +197,7 @@ function LeadForm() {
     if (status === 'sending') return
     if (form.company.trim() !== '') return // honeypot
 
-    const required: (keyof LeadFormState)[] = ['phone', 'brand', 'site', 'sales', 'spend']
+    const required: (keyof LeadFormState)[] = ['phone', 'brand', 'site', 'spend']
     const bad: Record<string, boolean> = {}
     required.forEach((k) => { if (!form[k].trim()) bad[k] = true })
     if (Object.keys(bad).length) {
@@ -218,7 +220,7 @@ function LeadForm() {
         phone: form.phone.trim(),
         brand: form.brand.trim(),
         website: site,
-        monthlySales: form.sales,
+        monthlySales: 'Not asked',
         monthlyAdSpend: form.spend,
         source: 'lead-gen-lp',
         referrer: typeof document !== 'undefined' ? document.referrer : '',
@@ -227,13 +229,13 @@ function LeadForm() {
 
       try {
         ;(window as any).dataLayer = (window as any).dataLayer || []
-        ;(window as any).dataLayer.push({ event: 'lead_submit', lead: { brand: form.brand, sales: form.sales, spend: form.spend } })
+        ;(window as any).dataLayer.push({ event: 'lead_submit', lead: { brand: form.brand, spend: form.spend } })
       } catch { /* GTM not present, ignore */ }
 
       setStatus('sent')
 
       if (WHATSAPP) {
-        const msg = `Hi Curious Apes, I just booked a growth call.\nBrand: ${form.brand}\nWebsite: ${site}\nMonthly sales: ${form.sales}\nMonthly ad spend: ${form.spend}`
+        const msg = `Hi Curious Apes, I just booked a growth call.\nBrand: ${form.brand}\nWebsite: ${site}\nMonthly ad spend: ${form.spend}`
         setTimeout(() => window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank'), 700)
       }
     } catch (err) {
@@ -276,21 +278,12 @@ function LeadForm() {
           className={invalid.site ? 'is-invalid' : ''} value={form.site} onChange={set('site')} disabled={sent} required />
       </div>
 
-      <div className="two">
-        <div className="field">
-          <label htmlFor="scale-sales">Monthly sales</label>
-          <select id="scale-sales" className={invalid.sales ? 'is-invalid' : ''} value={form.sales} onChange={set('sales')} disabled={sent} required>
-            <option>Under ₹5 L</option><option>₹5 L to ₹20 L</option><option>₹20 L to ₹50 L</option>
-            <option>₹50 L to ₹1 Cr</option><option>₹1 Cr to ₹3 Cr</option><option>₹3 Cr+</option>
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="scale-spend">Monthly ad spend</label>
-          <select id="scale-spend" className={invalid.spend ? 'is-invalid' : ''} value={form.spend} onChange={set('spend')} disabled={sent} required>
-            <option>Under ₹1 L</option><option>₹1 L to ₹5 L</option><option>₹5 L to ₹15 L</option>
-            <option>₹15 L to ₹50 L</option><option>₹50 L+</option>
-          </select>
-        </div>
+      <div className="field">
+        <label htmlFor="scale-spend">Monthly ad spend</label>
+        <select id="scale-spend" className={invalid.spend ? 'is-invalid' : ''} value={form.spend} onChange={set('spend')} disabled={sent} required>
+          <option>Under ₹1 L</option><option>₹1 L to ₹5 L</option><option>₹5 L to ₹15 L</option>
+          <option>₹15 L to ₹50 L</option><option>₹50 L+</option>
+        </select>
       </div>
 
       <button className="btn" type="submit" disabled={status === 'sending' || sent}>
