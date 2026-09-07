@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { saveScaleLead } from '../lib/scaleLeads'
 import './ScalePage.css'
 
@@ -175,6 +176,7 @@ interface LeadFormState {
 const EMPTY_FORM: LeadFormState = { phone: '', brand: '', site: '', spend: 'Under ₹1 L', company: '' }
 
 function LeadForm() {
+  const navigate = useNavigate()
   const [form, setForm] = useState<LeadFormState>(EMPTY_FORM)
   const [invalid, setInvalid] = useState<Record<string, boolean>>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
@@ -192,6 +194,11 @@ function LeadForm() {
   const set = (key: keyof LeadFormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }))
 
+  const setPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 10)
+    setForm((f) => ({ ...f, phone: digits }))
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (status === 'sending') return
@@ -200,10 +207,13 @@ function LeadForm() {
     const required: (keyof LeadFormState)[] = ['phone', 'brand', 'site', 'spend']
     const bad: Record<string, boolean> = {}
     required.forEach((k) => { if (!form[k].trim()) bad[k] = true })
+    if (form.phone.length !== 10) bad.phone = true
     if (Object.keys(bad).length) {
       setInvalid(bad)
       setStatus('error')
-      setErrorMsg('Please complete the highlighted fields.')
+      setErrorMsg(bad.phone && Object.keys(bad).length === 1
+        ? 'Please enter a valid 10-digit phone number.'
+        : 'Please complete the highlighted fields.')
       return
     }
     setInvalid({})
@@ -236,8 +246,10 @@ function LeadForm() {
 
       if (WHATSAPP) {
         const msg = `Hi Curious Apes, I just booked a growth call.\nBrand: ${form.brand}\nWebsite: ${site}\nMonthly ad spend: ${form.spend}`
-        setTimeout(() => window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank'), 700)
+        window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank')
       }
+
+      navigate('/thankyou')
     } catch (err) {
       console.error('Scale lead save failed:', err)
       setStatus('error')
@@ -262,8 +274,9 @@ function LeadForm() {
       <div className="two">
         <div className="field">
           <label htmlFor="scale-phone">Phone number</label>
-          <input id="scale-phone" type="tel" inputMode="tel" placeholder="+91 98XXX XXXXX" autoComplete="tel"
-            className={invalid.phone ? 'is-invalid' : ''} value={form.phone} onChange={set('phone')} disabled={sent} required />
+          <input id="scale-phone" type="tel" inputMode="numeric" placeholder="98XXX XXXXX" autoComplete="tel"
+            maxLength={10} pattern="\d{10}"
+            className={invalid.phone ? 'is-invalid' : ''} value={form.phone} onChange={setPhone} disabled={sent} required />
         </div>
         <div className="field">
           <label htmlFor="scale-brand">Brand name</label>
