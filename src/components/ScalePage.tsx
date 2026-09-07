@@ -62,7 +62,7 @@ const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[
     idx: '04', title: 'Tech & CRO', sub: 'A store that converts the traffic you are already paying for.',
     items: [
       { img: 'CRO_image_one.png', title: 'Conversion rate optimisation', desc: 'Product page rebuilds covering swatches, sizes, offers and hierarchy, tested against ATC% and conversion rate.' },
-      { img: 'Ecommerce_website_development.webp', title: 'E-commerce website development', desc: 'Fast, mobile first Shopify storefronts with optimised product pages and a checkout with no friction.' },
+      { img: 'Ecommerce_website_development.png', title: 'E-commerce website development', desc: 'Fast, mobile first Shopify storefronts with optimised product pages and a checkout with no friction.' },
       { img: 'Integrating_third_party_tools.webp', title: 'Apps & integrations', desc: 'Checkout, payments, shipping, returns, WhatsApp and behaviour analytics wired together to lift prepaid share and LTV.' },
     ],
   },
