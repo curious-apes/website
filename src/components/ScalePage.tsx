@@ -11,18 +11,23 @@ const RESULTS = [
   { amt: '₹1.3 Cr', cat: "Women's brand", img: 'result-1-3cr-b.png', alt: 'Shopify dashboard: ₹1.30 Cr gross sales, up 5%' },
 ]
 
-const CLIENT_LOGOS = [
-  ['jisora-CsnC-1mt.webp', 'Jisora'], ['confeeti-LUNq3pvP.webp', 'Confetti'], ['juniper-BbFA-7Tm.webp', 'Juniper'],
-  ['stylox-C_wbJJdH.webp', 'Stylox'], ['zolo-BASlicMw.webp', 'Zolo'], ['nangaliaruchira-B4KeGUVt.webp', 'Nangalia Ruchira'],
-  ['baori-s_jQhWnZ.webp', 'Baori'], ['ambree-BDk8CYL-.webp', 'Ambraee'], ['aureve-BSX96e7c.webp', 'Aureve'],
-  ['bawali-Dt36mH7H.webp', 'Bawali'], ['divena-CC1OO3_6.webp', 'Divena'], ['garden%20need%20logo-Ba6Lrbli.webp', 'Garden Need'],
-  ['gemnifest-BSGzw7hA.webp', 'Gemanifest'], ['naarivrse-DvPuS7Er.webp', 'Naarivrse'], ['aqua%20ace-tT05RhjU.webp', 'Aqua Ace'],
-  ['authentics-C2GWRY2S.webp', 'Authentics'], ['spritual%20senses-5Xya2lg1.webp', 'Spiritual Senses'], ['ghumar-DagxryhS.webp', 'Ghumar'],
-  ['gulabi-Bsl_tMRn.webp', 'Gulabi'], ['wagdo-CGlHMHkY.webp', 'Wagdo'], ['ultimats-BCi-_dbt.webp', 'Ultimats'],
-  ['amayu-CyrgmuE4.webp', 'Amayu'], ['babymonk-C3WdrYuq.webp', 'Baby Monk'], ['amodini-D9TCACNg.webp', 'Amodini'],
-  ['kaashi-C_ZyoW2U.webp', 'Kaashi'], ['livvasa-Bpmwgsft.webp', 'Livvasa'], ['scintaillre-6cmzpZgF.webp', 'Scintaillre'],
-  ['tistabene-BKXsE1q8.webp', 'Tistabene'], ['urbannaari-CF1e6Dcx.webp', 'Urban Naari'], ['varaya-D-I1R5q1.webp', 'Varaya'],
-] as const
+const CLIENT_LOGOS: { name: string; src: string }[] = [
+  { name: 'Kairaus', src: '/scale/assets/clients/kairaus.png' },
+  { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png' },
+  { name: 'Zari', src: '/scale/assets/clients/zari.png' },
+  ...([
+    ['jisora-CsnC-1mt.webp', 'Jisora'], ['confeeti-LUNq3pvP.webp', 'Confetti'], ['juniper-BbFA-7Tm.webp', 'Juniper'],
+    ['stylox-C_wbJJdH.webp', 'Stylox'], ['zolo-BASlicMw.webp', 'Zolo'], ['nangaliaruchira-B4KeGUVt.webp', 'Nangalia Ruchira'],
+    ['baori-s_jQhWnZ.webp', 'Baori'], ['ambree-BDk8CYL-.webp', 'Ambraee'], ['aureve-BSX96e7c.webp', 'Aureve'],
+    ['bawali-Dt36mH7H.webp', 'Bawali'], ['divena-CC1OO3_6.webp', 'Divena'], ['garden%20need%20logo-Ba6Lrbli.webp', 'Garden Need'],
+    ['gemnifest-BSGzw7hA.webp', 'Gemanifest'], ['naarivrse-DvPuS7Er.webp', 'Naarivrse'], ['aqua%20ace-tT05RhjU.webp', 'Aqua Ace'],
+    ['authentics-C2GWRY2S.webp', 'Authentics'], ['spritual%20senses-5Xya2lg1.webp', 'Spiritual Senses'], ['ghumar-DagxryhS.webp', 'Ghumar'],
+    ['gulabi-Bsl_tMRn.webp', 'Gulabi'], ['wagdo-CGlHMHkY.webp', 'Wagdo'], ['ultimats-BCi-_dbt.webp', 'Ultimats'],
+    ['amayu-CyrgmuE4.webp', 'Amayu'], ['babymonk-C3WdrYuq.webp', 'Baby Monk'], ['amodini-D9TCACNg.webp', 'Amodini'],
+    ['kaashi-C_ZyoW2U.webp', 'Kaashi'], ['livvasa-Bpmwgsft.webp', 'Livvasa'], ['scintaillre-6cmzpZgF.webp', 'Scintaillre'],
+    ['tistabene-BKXsE1q8.webp', 'Tistabene'], ['urbannaari-CF1e6Dcx.webp', 'Urban Naari'], ['varaya-D-I1R5q1.webp', 'Varaya'],
+  ] as const).map(([file, name]) => ({ name, src: `https://www.curiousapes.in/assets/${file}` })),
+]
 
 interface Service { img: string; title: string; desc: string }
 const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[] }[] = [
@@ -53,7 +58,7 @@ const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[
   {
     idx: '04', title: 'Tech & CRO', sub: 'A store that converts the traffic you are already paying for.',
     items: [
-      { img: 'Conversion_rate_optimization.webp', title: 'Conversion rate optimisation', desc: 'Product page rebuilds covering swatches, sizes, offers and hierarchy, tested against ATC% and conversion rate.' },
+      { img: 'CRO_image_one.png', title: 'Conversion rate optimisation', desc: 'Product page rebuilds covering swatches, sizes, offers and hierarchy, tested against ATC% and conversion rate.' },
       { img: 'Ecommerce_website_development.webp', title: 'E-commerce website development', desc: 'Fast, mobile first Shopify storefronts with optimised product pages and a checkout with no friction.' },
       { img: 'Integrating_third_party_tools.webp', title: 'Apps & integrations', desc: 'Checkout, payments, shipping, returns, WhatsApp and behaviour analytics wired together to lift prepaid share and LTV.' },
     ],
@@ -336,6 +341,7 @@ export default function ScalePage() {
             </div>
           </div>
 
+          <h3 className="statline-heading">Our Records</h3>
           <div className="statline">
             <div className="s"><div className="n">₹50 Cr+</div><div className="l">Ad budget managed</div></div>
             <div className="s"><div className="n">₹200 Cr+</div><div className="l">Revenue generated</div></div>
@@ -360,10 +366,10 @@ export default function ScalePage() {
             </div>
           </div>
           <div className="logos">
-            {CLIENT_LOGOS.map(([file, name]) => (
-              <div className="logo" key={file}>
+            {CLIENT_LOGOS.map(({ name, src }) => (
+              <div className="logo" key={src}>
                 <img
-                  src={`https://www.curiousapes.in/assets/${file}`}
+                  src={src}
                   alt={name}
                   loading="lazy"
                   onError={(e) => (e.currentTarget.parentElement as HTMLElement)?.classList.add('txt')}
