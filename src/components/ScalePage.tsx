@@ -12,16 +12,24 @@ const RESULTS = [
 ]
 
 const CLIENT_LOGOS: { name: string; src: string; large?: boolean }[] = [
-  { name: 'Kairaus', src: '/scale/assets/clients/kairaus.png' },
-  { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png', large: true },
+  // Pinned order as requested
+  { name: 'Jisora', src: 'https://www.curiousapes.in/assets/jisora-CsnC-1mt.webp' },
   { name: 'Zari', src: '/scale/assets/clients/zari.png' },
+  { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png', large: true },
+  { name: 'Confetti', src: 'https://www.curiousapes.in/assets/confeeti-LUNq3pvP.webp' },
+  { name: 'Nangalia Ruchira', src: 'https://www.curiousapes.in/assets/nangaliaruchira-B4KeGUVt.webp' },
   { name: 'KCPC', src: '/scale/assets/clients/kcpc.png' },
+  { name: 'Juniper', src: 'https://www.curiousapes.in/assets/juniper-BbFA-7Tm.webp' },
+  { name: 'Zolo', src: 'https://www.curiousapes.in/assets/zolo-BASlicMw.webp' },
+  { name: 'Ambraee', src: 'https://www.curiousapes.in/assets/ambree-BDk8CYL-.webp' },
+  { name: 'Baori', src: 'https://www.curiousapes.in/assets/baori-s_jQhWnZ.webp' },
+  { name: 'Stylox', src: 'https://www.curiousapes.in/assets/stylox-C_wbJJdH.webp' },
+  // Everything else after Stylox, any order
+  { name: 'Kairaus', src: '/scale/assets/clients/kairaus.png' },
   { name: 'KOR', src: '/scale/assets/clients/kor.png' },
   { name: 'Office and You', src: '/scale/assets/clients/office-and-you.png' },
   ...([
-    ['jisora-CsnC-1mt.webp', 'Jisora'], ['confeeti-LUNq3pvP.webp', 'Confetti'], ['juniper-BbFA-7Tm.webp', 'Juniper'],
-    ['stylox-C_wbJJdH.webp', 'Stylox'], ['zolo-BASlicMw.webp', 'Zolo'], ['nangaliaruchira-B4KeGUVt.webp', 'Nangalia Ruchira'],
-    ['baori-s_jQhWnZ.webp', 'Baori'], ['ambree-BDk8CYL-.webp', 'Ambraee'], ['aureve-BSX96e7c.webp', 'Aureve'],
+    ['aureve-BSX96e7c.webp', 'Aureve'],
     ['bawali-Dt36mH7H.webp', 'Bawali'], ['divena-CC1OO3_6.webp', 'Divena'], ['garden%20need%20logo-Ba6Lrbli.webp', 'Garden Need'],
     ['gemnifest-BSGzw7hA.webp', 'Gemanifest'], ['naarivrse-DvPuS7Er.webp', 'Naarivrse'], ['aqua%20ace-tT05RhjU.webp', 'Aqua Ace'],
     ['authentics-C2GWRY2S.webp', 'Authentics'], ['spritual%20senses-5Xya2lg1.webp', 'Spiritual Senses'], ['ghumar-DagxryhS.webp', 'Ghumar'],
@@ -32,7 +40,7 @@ const CLIENT_LOGOS: { name: string; src: string; large?: boolean }[] = [
   ] as const).map(([file, name]) => ({ name, src: `https://www.curiousapes.in/assets/${file}` })),
 ]
 
-interface Service { img: string; title: string; desc: string }
+interface Service { img: string; title: string; desc: string; imgPosition?: string }
 const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[] }[] = [
   {
     idx: '01', title: 'Paid media', sub: 'Meta & Google Ads built on clean structure and real funnel data.',
@@ -62,7 +70,7 @@ const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[
     idx: '04', title: 'Tech & CRO', sub: 'A store that converts the traffic you are already paying for.',
     items: [
       { img: 'CRO_image_one.png', title: 'Conversion rate optimisation', desc: 'Product page rebuilds covering swatches, sizes, offers and hierarchy, tested against ATC% and conversion rate.' },
-      { img: 'Ecommerce_website_development.png', title: 'E-commerce website development', desc: 'Fast, mobile first Shopify storefronts with optimised product pages and a checkout with no friction.' },
+      { img: 'Ecommerce_website_development.png', title: 'E-commerce website development', desc: 'Fast, mobile first Shopify storefronts with optimised product pages and a checkout with no friction.', imgPosition: 'center' },
       { img: 'Integrating_third_party_tools.webp', title: 'Apps & integrations', desc: 'Checkout, payments, shipping, returns, WhatsApp and behaviour analytics wired together to lift prepaid share and LTV.' },
     ],
   },
@@ -71,7 +79,7 @@ const SERVICE_GROUPS: { idx: string; title: string; sub: string; items: Service[
 const WHATSAPP = '919982898842'
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'] as const
 
-function ResultsSlider() {
+function ResultsSlider({ first }: { first?: boolean }) {
   const railRef = useRef<HTMLDivElement>(null)
   const [activeDot, setActiveDot] = useState(0)
   const [atStart, setAtStart] = useState(true)
@@ -101,11 +109,11 @@ function ResultsSlider() {
   }
 
   return (
-    <section id="results">
+    <section id="results" style={first ? { borderTop: 'none' } : undefined}>
       <div className="wrap">
         <div className="shead">
           <div>
-            <p className="eyebrow">Results</p>
+            <p className="eyebrow">Numbers Don't Lie</p>
             <h2>Live Shopify dashboards <span className="grad">from client stores.</span></h2>
             <p>Monthly gross sales, straight from the admin. Not projections.</p>
           </div>
@@ -162,7 +170,7 @@ function Lightbox({ src, alt, onClose }: { src: string | null; alt: string; onCl
 interface LeadFormState {
   phone: string; brand: string; site: string; sales: string; spend: string; company: string
 }
-const EMPTY_FORM: LeadFormState = { phone: '', brand: '', site: '', sales: '', spend: '', company: '' }
+const EMPTY_FORM: LeadFormState = { phone: '', brand: '', site: '', sales: 'Under ₹5 L', spend: 'Under ₹1 L', company: '' }
 
 function LeadForm() {
   const [form, setForm] = useState<LeadFormState>(EMPTY_FORM)
@@ -272,7 +280,6 @@ function LeadForm() {
         <div className="field">
           <label htmlFor="scale-sales">Monthly sales</label>
           <select id="scale-sales" className={invalid.sales ? 'is-invalid' : ''} value={form.sales} onChange={set('sales')} disabled={sent} required>
-            <option value="" disabled>Select</option>
             <option>Under ₹5 L</option><option>₹5 L to ₹20 L</option><option>₹20 L to ₹50 L</option>
             <option>₹50 L to ₹1 Cr</option><option>₹1 Cr to ₹3 Cr</option><option>₹3 Cr+</option>
           </select>
@@ -280,7 +287,6 @@ function LeadForm() {
         <div className="field">
           <label htmlFor="scale-spend">Monthly ad spend</label>
           <select id="scale-spend" className={invalid.spend ? 'is-invalid' : ''} value={form.spend} onChange={set('spend')} disabled={sent} required>
-            <option value="" disabled>Select</option>
             <option>Under ₹1 L</option><option>₹1 L to ₹5 L</option><option>₹5 L to ₹15 L</option>
             <option>₹15 L to ₹50 L</option><option>₹50 L+</option>
           </select>
@@ -327,6 +333,8 @@ export default function ScalePage() {
         </div>
       </header>
 
+      <ResultsSlider first />
+
       <section className="hero" id="top">
         <div className="wrap">
           <p className="eyebrow">Performance marketing for D2C brands</p>
@@ -357,8 +365,6 @@ export default function ScalePage() {
           </div>
         </div>
       </section>
-
-      <ResultsSlider />
 
       <section className="clients">
         <div className="wrap">
@@ -407,7 +413,10 @@ export default function ScalePage() {
                     onClick={() => setLightbox({ src: `/scale/assets/services/${item.img}`, alt: item.title })}
                     onError={(e) => (e.currentTarget.closest('.cell') as HTMLElement)?.classList.add('noimg')}
                   >
-                    <img src={`/scale/assets/services/${item.img}`} alt={item.title} loading="lazy" />
+                    <img
+                      src={`/scale/assets/services/${item.img}`} alt={item.title} loading="lazy"
+                      style={item.imgPosition ? { objectPosition: item.imgPosition } : undefined}
+                    />
                     <span className="zoom">Click to enlarge</span>
                   </button>
                   <div className="txt"><b>{item.title}</b><p>{item.desc}</p></div>
