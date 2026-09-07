@@ -15,6 +15,9 @@ const CLIENT_LOGOS: { name: string; src: string; large?: boolean }[] = [
   { name: 'Kairaus', src: '/scale/assets/clients/kairaus.png' },
   { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png', large: true },
   { name: 'Zari', src: '/scale/assets/clients/zari.png' },
+  { name: 'KCPC', src: '/scale/assets/clients/kcpc.png' },
+  { name: 'KOR', src: '/scale/assets/clients/kor.png' },
+  { name: 'Office and You', src: '/scale/assets/clients/office-and-you.png' },
   ...([
     ['jisora-CsnC-1mt.webp', 'Jisora'], ['confeeti-LUNq3pvP.webp', 'Confetti'], ['juniper-BbFA-7Tm.webp', 'Juniper'],
     ['stylox-C_wbJJdH.webp', 'Stylox'], ['zolo-BASlicMw.webp', 'Zolo'], ['nangaliaruchira-B4KeGUVt.webp', 'Nangalia Ruchira'],
