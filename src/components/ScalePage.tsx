@@ -11,9 +11,9 @@ const RESULTS = [
   { amt: '₹1.3 Cr', cat: "Women's brand", img: 'result-1-3cr-b.png', alt: 'Shopify dashboard: ₹1.30 Cr gross sales, up 5%' },
 ]
 
-const CLIENT_LOGOS: { name: string; src: string }[] = [
+const CLIENT_LOGOS: { name: string; src: string; large?: boolean }[] = [
   { name: 'Kairaus', src: '/scale/assets/clients/kairaus.png' },
-  { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png' },
+  { name: 'Meera Plus Size', src: '/scale/assets/clients/meera-plus-size.png', large: true },
   { name: 'Zari', src: '/scale/assets/clients/zari.png' },
   ...([
     ['jisora-CsnC-1mt.webp', 'Jisora'], ['confeeti-LUNq3pvP.webp', 'Confetti'], ['juniper-BbFA-7Tm.webp', 'Juniper'],
@@ -366,8 +366,8 @@ export default function ScalePage() {
             </div>
           </div>
           <div className="logos">
-            {CLIENT_LOGOS.map(({ name, src }) => (
-              <div className="logo" key={src}>
+            {CLIENT_LOGOS.map(({ name, src, large }) => (
+              <div className={`logo${large ? ' logo--lg' : ''}`} key={src}>
                 <img
                   src={src}
                   alt={name}
